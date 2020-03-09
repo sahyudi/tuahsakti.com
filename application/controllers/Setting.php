@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Home extends CI_Controller
+class Setting extends CI_Controller
 {
     public function __construct()
     {
@@ -9,13 +9,15 @@ class Home extends CI_Controller
         if (!$this->session->userdata('email')) {
             redirect('auth');
         }
+        $this->load->model('m_setting');
     }
 
-    public function index()
+    public function menu()
     {
-        $data['active'] = 'home';
-        $data['title'] = 'Home';
-        $data['subview'] = 'home/index';
+        $data['active'] = 'setting/menu';
+        $data['title'] = 'Menu';
+        $data['subview'] = 'setting/menu';
+        $data['menu'] = $this->m_setting->get_menu()->result();
         $this->load->view('template/main', $data);
     }
 }
