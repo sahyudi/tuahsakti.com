@@ -20,4 +20,13 @@ class Setting extends CI_Controller
         $data['menu'] = $this->m_setting->get_menu()->result();
         $this->load->view('template/main', $data);
     }
+
+    function users()
+    {
+        $data['active'] = 'setting/users';
+        $data['title'] = 'Users';
+        $data['subview'] = 'setting/users';
+        $data['users'] = $this->m_setting->get_users()->result();
+        $this->load->view('template/main', $data);
+    }
 }

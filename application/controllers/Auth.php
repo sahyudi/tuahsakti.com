@@ -6,7 +6,6 @@ class Auth extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        
     }
 
     public function index()
@@ -87,6 +86,7 @@ class Auth extends CI_Controller
                 'image' => 'default.jpg',
                 'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
                 'group_id' => 1,
+                'outlet_id' => 1,
                 'is_active' => 1,
                 'created_at' => date('Y-m-d H:i:s')
             ];

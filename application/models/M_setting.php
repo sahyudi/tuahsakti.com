@@ -20,4 +20,15 @@ class M_setting extends CI_Model
         $menu = $this->db->get();
         return $menu;
     }
+
+    public function get_users($id = null)
+    {
+        $this->db->select('A.*');
+        $this->db->from('users A');
+        if ($id != 0) {
+            $this->db->where('A.id', $id);
+        }
+        $menu = $this->db->get();
+        return $menu;
+    }
 }
