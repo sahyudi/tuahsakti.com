@@ -10,6 +10,7 @@ class Accounting extends CI_Controller
             redirect('auth');
         }
         $this->load->model('m_material');
+        $this->load->model('m_accounting');
     }
 
     public function index()
@@ -23,16 +24,25 @@ class Accounting extends CI_Controller
 
     public function pengajuan()
     {
-        $data['material'] = $this->m_material->get_material()->result();
-        $data['active'] = 'accounting/';
-        $data['title'] = 'Material';
-        $data['subview'] = 'material/list';
+        $data['pengajuan'] = $this->m_accounting->get_pengajuan()->result();
+        $data['active'] = 'accounting/pengajuan';
+        $data['title'] = 'Pengajuan';
+        $data['subview'] = 'accounting/pengajuan';
+        $this->load->view('template/main', $data);
+    }
+
+    public function form_pengajuan()
+    {
+        $data['item'] = $this->m_accounting->get_item()->result();
+        $data['active'] = 'accounting/form_pengajuan';
+        $data['title'] = 'Form Pengajuan';
+        $data['subview'] = 'accounting/form_pengajuan';
         $this->load->view('template/main', $data);
     }
 
     function item()
     {
-        $data['item'] = $this->db->get('item_pengajuan')->result();
+        $data['item'] = $this->m_accounting->get_item()->result();
         $data['active'] = 'accounting/item';
         $data['title'] = 'Item';
         $data['subview'] = 'accounting/item';
