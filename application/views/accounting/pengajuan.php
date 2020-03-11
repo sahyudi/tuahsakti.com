@@ -35,21 +35,24 @@
                             <thead>
                                 <tr class="text-center">
                                     <th>No</th>
+                                    <th>Tanggal</th>
                                     <th>No Nota</th>
-                                    <th>Keterangan</th>
                                     <th>Item</th>
                                     <th>Sub Total</th>
+                                    <th>Keterangan</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php $total = 0 ?>
                                 <?php foreach ($pengajuan as $key => $value) { ?>
                                     <tr>
                                         <td class="text-center"><?= $key + 1 ?></td>
+                                        <td><?= $value->tanggal ?></td>
                                         <td><?= $value->datetime ?></td>
-                                        <td><?= $value->keterangan ?></td>
                                         <td><?= $value->nama ?></td>
-                                        <td><?= $value->sub_total ?></td>
+                                        <td class="text-right">Rp. <?= number_format($total += $value->total, 0) ?></td>
+                                        <td><?= $value->keterangan ?></td>
                                         <td class="text-right">
                                             <a href="<?= base_url('accounting/deleteItem/') . $value->id ?>" onclick="return validation()" class="btn btn-sm btn-danger"><i class="fas fa-fw fa-trash"></i></a>
                                             <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-item" class="btn btn-sm btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
@@ -57,6 +60,12 @@
                                     </tr>
                                 <?php } ?>
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4" class="text-right text-bold">Total</td>
+                                    <td class="text-right">Rp. <?= number_format($total, 0) ?></td>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                     <!-- /.card-body -->

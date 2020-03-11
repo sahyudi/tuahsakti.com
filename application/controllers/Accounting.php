@@ -40,6 +40,37 @@ class Accounting extends CI_Controller
         $this->load->view('template/main', $data);
     }
 
+    function simpan_pengajuan()
+    {
+        $nomor = $this->input->post('nomor');
+        $tanggal = $this->input->post('tanggal');
+        $keterangan = $this->input->post('keterangan');
+        $item = $this->input->post('item');
+        $sub_total = $this->input->post('sub_total');
+
+        $data = [];
+        for ($i = 0; $i < count($item); $i++) {
+            $data[] = [
+                'datetime' => $nomor,
+                'keterangan' => $keterangan,
+                'gudang_id' => 1,
+                'item_id' => $item[$i],
+                'total' => $sub_total[$i]
+            ];
+        }
+
+        $this->db->trans_begin();
+
+        $this->db->insert_batch('pengajuan_dana', $data);
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
+        }
+
+        redirect('accounting/pengajuan');
+    }
+
     function item()
     {
         $data['item'] = $this->m_accounting->get_item()->result();
