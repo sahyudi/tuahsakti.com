@@ -11,6 +11,7 @@ class Pengadaan extends CI_Controller
         }
         $this->load->model('m_pengadaan');
         $this->load->model('m_material');
+        $this->load->model('m_accounting');
     }
 
     function index()
@@ -25,9 +26,20 @@ class Pengadaan extends CI_Controller
     function form()
     {
         $data['material'] = $this->m_material->get_material()->result();
+        $data['vendor'] = $this->db->get('vendor')->result();
+        $data['momor_pengjuan'] = $this->m_accounting->get_nomor_pengajuan()->result();
         $data['active'] = 'pengadaan';
         $data['title'] = 'Form';
         $data['subview'] = 'pengadaan/form';
         $this->load->view('template/main', $data);
+    }
+
+    function get_item($id)
+    {
+        if ($id) {
+            $this->db->where('id', $id);
+            $data = $this->db->get('material')->row();
+            echo json_encode($data);
+        }
     }
 }

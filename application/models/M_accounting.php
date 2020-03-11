@@ -17,6 +17,14 @@ class M_accounting extends CI_Model
         return $data;
     }
 
+    function get_nomor_pengajuan()
+    {
+        $this->db->select('*');
+        $this->db->group_by('datetime');
+        $data = $this->db->get('pengajuan_dana');
+        return $data;
+    }
+
     function get_item($id = null)
     {
         if ($id != 0) {

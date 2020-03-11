@@ -83,6 +83,7 @@ class Accounting extends CI_Controller
     function addItem()
     {
         $data['nama'] = $this->input->post('nama');
+        $this->db->trans_begin();
 
         if ($this->input->post('id')) {
             $data['updated_at'] = date('Y-m-d H:i:s');
@@ -91,6 +92,13 @@ class Accounting extends CI_Controller
             $data['created_at'] = date('Y-m-d H:i:s');
             $this->db->insert('item_pengajuan', $data);
         }
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
+        }
+
         redirect('accounting/item');
     }
 

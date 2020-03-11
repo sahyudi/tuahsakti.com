@@ -38,14 +38,14 @@
                             <!-- <div class="col-md-6"> -->
                             <div class="form-group col-md-6">
                                 <label for="">No Nota</label>
-                                <input type="text" name="no_nota" id="no_nota" class="form-control" placeholder="No nota">
+                                <input type="text" name="no_nota" id="no_nota" class="form-control" value="PE-<?= time() ?>" placeholder="No nota" readonly style="background-color: white;">
                             </div>
                             <div class="form-group col-md-6">
                                 <label>Surat Jalan</label>
-                                <select class="form-control select2" name="surat_jalan" id="surat_jalan" style="height:50px;">
+                                <select class="form-control" name="surat_jalan" id="surat_jalan">
                                     <option value=""></option>
-                                    <?php foreach ($surat_jalan as $key => $value) { ?>
-                                        <option value="<?= $value->id ?>"><?= $value->nama ?></option>
+                                    <?php foreach ($momor_pengjuan as $key => $value) { ?>
+                                        <option value="<?= $value->datetime ?>"><?= $value->datetime ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -55,33 +55,36 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label>Vendor</label>
-                                <select class="form-control select2" name="vendor" id="vendor" style="width: 100%; height:100%;">
+                                <select class="form-control" name="vendor" id="vendor">
                                     <option value=""></option>
                                     <?php foreach ($vendor as $key => $value) { ?>
                                         <option value="<?= $value->id ?>"><?= $value->nama ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
-                            <div class="form-group col-md-6 float-right">
+                            <div class="form-group col-md-6"></div>
+                            <div class="form-group col-md-6">
                                 <label>Jenis Upah</label>
                                 <div class="form-group">
-                                    <input type="radio" class="radio" name="jenis_upah" id="laut" value="laut"> Laut &nbsp;
-                                    <input type="radio" class="radio" name="jenis_upah" id="darat" value="laut"> Darat &nbsp;
+                                    <input type="checkbox" class="checkbox" name="jenis_upah" id="laut" value="laut"> Laut &nbsp;
+                                    <input type="checkbox" class="checkbox" name="jenis_upah" id="darat" value="laut"> Darat &nbsp;
                                 </div>
                             </div>
                         </div>
 
+                        <hr>
                         <h5>List Item</h5>
                         <div class="row">
                             <table class="table" id="table-material">
                                 <thead>
                                     <tr class="text-center">
-                                        <th style="width:40%">Item / Satuan</th>
-                                        <th style="width:15%">Quantity</th>
-                                        <th style="width:15%">Harga</th>
-                                        <th style="width:15%">Sub Total</th>
-                                        <th style="width:15%">Upah / Satuan</th>
-                                        <th style="width:10%">Actions</th>
+                                        <th style="width: 35%;">Item / Satuan</th>
+                                        <th>Quantity</th>
+                                        <th>Harga</th>
+                                        <th>Sub Total</th>
+                                        <th>Upah / Satuan</th>
+                                        <th>Sub Upah</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -97,8 +100,9 @@
                                         </td>
                                         <td><input type="text" class="form-control form-qty text-right" name="qty[]" id="qty-0" onkeyup="hitung_sub_total(0)"></td>
                                         <td><input type=" text" class="form-control form-harga_beli text-right" name="harga_beli[]" id="harga_beli-0" onkeyup="hitung_sub_total(0)"></td>
-                                        <td><input type=" text" class="form-control form-sub_total text-right" name="sub_total[]" id="sub_total-0" readonly></td>
-                                        <td><input type="text" class="form-control form-upah text-right" name="upah[]" id="upah-0" readonly></td>
+                                        <td><input type="text" class="form-control form-sub_total text-right" name="sub_total[]" id="sub_total-0" readonly></td>
+                                        <td><input type="text" class="form-control form-upah text-right" name="upah[]" id="upah-0" value="0" readonly></td>
+                                        <td><input type="text" class="form-control form-sub_upah text-right" name="sub_upah[]" id="sub_upah-0" value="0" readonly></td>
                                         <td class="for-button">
                                             <button type="button" class="btn btn-info btn-add" onclick="addItem()"><i class="fa fa-plus"></i></button>
                                         </td>
@@ -116,7 +120,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">Tunai</label>
-                                    <input type="text" name="tunai" id="tunai" class="form-control text-right">
+                                    <input type="text" name="tunai" id="tunai" class="form-control text-right" onkeyup="hitung_tunai()" value="0">
                                 </div>
                                 <div class="form-group">
                                     <label for="">Kredit</label>
@@ -155,7 +159,10 @@
         });
         $('#' + id + ' .form-upah').attr({
             'id': 'upah-' + rangeId
-        }).html('');
+        }).val(0);
+        $('#' + id + ' .form-sub_upah').attr({
+            'id': 'sub_upah-' + rangeId
+        }).val(0);
         $('#' + id + ' .form-qty').attr({
             'id': 'qty-' + rangeId,
             'onkeyup': 'hitung_sub_total(' + rangeId + ')'
@@ -223,18 +230,32 @@
             }
         }
         $('#total').html(addCommas(sumHarga));
-        console.log(sumHarga);
+        const kredit = sumHarga - $('#tunai').val().replace(/\,/g, '');
+        $('#kredit').val(addCommas(kredit))
+        // console.log(sumHarga);
     }
 
     function getItem(id, urutan) {
-        $.ajax({
-            url: "<?= base_url('pengadaan/get_satuan/') ?>" + id.value,
-            type: "post",
-            dataType: 'JSON',
-            success: function(data) {
-                $('#satuan-' + urutan).html(data.satuan);
-            }
-        });
+        //     $.ajax({
+        //         url: "<?= base_url('pengadaan/get_satuan/') ?>" + id.value,
+        //         type: "post",
+        //         dataType: 'JSON',
+        //         success: function(data) {
+        //             $('#satuan-' + urutan).html(data.satuan);
+        //         }
+        //     });
+    }
+
+    function hitung_tunai() {
+        const total = parseInt($('#total').html().replace(/\,/g, ''));
+        const tunai = $('#tunai').val().replace(/\,/g, '');
+        if (tunai > total) {
+            var tunai_baru = total;
+        } else {
+            var tunai_baru = tunai;
+        }
+        $('#kredit').val(addCommas(total - parseInt(tunai_baru)));
+        $('#tunai').val(addCommas(tunai_baru));
     }
 
     function addCommas(nStr) {
@@ -248,5 +269,14 @@
         }
         return x1 + x2;
     }
+
+    $('input[type="checkbox"]:checked').click(function() {
+        var val = $(this).val();
+        if (val == 'darat') {
+            $('#laut').removeAttr('checked')
+        } else {
+            $('#darat').removeAttr('checked')
+        }
+    })
 </script>
 <!-- /.content-wrapper -->
