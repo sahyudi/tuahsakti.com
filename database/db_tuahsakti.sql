@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50626
 File Encoding         : 65001
 
-Date: 2020-03-11 07:14:01
+Date: 2020-03-11 17:58:21
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -147,6 +147,26 @@ CREATE TABLE `pengadaan` (
 
 -- ----------------------------
 -- Records of pengadaan
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `pengajuan_dana`
+-- ----------------------------
+DROP TABLE IF EXISTS `pengajuan_dana`;
+CREATE TABLE `pengajuan_dana` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tanggal` varchar(255) DEFAULT NULL,
+  `item_id` varchar(255) DEFAULT NULL,
+  `total` varchar(255) DEFAULT NULL,
+  `keterangan` varchar(255) DEFAULT NULL,
+  `gudang_id` varchar(255) DEFAULT NULL,
+  `datetime` varchar(255) DEFAULT NULL,
+  `created_user` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of pengajuan_dana
 -- ----------------------------
 
 -- ----------------------------

@@ -32,26 +32,30 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="">Tujuan</label>
-                                <input type="text" class="form-control" name="tujuan" id="tujuan" placeholder="Tujuan">
+                                <label for="">Tanggal</label>
+                                <input type="date" class="form-control" name="tanggal" id="tanggal" placeholder="Tujuan">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="">Keterangan</label>
-                                <textarea name="keterangan" id="keterangan" rows="2" class="form-control"></textarea>
+                                <textarea name="keterangan" id="keterangan" rows="1" class="form-control"></textarea>
+                            </div>
+                            <div class="col-md-12">
+                                <hr class="devider">
                             </div>
                             <div class="form-group col-md-12">
-                                <table class="table">
+                                <table class="table" id="table-item">
                                     <thead>
-                                        <tr>
+                                        <tr class="text-center text-bold">
                                             <td>Item</td>
                                             <td>Total</td>
                                             <td>Actions</td>
                                         </tr>
                                     </thead>
+                                    <input type="hidden" id="jumlah-baris" value="1">
                                     <tbody>
-                                        <tr>
+                                        <tr class="material" id="material-0">
                                             <td>
-                                                <select name="item" id="item" class="form-control" style="width: 100%">
+                                                <select name="item" id="item-0" onchange="getItem(this,0)" class="form-control form-item" style="width: 100%">
                                                     <option value=""></option>
                                                     <?php foreach ($item as $key => $value) { ?>
                                                         <option value="<?= $value->id ?>"><?= $value->nama ?></option>
@@ -59,7 +63,7 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control sub_total-0" name="sub_total[]" id="sub_total-1">
+                                                <input type="text" class="form-control form-sub_total text-right" onkeyup="hitung_total()" name="sub_total[]" id="sub_total-0">
                                             </td>
                                             <td class="for-button">
                                                 <button class="btn btn-info" onclick="addItem()" type="button"><i class="fas fa-fw fa-plus"></i></button>
@@ -81,34 +85,7 @@
     <!-- /.content -->
 </div>
 
-<div class="modal fade" id="modal-item">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Item Pengajuan Form</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="<?= base_url('accounting/addItem') ?>" id="form-item" method="post" enctype="multipart/form-data">
-                <input type="hidden" id="id" name="id">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Nama</label>
-                        <input type="text" name="nama" id="nama" class="form-control" placeholder="Nama material">
-                    </div>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                </div>
-            </form>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<script>
+<script type="text/javascript">
     $(document).ready(function() {
         $("#example1").DataTable();
     });
@@ -136,5 +113,31 @@
             }
         });
     });
+
+    function hapus(params) {
+        console.log(params)
+        $('#material-' + params).remove('');
+    }
+
+    function addItem() {
+        const rangeId = $('#jumlah-baris').val()
+        const item = $('#material-0').first().clone();
+        $('#table-item tbody').append(item);
+        const id = 'material-' + rangeId;
+        item.attr('id', id);
+        $('#' + id + ' .form-item').attr({
+            'id': 'item-' + rangeId,
+            'onchange': "getItem(this," + rangeId + ")"
+        });
+        $('#' + id + ' .form-sub_total').attr({
+            'id': 'sub_total-' + rangeId,
+            'onkeyup': 'hitung_total(' + rangeId + ')'
+        }).val(0);
+        $('#' + id + ' button').remove();
+
+        var btn = '<button type="button" onclick="hapus(' + rangeId + ')" class="btn btn-danger"><i class="fa fa-minus"></i></button>';
+        $('#' + id + ' .for-button').append(btn);
+        $('#jumlah-baris').val(parseInt(parseInt(rangeId) + 1));
+    }
 </script>
 <!-- /.content-wrapper -->

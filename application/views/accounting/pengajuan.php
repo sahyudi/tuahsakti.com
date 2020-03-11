@@ -27,7 +27,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Daftar Pengajuan Pendanaan</h3>
-                        <a href="<?= base_url('accounting/form_pengajuan') ?>" class="btn btn-primary float-right"><i class="fas fa-fw fa-plus"></i> Add Material</a>
+                        <a href="<?= base_url('accounting/form_pengajuan') ?>" class="btn btn-primary float-right"><i class="fas fa-fw fa-plus"></i> Add Pengajuan</a>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -36,10 +36,9 @@
                                 <tr class="text-center">
                                     <th>No</th>
                                     <th>No Nota</th>
-                                    <th>Tujuan</th>
+                                    <th>Keterangan</th>
                                     <th>Item</th>
                                     <th>Sub Total</th>
-                                    <th>Keterangan</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -48,10 +47,9 @@
                                     <tr>
                                         <td class="text-center"><?= $key + 1 ?></td>
                                         <td><?= $value->datetime ?></td>
-                                        <td><?= $value->tujuan ?></td>
+                                        <td><?= $value->keterangan ?></td>
                                         <td><?= $value->nama ?></td>
                                         <td><?= $value->sub_total ?></td>
-                                        <td><?= $value->keterangan ?></td>
                                         <td class="text-right">
                                             <a href="<?= base_url('accounting/deleteItem/') . $value->id ?>" onclick="return validation()" class="btn btn-sm btn-danger"><i class="fas fa-fw fa-trash"></i></a>
                                             <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-item" class="btn btn-sm btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
@@ -72,33 +70,7 @@
     <!-- /.content -->
 </div>
 
-<div class="modal fade" id="modal-item">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Item Pengajuan Form</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="<?= base_url('accounting/addItem') ?>" id="form-item" method="post" enctype="multipart/form-data">
-                <input type="hidden" id="id" name="id">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Nama</label>
-                        <input type="text" name="nama" id="nama" class="form-control" placeholder="Nama material">
-                    </div>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                </div>
-            </form>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
+
 <script>
     $(document).ready(function() {
         $("#example1").DataTable();
