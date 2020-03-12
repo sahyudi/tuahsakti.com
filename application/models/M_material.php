@@ -10,10 +10,12 @@ class M_material extends CI_Model
 
     public function get_material($id = null)
     {
+        $this->db->select('A.*, B.stock');
+        $this->db->join('stock B', 'A.id = B.material_id');
         if ($id != 0) {
-            $this->db->where('id', $id);
+            $this->db->where('A.id', $id);
         }
-        $data = $this->db->get('material');
+        $data = $this->db->get('material A');
         return $data;
     }
 }

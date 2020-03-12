@@ -32,107 +32,107 @@
                         </div>
                     </div>
                     <!-- /.card-header -->
-                    <form action="<?= base_url('pengadaan/save') ?>" method="POST" enctype="multipart/form-data"></form>
-                    <div class="card-body">
-                        <div class="row">
-                            <!-- <div class="col-md-6"> -->
-                            <div class="form-group col-md-6">
-                                <label for="">No Nota</label>
-                                <input type="text" name="no_nota" id="no_nota" class="form-control" value="PE-<?= time() ?>" placeholder="No nota" readonly style="background-color: white;">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Surat Jalan</label>
-                                <select class="form-control" name="surat_jalan" id="surat_jalan">
-                                    <option value=""></option>
-                                    <?php foreach ($momor_pengjuan as $key => $value) { ?>
-                                        <option value="<?= $value->datetime ?>"><?= $value->datetime ?></option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="">Tanggal</label>
-                                <input type="date" name="tanggal" id="tanggal" class="form-control" placeholder="No nota">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Vendor</label>
-                                <select class="form-control" name="vendor" id="vendor">
-                                    <option value=""></option>
-                                    <?php foreach ($vendor as $key => $value) { ?>
-                                        <option value="<?= $value->id ?>"><?= $value->nama ?></option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6"></div>
+                    <form action="<?= base_url('pengadaan/save') ?>" method="POST" enctype="multipart/form-data">
+                        <div class="card-body">
+                            <div class="row">
+                                <!-- <div class="col-md-6"> -->
+                                <div class="form-group col-md-6">
+                                    <label for="">No Nota</label>
+                                    <input type="text" name="no_nota" id="no_nota" class="form-control" value="PE-<?= time() ?>" placeholder="No nota" readonly style="background-color: white;">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Surat Jalan</label>
+                                    <select class="form-control" name="surat_jalan" id="surat_jalan">
+                                        <option value=""></option>
+                                        <?php foreach ($momor_pengjuan as $key => $value) { ?>
+                                            <option value="<?= $value->datetime ?>"><?= $value->datetime ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="">Tanggal</label>
+                                    <input type="date" name="tanggal" id="tanggal" class="form-control" placeholder="No nota">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Vendor</label>
+                                    <select class="form-control" name="vendor" id="vendor">
+                                        <option value=""></option>
+                                        <?php foreach ($vendor as $key => $value) { ?>
+                                            <option value="<?= $value->id ?>"><?= $value->nama ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <!-- <div class="form-group col-md-6"></div>
                             <div class="form-group col-md-6">
                                 <label>Jenis Upah</label>
                                 <div class="form-group">
                                     <input type="checkbox" class="checkbox" name="jenis_upah" id="laut" value="laut"> Laut &nbsp;
                                     <input type="checkbox" class="checkbox" name="jenis_upah" id="darat" value="laut"> Darat &nbsp;
                                 </div>
+                            </div> -->
                             </div>
-                        </div>
 
-                        <hr>
-                        <h5>List Item</h5>
-                        <div class="row">
-                            <table class="table" id="table-material">
-                                <thead>
-                                    <tr class="text-center">
-                                        <th style="width: 35%;">Item / Satuan</th>
-                                        <th>Quantity</th>
-                                        <th>Harga</th>
-                                        <th>Sub Total</th>
-                                        <th>Upah / Satuan</th>
-                                        <th>Sub Upah</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <input type="hidden" id="jumlah-baris" value="1">
-                                    <tr class="material" id="material-0">
-                                        <td>
-                                            <select onchange="getItem(this,0)" class="form-control form-item" id="item-0" name="item[]">
-                                                <option value=""></option>
-                                                <?php foreach ($material as $key => $value) { ?>
-                                                    <option value="<?= $value->id ?>"><?= $value->nama . " / " . $value->satuan ?></option>
-                                                <?php } ?>
-                                            </select>
-                                        </td>
-                                        <td><input type="text" class="form-control form-qty text-right" name="qty[]" id="qty-0" onkeyup="hitung_sub_total(0)"></td>
-                                        <td><input type=" text" class="form-control form-harga_beli text-right" name="harga_beli[]" id="harga_beli-0" onkeyup="hitung_sub_total(0)"></td>
-                                        <td><input type="text" class="form-control form-sub_total text-right" name="sub_total[]" id="sub_total-0" readonly></td>
-                                        <td><input type="text" class="form-control form-upah text-right" name="upah[]" id="upah-0" value="0" readonly></td>
-                                        <td><input type="text" class="form-control form-sub_upah text-right" name="sub_upah[]" id="sub_upah-0" value="0" readonly></td>
-                                        <td class="for-button">
-                                            <button type="button" class="btn btn-info btn-add" onclick="addItem()"><i class="fa fa-plus"></i></button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colspan="3" class="text-right">TOTAL</td>
-                                        <td class="text-right">Rp. <span id="total"></span></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="">Tunai</label>
-                                    <input type="text" name="tunai" id="tunai" class="form-control text-right" onkeyup="hitung_tunai()" value="0">
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Kredit</label>
-                                    <input type="text" name="kredit" id="kredit" class="form-control text-right" readonly>
+                            <hr>
+                            <h5>List Item</h5>
+                            <div class="row">
+                                <table class="table" id="table-material">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th style="width: 35%;">Item / Satuan</th>
+                                            <th>Quantity</th>
+                                            <th>Harga</th>
+                                            <th>Sub Total</th>
+                                            <th>Upah / Satuan</th>
+                                            <th>Sub Upah</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <input type="hidden" id="jumlah-baris" value="1">
+                                        <tr class="material" id="material-0">
+                                            <td>
+                                                <select onchange="getItem(this,0)" class="form-control form-item" id="item-0" name="item[]">
+                                                    <option value=""></option>
+                                                    <?php foreach ($material as $key => $value) { ?>
+                                                        <option value="<?= $value->id ?>"><?= $value->nama . " / " . $value->satuan ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </td>
+                                            <td><input type="text" class="form-control form-qty text-right" name="qty[]" id="qty-0" onkeyup="hitung_sub_total(0)"></td>
+                                            <td><input type=" text" class="form-control form-harga_beli text-right" name="harga_beli[]" id="harga_beli-0" onkeyup="hitung_sub_total(0)"></td>
+                                            <td><input type="text" class="form-control form-sub_total text-right" name="sub_total[]" id="sub_total-0" readonly></td>
+                                            <td><input type="text" class="form-control form-upah text-right" name="upah[]" id="upah-0" value="0" readonly></td>
+                                            <td><input type="text" class="form-control form-sub_upah text-right" name="sub_upah[]" id="sub_upah-0" value="0" readonly></td>
+                                            <td class="for-button">
+                                                <button type="button" class="btn btn-info btn-add" onclick="addItem()"><i class="fa fa-plus"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="3" class="text-right">TOTAL</td>
+                                            <td class="text-right">Rp. <span id="total"></span></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Tunai</label>
+                                        <input type="text" name="tunai" id="tunai" class="form-control text-right" onkeyup="hitung_tunai()" value="0">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Kredit</label>
+                                        <input type="text" name="kredit" id="kredit" class="form-control text-right" readonly>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card-footer">
-                        <a href="<?= base_url('pengadaan') ?>" class="btn btn-danger float-left">Back</a>
-                        <button type="submit" class="btn btn-primary float-right">Submit</button>
-                    </div>
+                        <div class="card-footer">
+                            <a href="<?= base_url('pengadaan') ?>" class="btn btn-danger float-left">Back</a>
+                            <button type="submit" class="btn btn-primary float-right">Submit</button>
+                        </div>
                     </form>
                 </div>
             </div>

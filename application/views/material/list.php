@@ -49,7 +49,7 @@
                                         <td><?= $value->nama . " (" . $value->satuan . ")" ?></td>
                                         <!-- <td><?= $value->satuan ?></td> -->
                                         <td class="text-center"><?= $value->harga_jual ?></td>
-                                        <td class="text-center"><?= 0 ?></td>
+                                        <td class="text-center"><?= $value->stock ?></td>
                                         <td class="text-right">
                                             <a href="<?= base_url('material/delete/') . $value->id ?>" onclick="return validation()" class="btn btn-sm btn-danger"><i class="fas fa-fw fa-trash"></i></a>
                                             <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-material" class="btn btn-sm btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>

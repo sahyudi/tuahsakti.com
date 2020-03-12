@@ -34,6 +34,69 @@ class Pengadaan extends CI_Controller
         $this->load->view('template/main', $data);
     }
 
+    function save()
+    {
+        $date = date('Y-m-d H:i:s');
+        $tanggal = $this->input->post('tanggal');
+        $nota = $this->input->post('no_nota');
+        $vendor = $this->input->post('vendor');
+        $ket = $this->input->post('keterangan');
+        $surat_jalan = $this->input->post('surat_jalan');
+        $item = $this->input->post('item');
+        $qty = $this->input->post('qty');
+        $harga_beli = $this->input->post('harga_beli');
+
+
+        $data_pengadaan = [];
+        for ($i = 0; $i < count($item); $i++) {
+            $quantity =  str_replace(",", "", $qty[$i]);
+            $material = $this->m_material->get_material($item[$i])->row();
+            $data_pengadaan[] = [
+                'surat_jalan' => $surat_jalan,
+                'no_nota' => $nota,
+                'vendor_id' => $vendor,
+                'tanggal' => $tanggal,
+                'material_id' => $item[$i],
+                'qty' => $quantity,
+                'harga_beli' => str_replace(",", "", $harga_beli[$i]),
+                'satuan' => $material->satuan,
+                'keterangan' => $ket,
+                'stock_updated' => $quantity + $material->stock,
+                'created_at' => $date,
+                'created_user' => $this->session->userdata('id')
+            ];
+        }
+
+        $kredit = $this->input->post('kredit');
+        $this->db->trans_begin();
+
+        if ($kredit != 0) {
+            $data_kredit = [
+                'no_nota' => $nota,
+                'vendor_id' => $vendor,
+                'kredit' => $saldo = str_replace(",", "", $kredit),
+                'saldo' => $saldo,
+                'created_at' => $date,
+                'created_user' => $this->session->userdata('id')
+            ];
+            $saldo_hutang = [
+                'no_nota' => $nota,
+                'saldo' => $saldo,
+                'updated_at' => $date
+            ];
+            $this->db->insert('saldo_hutang', $saldo_hutang);
+            $this->db->insert('hutang', $data_kredit);
+        }
+
+        $this->db->insert_batch('pengadaan', $data_pengadaan);
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
+        }
+        redirect('pengadaan');
+    }
+
     function get_item($id)
     {
         if ($id) {
