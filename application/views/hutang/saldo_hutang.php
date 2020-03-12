@@ -5,12 +5,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Material</h1>
+                    <h1 class="m-0 text-dark">Saldo Hutang</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="<?= base_url('home') ?>">Home</a></li>
-                        <li class="breadcrumb-item active">Material</li>
+                        <li class="breadcrumb-item active">Saldo Hutang</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -26,7 +26,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Data Material</h3>
+                        <h3 class="card-title">List Saldo Hutang</h3>
                         <a href="#" class="btn btn-primary float-right" data-toggle="modal" onclick="reset_form()" data-target="#modal-material"><i class="fas fa-fw fa-plus"></i> Add Material</a>
                     </div>
                     <!-- /.card-header -->
@@ -35,27 +35,32 @@
                             <thead>
                                 <tr class="text-center">
                                     <th>No</th>
-                                    <th>Material / Satuan</th>
-                                    <!-- <th>Satuan</th> -->
-                                    <th>Harga Jual</th>
-                                    <th>Quantity</th>
+                                    <th>No Nota</th>
+                                    <th>Vendor</th>
+                                    <th>Saldo Hutang</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($material as $key => $value) { ?>
+                                <?php $total = 0; ?>
+                                <?php foreach ($saldo_hutang as $key => $value) { ?>
                                     <tr>
                                         <td class="text-center"><?= $key + 1 ?></td>
-                                        <td><?= $value->nama . " (" . $value->satuan . ")" ?></td>
-                                        <!-- <td><?= $value->satuan ?></td> -->
-                                        <td class="text-center"><?= number_format($value->harga_jual, 0) ?></td>
-                                        <td class="text-center"><?= number_format($value->stock, 0) ?></td>
+                                        <td><?= $value->no_nota ?></td>
+                                        <td><?= $value->nama_vendor ?></td>
+                                        <td class="text-right">Rp. <?= number_format($total += $value->saldo, 0) ?></td>
                                         <td class="text-right">
-                                            <a href="<?= base_url('material/delete/') . $value->id ?>" onclick="return validation()" class="btn btn-sm btn-danger"><i class="fas fa-fw fa-trash"></i></a>
+                                            <a href="<?= base_url('accounting/delete_saldo_hutang/') . $value->id ?>" onclick="return validation()" class="btn btn-sm btn-danger"><i class="fas fa-fw fa-trash"></i></a>
                                             <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-material" class="btn btn-sm btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
                                         </td>
                                     </tr>
                                 <?php } ?>
+                            </tbody>
+                            <tbody>
+                                <tr>
+                                    <td colspan="3" class="text-right text-bold">Total</td>
+                                    <td class="text-right text-bold">Rp. <?= number_format($total, 0) ?></td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>

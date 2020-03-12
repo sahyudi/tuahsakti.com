@@ -116,4 +116,14 @@ class Accounting extends CI_Controller
             redirect('accounting/item');
         }
     }
+
+
+    function saldo_hutang()
+    {
+        $data['saldo_hutang'] = $this->m_accounting->get_saldo_hutang()->result();
+        $data['active'] = 'accounting/saldo_hutang';
+        $data['title'] = 'Hutang';
+        $data['subview'] = 'hutang/saldo_hutang';
+        $this->load->view('template/main', $data);
+    }
 }

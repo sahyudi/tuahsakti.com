@@ -45,6 +45,7 @@ class Pengadaan extends CI_Controller
         $item = $this->input->post('item');
         $qty = $this->input->post('qty');
         $harga_beli = $this->input->post('harga_beli');
+        $kredit = $this->input->post('kredit');
 
 
         $data_pengadaan = [];
@@ -63,29 +64,21 @@ class Pengadaan extends CI_Controller
                 'keterangan' => $ket,
                 'stock_updated' => $quantity + $material->stock,
                 'created_at' => $date,
-                'created_user' => $this->session->userdata('id')
+                'created_user' => $user = $this->session->userdata('id')
             ];
         }
 
-        $kredit = $this->input->post('kredit');
         $this->db->trans_begin();
 
         if ($kredit != 0) {
-            $data_kredit = [
-                'no_nota' => $nota,
-                'vendor_id' => $vendor,
-                'kredit' => $saldo = str_replace(",", "", $kredit),
-                'saldo' => $saldo,
-                'created_at' => $date,
-                'created_user' => $this->session->userdata('id')
-            ];
             $saldo_hutang = [
                 'no_nota' => $nota,
-                'saldo' => $saldo,
-                'updated_at' => $date
+                'vendor_id' => $vendor,
+                'saldo' => $saldo = str_replace(",", "", $kredit),
+                'updated_at' => $date,
+                'created_user' => $user
             ];
             $this->db->insert('saldo_hutang', $saldo_hutang);
-            $this->db->insert('hutang', $data_kredit);
         }
 
         $this->db->insert_batch('pengadaan', $data_pengadaan);

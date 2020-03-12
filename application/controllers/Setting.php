@@ -20,7 +20,6 @@ class Setting extends CI_Controller
         $data['menu'] = $this->m_setting->get_menu()->result();
         $this->load->view('template/main', $data);
     }
-
     function users()
     {
         $data['active'] = 'setting/users';

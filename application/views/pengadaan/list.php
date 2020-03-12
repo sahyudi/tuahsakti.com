@@ -27,10 +27,12 @@
                         <a href="<?= base_url('pengadaan/form') ?>" class="btn btn-primary float-right"><i class="fas fa-fw fa-plus"></i> Add Material</a>
                     </div>
                     <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table id="example1" class="table table-bordered table-striped wrapper">
                             <thead>
                                 <tr class="text-center">
                                     <th>No</th>
+                                    <th>Surat jalan</th>
+                                    <th>Nota</th>
                                     <th>Vendor</th>
                                     <th>Material / Satuan</th>
                                     <th>Harga Beli</th>
@@ -46,11 +48,13 @@
                                     <?php $sub_total += $value->harga_beli * $value->qty ?>
                                     <tr>
                                         <td class="text-center"><?= $key + 1 ?></td>
+                                        <td><?= $value->surat_jalan ?></td>
+                                        <td><?= $value->no_nota ?></td>
                                         <td><?= $value->vendor ?></td>
                                         <td><?= $value->nama . " (" . $value->satuan . ")" ?></td>
                                         <td class="text-center"><?= number_format($value->harga_beli, 0) ?></td>
                                         <td class="text-center"><?= number_format($value->qty, 0) ?></td>
-                                        <td class="text-center"><?= number_format($sub_total, 0) ?></td>
+                                        <td class="text-center"><?= number_format($value->harga_beli * $value->qty, 0) ?></td>
                                         <td class="text-center"><?= $value->keterangan ?></td>
                                         <td class="text-right">
                                             <a href="<?= base_url('pengadaan/delete/') . $value->id ?>" onclick="return validation()" class="btn btn-sm btn-danger"><i class="fas fa-fw fa-trash"></i></a>
