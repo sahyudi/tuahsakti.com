@@ -52,9 +52,9 @@
                                         <td><?= $value->no_nota ?></td>
                                         <td><?= $value->vendor ?></td>
                                         <td><?= $value->nama . " (" . $value->satuan . ")" ?></td>
-                                        <td class="text-center"><?= number_format($value->harga_beli, 0) ?></td>
+                                        <td class="text-right">Rp. <?= number_format($value->harga_beli, 0) ?></td>
                                         <td class="text-center"><?= number_format($value->qty, 0) ?></td>
-                                        <td class="text-center"><?= number_format($value->harga_beli * $value->qty, 0) ?></td>
+                                        <td class="text-right">Rp. <?= number_format($value->harga_beli * $value->qty, 0) ?></td>
                                         <td class="text-center"><?= $value->keterangan ?></td>
                                         <td class="text-right">
                                             <a href="<?= base_url('pengadaan/delete/') . $value->id ?>" onclick="return validation()" class="btn btn-sm btn-danger"><i class="fas fa-fw fa-trash"></i></a>

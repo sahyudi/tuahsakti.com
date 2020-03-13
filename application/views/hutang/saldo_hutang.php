@@ -48,18 +48,20 @@
                                         <td class="text-center"><?= $key + 1 ?></td>
                                         <td><?= $value->no_nota ?></td>
                                         <td><?= $value->nama_vendor ?></td>
-                                        <td class="text-right">Rp. <?= number_format($total += $value->saldo, 0) ?></td>
+                                        <td class="text-right">Rp. <?= number_format($value->saldo, 0) ?></td>
                                         <td class="text-right">
                                             <a href="<?= base_url('accounting/delete_saldo_hutang/') . $value->id ?>" onclick="return validation()" class="btn btn-sm btn-danger"><i class="fas fa-fw fa-trash"></i></a>
-                                            <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-material" class="btn btn-sm btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
+                                            <a href="<?= base_url('accounting/pembayaran/') . $value->id ?>" class="btn btn-sm btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
                                         </td>
                                     </tr>
+                                    <?php $total += $value->saldo ?>
                                 <?php } ?>
                             </tbody>
                             <tbody>
                                 <tr>
                                     <td colspan="3" class="text-right text-bold">Total</td>
                                     <td class="text-right text-bold">Rp. <?= number_format($total, 0) ?></td>
+                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>

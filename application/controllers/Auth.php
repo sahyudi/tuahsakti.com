@@ -12,7 +12,7 @@ class Auth extends CI_Controller
     {
 
         if ($this->session->userdata('email')) {
-            redirect('user');
+            redirect('home');
         }
 
         $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
@@ -64,7 +64,7 @@ class Auth extends CI_Controller
     public function registration()
     {
         if ($this->session->userdata('email')) {
-            redirect('user');
+            redirect('home');
         }
 
         $this->form_validation->set_rules('name', 'Name', 'required|trim');

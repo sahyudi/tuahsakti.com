@@ -126,4 +126,14 @@ class Accounting extends CI_Controller
         $data['subview'] = 'hutang/saldo_hutang';
         $this->load->view('template/main', $data);
     }
+
+    function pembayaran($id)
+    {
+        $data['active'] = 'accounting/saldo_hutang';
+        $data['title'] = 'Hutang';
+        $data['master'] = $this->m_accounting->get_saldo_hutang($id)->row();
+        $data['detail'] = $this->m_accounting->get_detail_hutang($id)->result();
+        $data['subview'] = 'hutang/detail';
+        $this->load->view('template/main', $data);
+    }
 }

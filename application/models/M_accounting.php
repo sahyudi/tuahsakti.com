@@ -44,4 +44,17 @@ class M_accounting extends CI_Model
         $data = $this->db->get('saldo_hutang A');
         return $data;
     }
+
+
+    function get_detail_hutang($id = null)
+    {
+        $this->db->select('A.no_nota, B.nama AS nama_vendor, C.*');
+        $this->db->join('vendor B', 'A.vendor_id = B.id');
+        $this->db->join('hutang_detail C', 'A.id = C.saldo_id');
+        if ($id) {
+            $this->db->where('A.id', $id);
+        }
+        $data = $this->db->get('saldo_hutang A');
+        return $data;
+    }
 }
