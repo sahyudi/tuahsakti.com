@@ -35,8 +35,8 @@
                                     <th>Nota</th>
                                     <th>Vendor</th>
                                     <th>Material / Satuan</th>
-                                    <th>Harga Beli</th>
                                     <th>Quantity</th>
+                                    <th>Harga Beli</th>
                                     <th>Sub Total</th>
                                     <th>Keterangan</th>
                                     <th>Action</th>
@@ -52,10 +52,10 @@
                                         <td><?= $value->no_nota ?></td>
                                         <td><?= $value->vendor ?></td>
                                         <td><?= $value->nama . " (" . $value->satuan . ")" ?></td>
-                                        <td class="text-right">Rp. <?= number_format($value->harga_beli, 0) ?></td>
                                         <td class="text-center"><?= number_format($value->qty, 0) ?></td>
+                                        <td class="text-right">Rp. <?= number_format($value->harga_beli, 0) ?></td>
                                         <td class="text-right">Rp. <?= number_format($value->harga_beli * $value->qty, 0) ?></td>
-                                        <td class="text-center"><?= $value->keterangan ?></td>
+                                        <td class="text-left"><?= $value->keterangan ?></td>
                                         <td class="text-right">
                                             <a href="<?= base_url('pengadaan/delete/') . $value->id ?>" onclick="return validation()" class="btn btn-sm btn-danger"><i class="fas fa-fw fa-trash"></i></a>
                                             <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-material" class="btn btn-sm btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>

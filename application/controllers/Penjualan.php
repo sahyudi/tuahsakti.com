@@ -17,7 +17,7 @@ class Penjualan extends CI_Controller
 
     function index()
     {
-        $data['pengadaan'] = $this->m_penjualan->get_data()->result();
+        $data['penjualan'] = $this->m_penjualan->get_data()->result();
         $data['active'] = 'penjualan';
         $data['title'] = 'Penjualan';
         $data['subview'] = 'penjualan/list';
@@ -26,12 +26,10 @@ class Penjualan extends CI_Controller
 
     function form()
     {
-        $data['material'] = $this->m_material->get_material()->result();
-        $data['vendor'] = $this->db->get('vendor')->result();
-        $data['momor_pengjuan'] = $this->m_accounting->get_nomor_pengajuan()->result();
-        $data['active'] = 'pengadaan';
+        $data['material'] = $this->m_material->get_material_penjualan()->result();
+        $data['active'] = 'Penjualan';
         $data['title'] = 'Form';
-        $data['subview'] = 'pengadaan/form';
+        $data['subview'] = 'penjualan/form';
         $this->load->view('template/main', $data);
     }
 

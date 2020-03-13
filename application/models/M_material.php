@@ -18,4 +18,13 @@ class M_material extends CI_Model
         $data = $this->db->get('material A');
         return $data;
     }
+
+    function get_material_penjualan($id = null)
+    {
+        $this->db->select('A.*, B.stock');
+        $this->db->join('stock B', 'A.id = B.material_id');
+        $this->db->where('B.stock >=', 1);
+        $data = $this->db->get('material A');
+        return $data;
+    }
 }
