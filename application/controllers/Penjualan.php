@@ -3,6 +3,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Penjualan extends CI_Controller
 {
+    public $material = 'material';
+    public $penjualan = 'penjualan';
+    public $penjualan_detail = 'penjualan_detail';
+
     public function __construct()
     {
         parent::__construct();
@@ -35,65 +39,76 @@ class Penjualan extends CI_Controller
 
     function save()
     {
+        $this->db->trans_begin();
+
         $date = date('Y-m-d H:i:s');
+        $nota = 'TE' . time();
         $tanggal = $this->input->post('tanggal');
-        $nota = $this->input->post('no_nota');
-        $vendor = $this->input->post('vendor');
         $ket = $this->input->post('keterangan');
-        $surat_jalan = $this->input->post('surat_jalan');
-        $item = $this->input->post('item');
-        $qty = $this->input->post('qty');
-        $harga_beli = $this->input->post('harga_beli');
         $kredit = $this->input->post('kredit');
 
 
-        $data_pengadaan = [];
+        $upah = $this->input->post('upah');
+        $item = $this->input->post('item');
+        $qty = $this->input->post('qty');
+        $harga_jual = $this->input->post('harga_jual');
+
+        $data_pengadaan[] = [
+            'transaksi_id' => $nota,
+            'tanggal' => $tanggal,
+            'keterangan' => $ket,
+            'created_at' => $date,
+            'created_user' => $user = $this->session->userdata('id')
+        ];
+
+        $this->db->insert($this->penjualan);
+        $penjualan_id = $this->db->insert_id();
+
+        $detail = [];
+
         for ($i = 0; $i < count($item); $i++) {
             $quantity =  str_replace(",", "", $qty[$i]);
             $material = $this->m_material->get_material($item[$i])->row();
-            $data_pengadaan[] = [
-                'surat_jalan' => $surat_jalan,
-                'no_nota' => $nota,
-                'vendor_id' => $vendor,
-                'tanggal' => $tanggal,
+
+            $detail[] = [
+                'penjualan_id' => $penjualan_id,
                 'material_id' => $item[$i],
                 'qty' => $quantity,
-                'harga_beli' => str_replace(",", "", $harga_beli[$i]),
+                'harga_jual' => str_replace(",", "", $harga_jual[$i]),
                 'satuan' => $material->satuan,
-                'keterangan' => $ket,
+                'upah' => ($material->upah),
+                'ket_detail' => 'Penjualan nomor ' . $nota,
                 'stock_updated' => $quantity + $material->stock,
                 'created_at' => $date,
                 'created_user' => $user = $this->session->userdata('id')
             ];
         }
 
-        $this->db->trans_begin();
 
-        if ($kredit != 0) {
-            $saldo_hutang = [
-                'no_nota' => $nota,
-                'vendor_id' => $vendor,
-                'saldo' => $saldo = str_replace(",", "", $kredit),
-                'updated_at' => $date,
-                'created_user' => $user
-            ];
-            $this->db->insert('saldo_hutang', $saldo_hutang);
-        }
+        // if ($kredit != 0) {
+        //     $saldo_hutang = [
+        //         'no_nota' => $nota,
+        //         'vendor_id' => $vendor,
+        //         'saldo' => $saldo = str_replace(",", "", $kredit),
+        //         'updated_at' => $date,
+        //         'created_user' => $user
+        //     ];
+        //     $this->db->insert('saldo_hutang', $saldo_hutang);
+        // }
 
-        $this->db->insert_batch('pengadaan', $data_pengadaan);
+        $this->db->insert_batch('penjualan_detail', $detail);
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
         } else {
             $this->db->trans_commit();
         }
-        redirect('pengadaan');
+        redirect('penjualan');
     }
 
     function get_item($id)
     {
         if ($id) {
-            $this->db->where('id', $id);
-            $data = $this->db->get('material')->row();
+            $data = $this->m_material->get_material_penjualan($id)->row();
             echo json_encode($data);
         }
     }

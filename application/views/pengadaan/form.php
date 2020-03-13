@@ -36,10 +36,10 @@
                         <div class="card-body">
                             <div class="row">
                                 <!-- <div class="col-md-6"> -->
-                                <div class="form-group col-md-6">
+                                <!-- <div class="form-group col-md-6">
                                     <label for="">No Nota</label>
                                     <input type="text" name="no_nota" id="no_nota" class="form-control" value="PE<?= time() ?>" placeholder="No nota" readonly style="background-color: white;">
-                                </div>
+                                </div> -->
                                 <div class="form-group col-md-6">
                                     <label>Surat Jalan</label>
                                     <select class="form-control" name="surat_jalan" id="surat_jalan">
@@ -101,7 +101,7 @@
                                                 <input type=" text" class="form-control form-harga_beli text-right" name="harga_beli[]" id="harga_beli-0" onkeyup="hitung_sub_total(0)" value="0">
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control form-sub_total text-right" name="sub_total[]" id="sub_total-0" value="" readonly >
+                                                <input type="text" class="form-control form-sub_total text-right" name="sub_total[]" id="sub_total-0" value="0" readonly>
                                             </td>
                                             <td>
                                                 <input type="text" class="form-control form-upah text-right" name="upah[]" id="upah-0" value="0" onkeyup="hitung_upah()">

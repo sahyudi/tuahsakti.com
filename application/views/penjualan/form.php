@@ -36,10 +36,10 @@
                         <div class="card-body">
                             <div class="row">
                                 <!-- <div class="col-md-6"> -->
-                                <div class="form-group col-md-6">
+                                <!-- <div class="form-group col-md-6">
                                     <label for="">Transaksi ID</label>
                                     <input type="text" name="no_nota" id="no_nota" class="form-control" value="TR<?= time() ?>" placeholder="No nota" readonly style="background-color: white;">
-                                </div>
+                                </div> -->
                                 <div class="form-group col-md-6">
                                     <label for="">Tanggal</label>
                                     <input type="date" name="tanggal" id="tanggal" class="form-control" placeholder="No nota" value="<?= date('Y-m-d') ?>">
@@ -57,6 +57,7 @@
                                     <thead>
                                         <tr class="text-center">
                                             <th style="width: 35%;">Item / Satuan</th>
+                                            <th>Stock</th>
                                             <th>Quantity</th>
                                             <th>Harga</th>
                                             <th>Sub Total</th>
@@ -76,8 +77,9 @@
                                                     <?php } ?>
                                                 </select>
                                             </td>
-                                            <td><input type="text" class="form-control form-qty text-right" name="qty[]" id="qty-0" onkeyup="hitung_sub_total(0)"></td>
-                                            <td><input type=" text" class="form-control form-harga_beli text-right" name="harga_beli[]" id="harga_beli-0" onkeyup="hitung_sub_total(0)"></td>
+                                            <td><input type="text" class="form-control form-stock text-right" name="stock[]" id="stock-0" readonly></td>
+                                            <td><input type="number" class="form-control form-qty text-right" name="qty[]" id="qty-0" onchange="hitung_sub_total(0)" onkeyup="hitung_sub_total(0)"></td>
+                                            <td><input type="text" class="form-control form-harga_jual text-right" name="harga_jual[]" id="harga_jual-0" onkeyup="hitung_sub_total(0)"></td>
                                             <td><input type="text" class="form-control form-sub_total text-right" name="sub_total[]" id="sub_total-0" readonly></td>
                                             <td><input type="text" class="form-control form-upah text-right" name="upah[]" id="upah-0" value="0" readonly></td>
                                             <td><input type="text" class="form-control form-sub_upah text-right" name="sub_upah[]" id="sub_upah-0" value="0" readonly></td>
@@ -135,6 +137,9 @@
             'id': 'item-' + rangeId,
             'onchange': "getItem(this," + rangeId + ")"
         });
+        $('#' + id + ' .form-stock').attr({
+            'id': 'stock-' + rangeId
+        }).val(0);
         $('#' + id + ' .form-upah').attr({
             'id': 'upah-' + rangeId
         }).val(0);
@@ -145,8 +150,8 @@
             'id': 'qty-' + rangeId,
             'onkeyup': 'hitung_sub_total(' + rangeId + ')'
         }).val(0);
-        $('#' + id + ' .form-harga_beli').attr({
-            'id': 'harga_beli-' + rangeId,
+        $('#' + id + ' .form-harga_jual').attr({
+            'id': 'harga_jual-' + rangeId,
             'onkeyup': 'hitung_sub_total(' + rangeId + ')'
         }).val(0);
         $('#' + id + ' .form-sub_total').attr({
@@ -169,28 +174,34 @@
 
 
     function hitung_sub_total(id) {
-        var sisaStock = 0;
-        const qty = parseInt($('#qty-' + id).val().replace(/\,/g, ''));
-        const harga = parseInt($('#harga_beli-' + id).val().replace(/\,/g, ''));
+        var sub_total = 0;
+        const stock = parseInt($('#stock-' + id).val().replace(/\,/g, ''));
+        const qty_awal = parseInt($('#qty-' + id).val().replace(/\,/g, ''));
+        const harga = parseInt($('#harga_jual-' + id).val().replace(/\,/g, ''));
+        if (qty_awal > stock) {
+            var qty = stock;
+        } else {
+            var qty = qty_awal;
+        }
 
-        sisaStock = qty * harga;
-        if (sisaStock > 0) {
-            $('#sub_total-' + id).val(addCommas(sisaStock));
+        sub_total = qty * harga;
+        if (sub_total > 0) {
+            $('#sub_total-' + id).val(addCommas(sub_total));
         } else {
             $('#sub_total-' + id).val(0);
         }
-        if (qty > 0) {
-            return_qty = qty;
-        } else {
-            return_qty = 0;
-        }
+        // if (qty > 0) {
+        //     return_qty = qty;
+        // } else {
+        //     return_qty = 0;
+        // }
         if (harga > 0) {
             return_harga = harga;
         } else {
             return_harga = 0;
         }
-        $('#qty-' + id).val(addCommas(return_qty));
-        $('#harga_beli-' + id).val(addCommas(return_harga));
+        $('#qty-' + id).val(addCommas(qty));
+        $('#harga_jual-' + id).val(addCommas(return_harga));
         hitungtotal();
     }
 
@@ -214,14 +225,16 @@
     }
 
     function getItem(id, urutan) {
-        //     $.ajax({
-        //         url: "<?= base_url('pengadaan/get_satuan/') ?>" + id.value,
-        //         type: "post",
-        //         dataType: 'JSON',
-        //         success: function(data) {
-        //             $('#satuan-' + urutan).html(data.satuan);
-        //         }
-        //     });
+        $.ajax({
+            url: "<?= base_url('penjualan/get_item/') ?>" + id.value,
+            type: "post",
+            dataType: 'JSON',
+            success: function(data) {
+                console.log(data);
+                $('#stock-' + urutan).val(addCommas(data.stock));
+                $('#harga_jual-' + urutan).val(addCommas(data.harga_jual));
+            }
+        });
     }
 
     function hitung_tunai() {

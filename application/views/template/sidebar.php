@@ -83,6 +83,8 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
+                <li class="nav-header">MENU</li>
+                <hr class="mt-0 mb-0">
                 <?php $menu = $this->db->get_where('menus', ['parent_id' => 0])->result(); ?>
                 <?php foreach ($menu as $key => $value) { ?>
                     <?php if ($value->link == '#' || $value->link == '') {  ?>

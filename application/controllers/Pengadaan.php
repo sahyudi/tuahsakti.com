@@ -3,6 +3,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Pengadaan extends CI_Controller
 {
+    public $pengadaan = 'pengadaan';
+    public $pengadaan_detail = 'pengadaan_detail';
+    public $vendor = 'vendor';
+    public $material = 'material';
+
     public function __construct()
     {
         parent::__construct();
@@ -36,39 +41,54 @@ class Pengadaan extends CI_Controller
 
     function save()
     {
+        $this->db->trans_begin();
+
+        // data pengadaan
         $date = date('Y-m-d H:i:s');
         $tanggal = $this->input->post('tanggal');
-        $nota = $this->input->post('no_nota');
+        $nota = 'PE' . time();
         $vendor = $this->input->post('vendor');
         $ket = $this->input->post('keterangan');
         $surat_jalan = $this->input->post('surat_jalan');
+        $kredit = $this->input->post('kredit');
+
+        // detail item
         $item = $this->input->post('item');
         $qty = $this->input->post('qty');
         $harga_beli = $this->input->post('harga_beli');
-        $kredit = $this->input->post('kredit');
+        $upah = $this->input->post('upah');
 
+        $data_pengadaan = [
+            'surat_jalan' => $surat_jalan,
+            'no_nota' => $nota,
+            'vendor_id' => $vendor,
+            'tanggal' => $tanggal,
+            'keterangan' => $ket,
+            'created_at' => $date,
+            'created_user' => $user = $this->session->userdata('id')
+        ];
 
-        $data_pengadaan = [];
+        $this->db->insert($this->pengadaan, $data_pengadaan);
+        $pengadaan_id = $this->db->insert_id();
+
+        $detail = [];
         for ($i = 0; $i < count($item); $i++) {
             $quantity =  str_replace(",", "", $qty[$i]);
             $material = $this->m_material->get_material($item[$i])->row();
-            $data_pengadaan[] = [
-                'surat_jalan' => $surat_jalan,
-                'no_nota' => $nota,
-                'vendor_id' => $vendor,
-                'tanggal' => $tanggal,
+
+            $detail[] = [
+                'pengadaan_id' => $pengadaan_id,
                 'material_id' => $item[$i],
                 'qty' => $quantity,
                 'harga_beli' => str_replace(",", "", $harga_beli[$i]),
                 'satuan' => $material->satuan,
-                'keterangan' => $ket,
+                'upah' => ($upah[$i]) ? $upah[$i] : 0,
+                'ket_detail' => 'Pengadaan nomor ' . $nota,
                 'stock_updated' => $quantity + $material->stock,
-                'created_at' => $date,
-                'created_user' => $user = $this->session->userdata('id')
+                'created_at' => $date
             ];
         }
 
-        $this->db->trans_begin();
 
         if ($kredit != 0) {
             $saldo_hutang = [
@@ -81,7 +101,8 @@ class Pengadaan extends CI_Controller
             $this->db->insert('saldo_hutang', $saldo_hutang);
         }
 
-        $this->db->insert_batch('pengadaan', $data_pengadaan);
+        $this->db->insert_batch('pengadaan_detail', $detail);
+
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
         } else {
