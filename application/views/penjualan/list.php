@@ -33,8 +33,8 @@
                                     <th>No</th>
                                     <th>Transaksi ID</th>
                                     <th>Material / Satuan</th>
-                                    <th>Harga Jual</th>
                                     <th>Quantity</th>
+                                    <th>Harga Jual</th>
                                     <th>Sub Total</th>
                                     <th>Keterangan</th>
                                     <th>Action</th>
@@ -48,10 +48,10 @@
                                         <td class="text-center"><?= $key + 1 ?></td>
                                         <td><?= $value->transaksi_id ?></td>
                                         <td><?= $value->item . " (" . $value->satuan . ")" ?></td>
-                                        <td class="text-right">Rp. <?= number_format($value->harga_jual, 0) ?></td>
                                         <td class="text-center"><?= number_format($value->qty, 0) ?></td>
+                                        <td class="text-right">Rp. <?= number_format($value->harga_jual, 0) ?></td>
                                         <td class="text-right">Rp. <?= number_format($value->harga_jual * $value->qty, 0) ?></td>
-                                        <td class="text-center"><?= $value->keterangan ?></td>
+                                        <td><?= $value->ket_detail ?></td>
                                         <td class="text-right">
                                             <a href="<?= base_url('pengadaan/delete/') . $value->id ?>" onclick="return validation()" class="btn btn-sm btn-danger"><i class="fas fa-fw fa-trash"></i></a>
                                             <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-material" class="btn btn-sm btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
@@ -59,6 +59,13 @@
                                     </tr>
                                 <?php } ?>
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5" class="text-bold text-right">Total</td>
+                                    <td class="text-bold text-right">Rp. <?= number_format($sub_total, 0) ?></td>
+                                    <td colspan="2"></td>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>

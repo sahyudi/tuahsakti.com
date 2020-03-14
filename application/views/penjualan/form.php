@@ -32,7 +32,7 @@
                         </div>
                     </div>
                     <!-- /.card-header -->
-                    <form action="<?= base_url('pengadaan/save') ?>" method="POST" enctype="multipart/form-data">
+                    <form action="<?= base_url('penjualan/save') ?>" method="POST" enctype="multipart/form-data">
                         <div class="card-body">
                             <div class="row">
                                 <!-- <div class="col-md-6"> -->
@@ -46,7 +46,7 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="">Costumer</label>
-                                    <input type="text" name="customer" id="customer" class="form-control" placeholder="No nota" style="background-color: white;">
+                                    <input type="text" name="customer" id="customer" class="form-control" placeholder="Costumer" style="background-color: white;">
                                 </div>
                             </div>
 
@@ -71,7 +71,7 @@
                                         <tr class="material" id="material-0">
                                             <td>
                                                 <select onchange="getItem(this,0)" class="form-control form-item" id="item-0" name="item[]">
-                                                    <option value="0" disabled>SELECT ITEM</option>
+                                                    <option value="0">SELECT ITEM</option>
                                                     <?php foreach ($material as $key => $value) { ?>
                                                         <option value="<?= $value->id ?>"><?= $value->nama . " / " . $value->satuan ?></option>
                                                     <?php } ?>
@@ -79,8 +79,8 @@
                                             </td>
                                             <td><input type="text" class="form-control form-stock text-right" name="stock[]" id="stock-0" readonly></td>
                                             <td><input type="number" class="form-control form-qty text-right" name="qty[]" id="qty-0" onchange="hitung_sub_total(0)" onkeyup="hitung_sub_total(0)"></td>
-                                            <td><input type="text" class="form-control form-harga_jual text-right" name="harga_jual[]" id="harga_jual-0" onkeyup="hitung_sub_total(0)"></td>
-                                            <td><input type="text" class="form-control form-sub_total text-right" name="sub_total[]" id="sub_total-0" readonly></td>
+                                            <td><input type="text" class="form-control form-harga_jual text-right" name="harga_jual[]" id="harga_jual-0" readonly></td>
+                                            <td><input type="text" class="form-control form-sub_total text-right" name="sub_total[]" id="sub_total-0" value="0" readonly></td>
                                             <td><input type="text" class="form-control form-upah text-right" name="upah[]" id="upah-0" value="0" readonly></td>
                                             <td><input type="text" class="form-control form-sub_upah text-right" name="sub_upah[]" id="sub_upah-0" value="0" readonly></td>
                                             <td class="for-button">
@@ -90,7 +90,7 @@
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td colspan="3" class="text-right">TOTAL</td>
+                                            <td colspan="4" class="text-right">TOTAL</td>
                                             <td class="text-right">Rp. <span id="total"></span></td>
                                         </tr>
                                     </tfoot>
@@ -148,11 +148,11 @@
         }).val(0);
         $('#' + id + ' .form-qty').attr({
             'id': 'qty-' + rangeId,
-            'onkeyup': 'hitung_sub_total(' + rangeId + ')'
+            'onkeyup': 'hitung_sub_total(' + rangeId + ')',
+            'onchange': 'hitung_sub_total(' + rangeId + ')'
         }).val(0);
         $('#' + id + ' .form-harga_jual').attr({
             'id': 'harga_jual-' + rangeId,
-            'onkeyup': 'hitung_sub_total(' + rangeId + ')'
         }).val(0);
         $('#' + id + ' .form-sub_total').attr({
             'id': 'sub_total-' + rangeId
@@ -178,7 +178,9 @@
         const stock = parseInt($('#stock-' + id).val().replace(/\,/g, ''));
         const qty_awal = parseInt($('#qty-' + id).val().replace(/\,/g, ''));
         const harga = parseInt($('#harga_jual-' + id).val().replace(/\,/g, ''));
-        if (qty_awal > stock) {
+        if (qty_awal < 1 || qty_awal == 'NaN') {
+            var qty = 1;
+        } else if (qty_awal > stock) {
             var qty = stock;
         } else {
             var qty = qty_awal;
@@ -230,11 +232,15 @@
             type: "post",
             dataType: 'JSON',
             success: function(data) {
-                console.log(data);
                 $('#stock-' + urutan).val(addCommas(data.stock));
+                $('#qty-' + urutan).val(1);
                 $('#harga_jual-' + urutan).val(addCommas(data.harga_jual));
             }
         });
+        // console.log(urutan)
+        setTimeout(function() {
+            hitung_sub_total(urutan);
+        }, 200);
     }
 
     function hitung_tunai() {

@@ -15,7 +15,7 @@ class M_penjualan extends CI_Model
 
     public function get_data()
     {
-        $this->db->select('a.*, m.satuan, m.nama as item');
+        $this->db->select('a.*, m.satuan, m.nama as item, d.*');
         $this->db->join($this->penjualan_detail . ' as d', 'a.id = d.penjualan_id', 'left');
         $this->db->join($this->material . ' as m', 'm.id = d.material_id', 'left');
         $data = $this->db->get($this->penjualan . ' as a');

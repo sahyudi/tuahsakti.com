@@ -31,6 +31,7 @@ class Penjualan extends CI_Controller
     function form()
     {
         $data['material'] = $this->m_material->get_material_penjualan()->result();
+
         $data['active'] = 'Penjualan';
         $data['title'] = 'Form';
         $data['subview'] = 'penjualan/form';
@@ -42,7 +43,7 @@ class Penjualan extends CI_Controller
         $this->db->trans_begin();
 
         $date = date('Y-m-d H:i:s');
-        $nota = 'TE' . time();
+        $nota = 'TR' . time();
         $tanggal = $this->input->post('tanggal');
         $ket = $this->input->post('keterangan');
         $kredit = $this->input->post('kredit');
@@ -53,7 +54,7 @@ class Penjualan extends CI_Controller
         $qty = $this->input->post('qty');
         $harga_jual = $this->input->post('harga_jual');
 
-        $data_pengadaan[] = [
+        $data_pengadaan = [
             'transaksi_id' => $nota,
             'tanggal' => $tanggal,
             'keterangan' => $ket,
@@ -61,7 +62,7 @@ class Penjualan extends CI_Controller
             'created_user' => $user = $this->session->userdata('id')
         ];
 
-        $this->db->insert($this->penjualan);
+        $this->db->insert($this->penjualan, $data_pengadaan);
         $penjualan_id = $this->db->insert_id();
 
         $detail = [];
@@ -97,6 +98,7 @@ class Penjualan extends CI_Controller
         // }
 
         $this->db->insert_batch('penjualan_detail', $detail);
+
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
         } else {
