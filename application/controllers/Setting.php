@@ -31,6 +31,26 @@ class Setting extends CI_Controller
         }
     }
 
+    function add_menu()
+    {
+        $id = $this->input->post('id');
+        $data = [
+            'parent_id' => $this->input->post('parent'),
+            'title' => $this->input->post('title'),
+            'link' => $this->input->post('link'),
+            'icon' => $this->input->post('icon')
+        ];
+
+        if ($id) {
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Success update menu!</div>');
+            $this->db->update('menus', $data, ['id' => $id]);
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Success add menu!</div>');
+            $this->db->insert('menus', $data);
+        }
+        redirect('setting/menu');
+    }
+
     function users()
     {
         $data['active'] = 'setting/users';

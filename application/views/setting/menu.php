@@ -23,7 +23,7 @@
         <div class="row">
             <div class="col-12">
                 <!-- /.card -->
-
+                <?= $this->session->flashdata('message'); ?>
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Data Vedor</h3>
@@ -79,13 +79,13 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?= base_url('setting/addMenu') ?>" id="form-menu" method="post" enctype="multipart/form-data">
+            <form action="<?= base_url('setting/add_menu') ?>" id="form-menu" method="post" enctype="multipart/form-data">
                 <input type="hidden" id="id" name="id">
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="">Parent Menu</label>
                         <select name="parent" id="parent" class="form-control select2">
-                            <option value="0">Parent ID</option>
+                            <option value="0" selected>Parent ID</option>
                             <?php foreach ($parent as $key => $value) { ?>
                                 <option value="<?= $value->id ?>"><?= $value->title ?></option>
                             <?php } ?>
@@ -127,9 +127,13 @@
         });
     });
 
+    function clear_form() {
+        $('#form-menu')[0].reset();
+    }
+
     $('.btn-edit').click(function() {
         const id = $(this).data('id');
-        $('#form-menu')[0].reset();
+        // $('#form-menu')[0].reset();
         $.ajax({
             url: "<?= base_url() . 'setting/get_menu/'; ?>" + id,
             async: false,

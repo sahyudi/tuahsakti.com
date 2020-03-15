@@ -47,9 +47,9 @@ class Material extends CI_Controller
         } else {
             $this->db->trans_commit();
         }
-
         redirect('material');
     }
+
 
     function delete($id)
     {
@@ -59,11 +59,21 @@ class Material extends CI_Controller
         redirect('material');
     }
 
+
     function get_data($id)
     {
         if ($id) {
             $data = $this->m_material->get_material($id)->row();
             echo json_encode($data);
         }
+    }
+
+    function kartu_stock()
+    {
+        $data['kartu_stock'] = $this->m_material->get_kartu_stock()->result();
+        $data['active'] = 'material';
+        $data['title'] = 'Material';
+        $data['subview'] = 'material/kartu_stock';
+        $this->load->view('template/main', $data);
     }
 }
