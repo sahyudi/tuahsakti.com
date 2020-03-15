@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50626
 File Encoding         : 65001
 
-Date: 2020-03-13 17:37:46
+Date: 2020-03-15 21:49:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -107,7 +107,7 @@ CREATE TABLE `menus` (
   `icon` varchar(45) NOT NULL,
   `order_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of menus
@@ -130,6 +130,7 @@ INSERT INTO menus VALUES ('35', '0', 'Acounting', '#', 'fa-box', null);
 INSERT INTO menus VALUES ('36', '35', 'Pengajuan Dana', 'accounting/pengajuan', 'fa-circle', null);
 INSERT INTO menus VALUES ('37', '35', 'Item Pengajuan', 'accounting/item', 'fa-circle', null);
 INSERT INTO menus VALUES ('38', '35', 'Hutang', 'accounting/saldo_hutang', 'fa-circle', null);
+INSERT INTO menus VALUES ('39', '24', 'Kartu Stock', 'material/kartu_stock', 'fa-circle', null);
 
 -- ----------------------------
 -- Table structure for `outlet`
@@ -268,11 +269,12 @@ CREATE TABLE `penjualan` (
   `created_at` varchar(23) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `created_user` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of penjualan
 -- ----------------------------
+INSERT INTO penjualan VALUES ('1', '2020-03-15', 'TE158422870', null, null, '2020-03-15 06:31:47', '2');
 
 -- ----------------------------
 -- Table structure for `penjualan_detail`
@@ -293,10 +295,31 @@ CREATE TABLE `penjualan_detail` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `material_id` (`material_id`) USING BTREE,
   CONSTRAINT `penjualan_detail_ibfk_1` FOREIGN KEY (`material_id`) REFERENCES `material` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=COMPACT;
 
 -- ----------------------------
 -- Records of penjualan_detail
+-- ----------------------------
+INSERT INTO penjualan_detail VALUES ('1', '1', '8', '25', '70000', 'Sak', '0', 'Penjualan nomor TE1584228707', '75', '2020-03-15 06:31:47', '2');
+INSERT INTO penjualan_detail VALUES ('2', '1', '23', '2', '250000', 'Kubik', '0', 'Penjualan nomor TE1584228707', '0', '2020-03-15 06:31:47', '2');
+
+-- ----------------------------
+-- Table structure for `piutang_detail`
+-- ----------------------------
+DROP TABLE IF EXISTS `piutang_detail`;
+CREATE TABLE `piutang_detail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `saldo_id` int(30) NOT NULL,
+  `debit` varchar(30) NOT NULL,
+  `kredit` varchar(30) NOT NULL,
+  `saldo_updated` varchar(30) NOT NULL,
+  `update_at` varchar(30) NOT NULL,
+  `created_user` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of piutang_detail
 -- ----------------------------
 
 -- ----------------------------
@@ -319,6 +342,25 @@ CREATE TABLE `saldo_hutang` (
 INSERT INTO saldo_hutang VALUES ('42', 'PE1584092895', '1', '9000000', '2020-03-13 16:48:15', '2');
 
 -- ----------------------------
+-- Table structure for `saldo_piutang`
+-- ----------------------------
+DROP TABLE IF EXISTS `saldo_piutang`;
+CREATE TABLE `saldo_piutang` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `no_nota` varchar(30) NOT NULL,
+  `vendor_id` int(11) DEFAULT NULL,
+  `saldo` varchar(30) NOT NULL,
+  `updated_at` varchar(30) NOT NULL,
+  `created_user` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of saldo_piutang
+-- ----------------------------
+INSERT INTO saldo_piutang VALUES ('42', 'PE1584092895', '1', '9000000', '2020-03-13 16:48:15', '2');
+
+-- ----------------------------
 -- Table structure for `stock`
 -- ----------------------------
 DROP TABLE IF EXISTS `stock`;
@@ -333,9 +375,9 @@ CREATE TABLE `stock` (
 -- ----------------------------
 -- Records of stock
 -- ----------------------------
-INSERT INTO stock VALUES ('1', '8', '100', '2020-03-12 04:04:04');
+INSERT INTO stock VALUES ('1', '8', '75', '2020-03-12 04:04:04');
 INSERT INTO stock VALUES ('2', '9', '0', '2020-03-12 05:05:05');
-INSERT INTO stock VALUES ('3', '23', '2', '2020-03-11 22:58:47');
+INSERT INTO stock VALUES ('3', '23', '0', '2020-03-11 22:58:47');
 
 -- ----------------------------
 -- Table structure for `users`
@@ -418,5 +460,13 @@ CREATE TRIGGER `insert_detail_pembayaran` AFTER INSERT ON `saldo_hutang` FOR EAC
 DELIMITER ;
 DELIMITER ;;
 CREATE TRIGGER `delete_detail` AFTER DELETE ON `saldo_hutang` FOR EACH ROW DELETE FROM hutang_detail WHERE saldo_id = OLD.id
+;;
+DELIMITER ;
+DELIMITER ;;
+CREATE TRIGGER `insert_detail_piutang` AFTER INSERT ON `saldo_piutang` FOR EACH ROW INSERT INTO piutang_detail (saldo_id, kredit, debit, saldo_updated, update_at, created_user) VALUES (NEW.id,NEW.saldo,0,NEW.saldo,NEW.updated_at,NEW.created_user)
+;;
+DELIMITER ;
+DELIMITER ;;
+CREATE TRIGGER `delete_detail_piutang` AFTER DELETE ON `saldo_piutang` FOR EACH ROW DELETE FROM piutang_detail WHERE saldo_id = OLD.id
 ;;
 DELIMITER ;
