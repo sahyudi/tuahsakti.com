@@ -202,6 +202,7 @@
         } else {
             return_harga = 0;
         }
+
         $('#qty-' + id).val(addCommas(qty));
         $('#harga_jual-' + id).val(addCommas(return_harga));
         hitungtotal();
@@ -222,8 +223,7 @@
         }
         $('#total').html(addCommas(sumHarga));
         const kredit = sumHarga - $('#tunai').val().replace(/\,/g, '');
-        $('#kredit').val(addCommas(kredit))
-        // console.log(sumHarga);
+        $('#kredit').val(addCommas(kredit));
     }
 
     function getItem(id, urutan) {

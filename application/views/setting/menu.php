@@ -27,7 +27,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Data Vedor</h3>
-                        <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#modal-vendor"><i class="fas fa-fw fa-plus"></i> Add Menu</a>
+                        <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#modal-menu"><i class="fas fa-fw fa-plus"></i> Add Menu</a>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -46,7 +46,7 @@
                                 <?php foreach ($menu as $key => $value) { ?>
                                     <tr>
                                         <td class="text-center"><?= $key + 1 ?></td>
-                                        <td><?= $value->parent_id ?></td>
+                                        <td><?= get_parent_menu($value->parent_id) ?></td>
                                         <td><?= $value->title ?></td>
                                         <td><?= $value->link ?></td>
                                         <td><?= $value->icon ?></td>
@@ -83,22 +83,25 @@
                 <input type="hidden" id="id" name="id">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Nama</label>
-                        <input type="text" name="nama" id="nama" class="form-control" placeholder="Nama menu">
+                        <label for="">Parent Menu</label>
+                        <select name="parent" id="parent" class="form-control select2">
+                            <option value="0">Parent ID</option>
+                            <?php foreach ($parent as $key => $value) { ?>
+                                <option value="<?= $value->id ?>"><?= $value->title ?></option>
+                            <?php } ?>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1">No Telp</label>
-                        <input type="text" name="no_telp" id="no_telp" class="form-control" placeholder="No Telepon">
+                        <label for="exampleInputEmail1">Title</label>
+                        <input type="text" name="title" id="title" class="form-control" placeholder="title menu">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Alamat</label>
-                        <textarea name="alamat" id="alamat" class="form-control" cols="3" placeholder="Alamat"></textarea>
+                        <label for="exampleInputPassword1">Url Menu</label>
+                        <input type="text" name="link" id="link" class="form-control" placeholder="Url ..">
                     </div>
                     <div class="form-group">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="is_active" name="is_active" value="1">
-                            <label class="form-check-label">Aktif</label>
-                        </div>
+                        <label for="exampleInputPassword1">Icon Menu</label>
+                        <input name="icon" id="icon" class="form-control" placeholder="Icon Menu ...">
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
@@ -126,23 +129,19 @@
 
     $('.btn-edit').click(function() {
         const id = $(this).data('id');
-        // alert(id);
+        $('#form-menu')[0].reset();
         $.ajax({
-            url: "<?= base_url() . 'vendor/get_data/'; ?>" + id,
+            url: "<?= base_url() . 'setting/get_menu/'; ?>" + id,
             async: false,
             type: 'POST',
             dataType: 'json',
             success: function(data) {
                 console.log(data);
                 $('#id').val(data.id);
-                $('#nama').val(data.nama);
-                $('#no_telp').val(data.no_telp);
-                $('#alamat').val(data.alamat);
-                if (data.is_active == 1) {
-                    $('#is_active').attr('checked', 'checked');
-                } else {
-                    $('#is_active').removeAttr('checked');
-                }
+                $('#parent').val(data.parent_id);
+                $('#title').val(data.title);
+                $('#link').val(data.link);
+                $('#icon').val(data.icon);
             }
         });
     });

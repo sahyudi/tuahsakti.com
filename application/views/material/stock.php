@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Material</h1>
+                    <h1 class="m-0 text-dark">Stock Material</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -26,7 +26,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Data Material</h3>
+                        <h3 class="card-title">Data Stock Material</h3>
                         <a href="#" class="btn btn-primary float-right" data-toggle="modal" onclick="reset_form()" data-target="#modal-material"><i class="fas fa-fw fa-plus"></i> Add Material</a>
                     </div>
                     <!-- /.card-header -->
@@ -36,8 +36,8 @@
                                 <tr class="text-center">
                                     <th>No</th>
                                     <th>Material / Satuan</th>
-                                    <th>Harga Jual</th>
                                     <th>Quantity</th>
+                                    <th>Harga Jual</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -46,8 +46,8 @@
                                     <tr>
                                         <td class="text-center"><?= $key + 1 ?></td>
                                         <td><?= $value->nama . " (" . $value->satuan . ")" ?></td>
-                                        <td class="text-center"><?= number_format($value->harga_jual, 0) ?></td>
                                         <td class="text-center"><?= number_format($value->stock, 0) ?></td>
+                                        <td class="text-right">Rp. <?= number_format($value->harga_jual, 0) ?></td>
                                         <td class="text-right">
                                             <a href="<?= base_url('material/delete/') . $value->id ?>" onclick="return validation()" class="btn btn-sm btn-danger"><i class="fas fa-fw fa-trash"></i></a>
                                             <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-material" class="btn btn-sm btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>

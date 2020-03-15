@@ -32,7 +32,7 @@
                 <?= $this->session->flashdata('message'); ?>
                 <form action="<?= base_url('auth') ?>" method="post">
                     <div class="input-group">
-                        <input type="text" name="email" id="email" class="form-control" placeholder="Username" value="<?= set_value('email') ?>">
+                        <input type="text" name="email" id="email" class="form-control" placeholder="Username" value="<?= set_value('email') ?>" autofocus>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
@@ -50,14 +50,7 @@
                     </div>
                     <?= form_error('password', '<small class="text-danger mb-3">', '</small>'); ?>
                     <div class="row mt-3">
-                        <div class="col-8">
-                            <!-- <div class="icheck-primary">
-                                <input type="checkbox" id="remember">
-                                <label for="remember">
-                                    Remember Me
-                                </label>
-                            </div> -->
-                        </div>
+                        <div class="col-8"></div>
                         <!-- /.col -->
                         <div class="col-4">
                             <button type="submit" class="btn btn-primary btn-block ">Log In</button>

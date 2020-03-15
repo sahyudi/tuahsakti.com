@@ -17,7 +17,7 @@ class Material extends CI_Controller
         $data['material'] = $this->m_material->get_material()->result();
         $data['active'] = 'material';
         $data['title'] = 'Material';
-        $data['subview'] = 'material/list';
+        $data['subview'] = 'material/stock';
         $this->load->view('template/main', $data);
     }
 
