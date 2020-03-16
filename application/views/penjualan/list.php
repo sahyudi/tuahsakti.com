@@ -27,7 +27,7 @@
                         <a href="<?= base_url('penjualan/form') ?>" class="btn btn-primary float-right"><i class="fas fa-fw fa-plus"></i> Add Penjualan</a>
                     </div>
                     <div class="card-body">
-                        <table id="table-penjualan" class="table table-bordered table-striped wrapper">
+                        <table id="table-penjualan" class="table table-bordered table-striped">
                             <thead>
                                 <tr class="text-center">
                                     <th>No</th>

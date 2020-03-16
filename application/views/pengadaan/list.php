@@ -27,43 +27,47 @@
                         <a href="<?= base_url('pengadaan/form') ?>" class="btn btn-primary float-right"><i class="fas fa-fw fa-plus"></i> Add Material</a>
                     </div>
                     <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped wrapper">
-                            <thead>
-                                <tr class="text-center">
-                                    <th>No</th>
-                                    <th>Surat jalan</th>
-                                    <th>Nota</th>
-                                    <th>Vendor</th>
-                                    <th>Material / Satuan</th>
-                                    <th>Quantity</th>
-                                    <th>Harga Beli</th>
-                                    <th>Sub Total</th>
-                                    <th>Keterangan</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $sub_total = 0 ?>
-                                <?php foreach ($pengadaan as $key => $value) { ?>
-                                    <?php $sub_total += $value->harga_beli * $value->qty ?>
-                                    <tr>
-                                        <td class="text-center"><?= $key + 1 ?></td>
-                                        <td><?= $value->surat_jalan ?></td>
-                                        <td><?= $value->no_nota ?></td>
-                                        <td><?= $value->vendor ?></td>
-                                        <td><?= $value->nama . " (" . $value->satuan . ")" ?></td>
-                                        <td class="text-center"><?= number_format($value->qty, 0) ?></td>
-                                        <td class="text-right">Rp. <?= number_format($value->harga_beli, 0) ?></td>
-                                        <td class="text-right">Rp. <?= number_format($value->harga_beli * $value->qty, 0) ?></td>
-                                        <td class="text-left"><?= $value->keterangan ?></td>
-                                        <td class="text-right">
-                                            <a href="<?= base_url('pengadaan/delete/') . $value->id ?>" onclick="return validation()" class="btn btn-sm btn-danger"><i class="fas fa-fw fa-trash"></i></a>
-                                            <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-material" class="btn btn-sm btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
-                                        </td>
+                        <div class="table">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th>No</th>
+                                        <th>Surat jalan</th>
+                                        <th>Nota</th>
+                                        <th>Vendor</th>
+                                        <th>Material / Satuan</th>
+                                        <th>Quantity</th>
+                                        <th>Harga Beli</th>
+                                        <th>Sub Total</th>
+                                        <th>Keterangan</th>
+                                        <th>Action</th>
                                     </tr>
-                                <?php } ?>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <?php $sub_total = 0 ?>
+                                    <?php foreach ($pengadaan as $key => $value) { ?>
+                                        <?php $sub_total += $value->harga_beli * $value->qty ?>
+                                        <tr>
+                                            <td class="text-center"><?= $key + 1 ?></td>
+                                            <td><?= $value->surat_jalan ?></td>
+                                            <td><?= $value->no_nota ?></td>
+                                            <td><?= $value->vendor ?></td>
+                                            <td><?= $value->nama . " (" . $value->satuan . ")" ?></td>
+                                            <td class="text-center"><?= number_format($value->qty, 0) ?></td>
+                                            <td class="text-right">Rp. <?= number_format($value->harga_beli, 0) ?></td>
+                                            <td class="text-right">Rp. <?= number_format($value->harga_beli * $value->qty, 0) ?></td>
+                                            <td class="text-left"><?= $value->keterangan ?></td>
+                                            <td class="text-right">
+                                                <a href="<?= base_url('pengadaan/delete/') . $value->id ?>" onclick="return validation()" class="btn btn-sm btn-danger"><i class="fas fa-fw fa-trash"></i></a>
+                                                <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-material" class="btn btn-sm btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                            <hr>
+                        </div>
+
                     </div>
                 </div>
             </div>
