@@ -1,3 +1,9 @@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.4/select2.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.4/select2-bootstrap.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.4/select2.min.js"></script>
+<!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.3/select2.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.3/select2-bootstrap.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.3/select2.min.js"></script> -->
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <div class="content-header">
@@ -42,7 +48,7 @@
                                 </div> -->
                                 <div class="form-group col-md-6">
                                     <label>Surat Jalan</label>
-                                    <select class="form-control" name="surat_jalan" id="surat_jalan">
+                                    <select class="form-control select2" style="width:100%;" name="surat_jalan" id="surat_jalan">
                                         <option value=""></option>
                                         <?php foreach ($momor_pengjuan as $key => $value) { ?>
                                             <option value="<?= $value->datetime ?>"><?= $value->datetime ?></option>
@@ -87,7 +93,7 @@
                                         <input type="hidden" id="jumlah-baris" value="1">
                                         <tr class="material" id="material-0">
                                             <td>
-                                                <select onchange="getItem(this,0)" class="form-control form-item" id="item-0" name="item[]">
+                                                <select onchange="getItem(this,0)" class="form-control select2 form-item" id="item-0" name="item[]">
                                                     <option value=""></option>
                                                     <?php foreach ($material as $key => $value) { ?>
                                                         <option value="<?= $value->id ?>"><?= $value->nama . " / " . $value->satuan ?></option>
@@ -150,10 +156,13 @@
 <script type="text/javascript">
     $(function() {
         //Initialize Select2 Elements
-        $('.select2').select2();
+        $('.select2').select2({
+            'placeholder': 'Select one'
+        });
     });
 
     function addItem() {
+        $('.select2').select2('destroy');
         const rangeId = $('#jumlah-baris').val()
         const item = $('#material-0').first().clone();
         $('#table-material tbody').append(item);
@@ -184,10 +193,9 @@
 
         var btn = '<button href="#" onclick="hapus(' + rangeId + ')" class="btn btn-danger"><i class="fa fa-minus"></i></button>';
         $('#' + id + ' .for-button').append(btn);
-        // $('select').select2('destroy');
         $('#jumlah-baris').val(parseInt(parseInt(rangeId) + 1));
         //$(".select2").select2("destroy").select2();
-        // $(".select2").select2();
+        $(".select2").select2();
     }
 
     function hapus(params) {
