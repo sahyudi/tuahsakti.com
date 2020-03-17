@@ -123,7 +123,10 @@ class Auth extends CI_Controller
 
     public function blocked()
     {
+
+        $data['active'] = null;
         $data['title'] = 'Page Not Found';
-        $this->load->view('auth/blocked');
+        $data['subview'] = 'auth/not_found';
+        $this->load->view('template/main', $data);
     }
 }

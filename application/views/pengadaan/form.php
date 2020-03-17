@@ -153,7 +153,8 @@
     $(function() {
         //Initialize Select2 Elements
         $('.select2').select2({
-            'placeholder': 'Select one'
+            'placeholder': 'Select one',
+            theme: 'boostrap4',
         });
     });
 
