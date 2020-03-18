@@ -39,7 +39,7 @@
     <script src="<?= base_url('assets/') ?>plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap -->
     <script src="<?= base_url('assets/') ?>plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    
+
     <!-- Bootstrap4 Duallistbox -->
     <script src="<?= base_url('assets/') ?>plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
     <!-- InputMask -->
@@ -74,8 +74,10 @@
     <!-- ChartJS -->
     <script src="<?= base_url('assets/') ?>plugins/chart.js/Chart.min.js"></script>
 
-    <!-- PAGE SCRIPTS -->
-    <!-- <script src="<?= base_url('assets/') ?>dist/js/pages/dashboard2.js"></script> -->
+    <!-- select2 -->
+    <link href="<?= base_url('assets/plugins/select2-3.5.3/select2.css') ?>" rel="stylesheet" />
+    <link href="<?= base_url('assets/plugins/select2-3.5.3/select2-bootstrap.css') ?>" rel="stylesheet" />
+    <script src="<?= base_url('assets/plugins/select2-3.5.3/select2.min.js') ?>"></script>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">

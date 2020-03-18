@@ -15,7 +15,14 @@
 <!-- ./wrapper -->
 
 <!-- page script -->
-
+<script type="text/javascript">
+    $(function() {
+        //Initialize Select2 Elements
+        $('.select2').select2({
+            'placeholder': 'Select One'
+        });
+    });
+</script>
 </body>
 
 </html>

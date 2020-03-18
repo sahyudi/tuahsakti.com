@@ -122,10 +122,10 @@
 </div>
 
 <script type="text/javascript">
-    $(function() {
-        //Initialize Select2 Elements
-        $('.select2').select2();
-    });
+    // $(function() {
+    //     //Initialize Select2 Elements
+    //     $('.select2').select2();
+    // });
 
     function addItem() {
         const rangeId = $('#jumlah-baris').val()

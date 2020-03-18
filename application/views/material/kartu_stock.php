@@ -32,7 +32,7 @@
                             <div class="row">
                                 <div class="form-group col-md-6 float-right">
                                     <label for="">Tanggal Mulai</label>
-                                    <input type="date" class="form-control" name="start_date" id="start_date" value="<?= time() ?>" style="background-color: white;" readonly>
+                                    <input type="date" class="form-control" name="start_date" id="start_date" style="background-color: white;">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="">Tanggal Selesai</label>

@@ -31,7 +31,7 @@ class M_material extends CI_Model
         return $data;
     }
 
-    function get_kartu_stock($id = null)
+    function get_kartu_stock($start_date, $end_date, $material_id = null)
     {
         $this->db->select(" ('in')AS tipe,
                                 B1.tanggal AS tanggal,
@@ -45,9 +45,9 @@ class M_material extends CI_Model
         $this->db->from("pengadaan_detail A1");
         $this->db->join("pengadaan B1", "A1.pengadaan_id = B1.id");
         $this->db->join("material C1", "A1.material_id = C1.id");
-        if ($id) {
-            $this->db->where("A1.material_id", $id);
-        }
+        $this->db->where("B1.tanggal >= ", $start_date);
+        $this->db->where("B1.tanggal <= ", $end_date);
+        $this->db->where("A1.material_id", $material_id);
         $query_1 = $this->db->get_compiled_select();
 
 
@@ -63,9 +63,9 @@ class M_material extends CI_Model
         $this->db->from("penjualan_detail A2");
         $this->db->join("penjualan B2", "A2.penjualan_id = B2.id");
         $this->db->join("material C2", "A2.material_id = C2.id");
-        if ($id) {
-            $this->db->where("A2.material_id", $id);
-        }
+        $this->db->where("B2.tanggal >= ", $start_date);
+        $this->db->where("B2.tanggal <= ", $end_date);
+        $this->db->where("A2.material_id", $material_id);
         $query_2 = $this->db->get_compiled_select();
 
         $final_query = $this->db->query($query_1 . ' UNION ' . $query_2);

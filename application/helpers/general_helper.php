@@ -13,3 +13,14 @@ function get_parent_menu($id)
         return 'Parent Menu';
     }
 }
+
+function log_r($string = null, $var_dump = false)
+{
+    if ($var_dump) {
+        var_dump($string);
+    } else {
+        echo "<pre>";
+        print_r($string);
+    }
+    exit;
+}

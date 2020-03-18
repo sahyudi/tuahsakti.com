@@ -85,13 +85,23 @@
                 <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
                 <li class="nav-header">MENU</li>
                 <hr class="mt-0 mb-0">
-                <?php $menu = $this->db->get_where('menus', ['parent_id' => 0])->result(); ?>
+                <?php
+                $menu = $this->db->get_where('menus', ['parent_id' => 0])->result();
+                foreach ($menu as $key => $value) {
+                    $list = $this->db->get_where('menus', ['parent_id' => $value->id])->result();
+                    foreach ($list as $sub => $list_menu) {
+                        if ($list_menu->link == $active) {
+                            $parent = $list_menu->parent_id;
+                        }
+                    }
+                }
+                ?>
                 <?php foreach ($menu as $key => $value) { ?>
                     <?php if ($value->link == '#' || $value->link == '') {  ?>
                         <!-- <li class="nav-item has-treeview menu-open"> -->
-                        <li class="nav-item has-treeview">
+                        <li class="nav-item has-treeview <?= ($parent == $value->id) ? 'menu-open' : '' ?>">
                             <!-- <a href="#" class="nav-link active"> -->
-                            <a href="#" class="nav-link">
+                            <a href="#" class="nav-link <?= ($parent == $value->id) ? 'active' : '' ?> ">
                                 <i class="nav-icon fas fa-fw <?= $value->icon ?>"></i>
                                 <p>
                                     <?= $value->title ?>
