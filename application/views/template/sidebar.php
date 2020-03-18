@@ -86,6 +86,7 @@
                 <li class="nav-header">MENU</li>
                 <hr class="mt-0 mb-0">
                 <?php
+                $parent = 0;
                 $menu = $this->db->get_where('menus', ['parent_id' => 0])->result();
                 foreach ($menu as $key => $value) {
                     $list = $this->db->get_where('menus', ['parent_id' => $value->id])->result();
