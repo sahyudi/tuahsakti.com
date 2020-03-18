@@ -51,7 +51,7 @@
                                         <td><?= $value->link ?></td>
                                         <td><?= $value->icon ?></td>
                                         <td class="text-right">
-                                            <a href="<?= base_url('setting/deleteMenu/') . $value->id ?>" class="btn btn-sm btn-danger"><i class="fas fa-fw fa-trash"></i></a>
+                                            <a href="<?= base_url('setting/deleteMenu/') . $value->id ?>" class="btn btn-sm btn-danger" onclick="return confirm_delete()"><i class="fas fa-fw fa-trash"></i></a>
                                             <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-menu" class="btn btn-sm btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
                                         </td>
                                     </tr>
@@ -126,6 +126,10 @@
             "autoWidth": false,
         });
     });
+
+    function confirm_delete() {
+        return confirm('Apakah anda yakin akan mengahapus menu ini ?');
+    }
 
     function clear_form() {
         $('#form-menu')[0].reset();

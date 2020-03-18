@@ -51,6 +51,21 @@ class Setting extends CI_Controller
         redirect('setting/menu');
     }
 
+    function deleteMenu($id)
+    {
+        if ($id) {
+            $data = $this->db->delete('menus', ['id' => $id]);
+            if ($data) {
+                $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Success delete menu!</div>');
+            } else {
+                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">failed delete menu!</div>');
+            }
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Data is not found!</div>');
+        }
+        redirect('setting/menu');
+    }
+
     function users()
     {
         $data['active'] = 'setting/users';
