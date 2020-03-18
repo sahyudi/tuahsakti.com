@@ -22,7 +22,39 @@
     <section class="content">
         <div class="row">
             <div class="col-12">
-                <!-- /.card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Form Pencarian Data</h3>
+                    </div>
+
+                    <form action="<?= base_url('material/kartu_stock') ?>" method="post" enctype="multipart/form-data" id="fom-kartu-stock">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="form-group col-md-6 float-right">
+                                    <label for="">Tanggal Mulai</label>
+                                    <input type="date" class="form-control" name="start_date" id="start_date" value="<?= time() ?>" style="background-color: white;" readonly>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="">Tanggal Selesai</label>
+                                    <input type="date" class="form-control" name="end_date" id="end_date" placeholder="Tujuan">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="">Material</label>
+                                    <select name="material" id="material" class="form-control select2">
+                                        <option value=""></option>
+                                        <?php foreach ($material as $key => $value) { ?>
+                                            <option value="<?= $value->id ?>"><?= $value->nama ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="<?= base_url('material') ?>" class="btn btn-danger float-left"> Back</a>
+                            <button type="submit" class="btn btn-primary float-right"><i class="fas fa-fw fa-save"></i> Back</button>
+                        </div>
+                    </form>
+                </div>
 
                 <div class="card">
                     <div class="card-header">
@@ -54,35 +86,40 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php
-                                $sub_total = 0;
-                                $total = 0;
-                                ?>
-                                <?php foreach ($kartu_stock as $key => $value) { ?>
-                                    <?php $sub_total = $value->quantity * $value->harga ?>
-                                    <tr>
-                                        <td class="text-center"><?= $key + 1 ?></td>
-                                        <td><?= $value->tanggal ?></td>
-                                        <td><?= $value->ket ?></td>
-                                        <td><?= $value->material . " / " . $value->satuan  ?></td>
-                                        <?php if ($value->tipe == 'in') { ?>
-                                            <td class="text-center"><?= number_format($value->quantity, 0) ?></td>
-                                            <td class="text-right">Rp. <?= number_format($value->harga, 0) ?></td>
-                                            <td class="text-right">Rp. <?= number_format($sub_total, 0) ?></td>
-                                            <td class="text-center"> - </td>
-                                            <td class="text-center"> - </td>
-                                            <td class="text-center"> - </td>
-                                        <?php } else { ?>
-                                            <td class="text-center"> - </td>
-                                            <td class="text-center"> - </td>
-                                            <td class="text-center"> - </td>
-                                            <td class="text-center"><?= number_format($value->quantity, 0) ?></td>
-                                            <td class="text-right">Rp. <?= number_format($value->harga, 0) ?></td>
-                                            <td class="text-right">Rp. <?= number_format($sub_total, 0) ?></td>
-                                        <?php } ?>
-                                        <td class="text-center"><?= $value->stockUpdate ?></td>
-                                    </tr>
-                                <?php } ?>
+                                <?php if ($kartu_stock) { ?>
+
+
+                                    <?php
+                                    $sub_total = 0;
+                                    $total = 0;
+                                    ?>
+                                    <?php foreach ($kartu_stock as $key => $value) { ?>
+                                        <?php $sub_total = $value->quantity * $value->harga ?>
+                                        <tr>
+                                            <td class="text-center"><?= $key + 1 ?></td>
+                                            <td><?= $value->tanggal ?></td>
+                                            <td><?= $value->ket ?></td>
+                                            <td><?= $value->material . " / " . $value->satuan  ?></td>
+                                            <?php if ($value->tipe == 'in') { ?>
+                                                <td class="text-center"><?= number_format($value->quantity, 0) ?></td>
+                                                <td class="text-right">Rp. <?= number_format($value->harga, 0) ?></td>
+                                                <td class="text-right">Rp. <?= number_format($sub_total, 0) ?></td>
+                                                <td class="text-center"> - </td>
+                                                <td class="text-center"> - </td>
+                                                <td class="text-center"> - </td>
+                                            <?php } else { ?>
+                                                <td class="text-center"> - </td>
+                                                <td class="text-center"> - </td>
+                                                <td class="text-center"> - </td>
+                                                <td class="text-center"><?= number_format($value->quantity, 0) ?></td>
+                                                <td class="text-right">Rp. <?= number_format($value->harga, 0) ?></td>
+                                                <td class="text-right">Rp. <?= number_format($sub_total, 0) ?></td>
+                                            <?php } ?>
+                                            <td class="text-center"><?= $value->stockUpdate ?></td>
+                                        </tr>
+                                    <?php } ?>
+
+                                <?php  } ?>
                             </tbody>
                         </table>
                     </div>

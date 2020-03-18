@@ -70,7 +70,9 @@ class Material extends CI_Controller
 
     function kartu_stock()
     {
-        $data['kartu_stock'] = $this->m_material->get_kartu_stock()->result();
+        // $data['kartu_stock'] = $this->m_material->get_kartu_stock()->result();
+        $data['kartu_stock'] = null;
+        $data['material'] = $this->m_material->get_material()->result();
         $data['active'] = 'material';
         $data['title'] = 'Material';
         $data['subview'] = 'material/kartu_stock';

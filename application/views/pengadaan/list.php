@@ -27,12 +27,13 @@
                         <a href="<?= base_url('pengadaan/form') ?>" class="btn btn-primary float-right"><i class="fas fa-fw fa-plus"></i> Add Material</a>
                     </div>
                     <div class="card-body">
-                        <div class="table">
+                        <div class="table-responsive">
                             <table id="example1" class="table table-bordered table-striped">
                                 <thead>
                                     <tr class="text-center">
                                         <th>No</th>
                                         <th>Surat jalan</th>
+                                        <th>Tanggal</th>
                                         <th>Nota</th>
                                         <th>Vendor</th>
                                         <th>Material / Satuan</th>
@@ -50,6 +51,7 @@
                                         <tr>
                                             <td class="text-center"><?= $key + 1 ?></td>
                                             <td><?= $value->surat_jalan ?></td>
+                                            <td><?= $value->tanggal ?></td>
                                             <td><?= $value->no_nota ?></td>
                                             <td><?= $value->vendor ?></td>
                                             <td><?= $value->nama . " (" . $value->satuan . ")" ?></td>
@@ -58,14 +60,13 @@
                                             <td class="text-right">Rp. <?= number_format($value->harga_beli * $value->qty, 0) ?></td>
                                             <td class="text-left"><?= $value->keterangan ?></td>
                                             <td class="text-right">
-                                                <a href="<?= base_url('pengadaan/delete/') . $value->id ?>" onclick="return validation()" class="btn btn-sm btn-danger"><i class="fas fa-fw fa-trash"></i></a>
-                                                <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-material" class="btn btn-sm btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
+                                                <a href="<?= base_url('pengadaan/delete/') . $value->id ?>" onclick="return validation()"><i class="fas fa-fw fa-trash"></i></a>
+                                                <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-material" class="btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
                                             </td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>
                             </table>
-                            <hr>
                         </div>
 
                     </div>
