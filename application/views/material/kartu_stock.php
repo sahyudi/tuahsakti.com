@@ -27,12 +27,17 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Data Stock Material</h3>
-                        <a href="#" class="btn btn-primary float-right" data-toggle="modal" onclick="reset_form()" data-target="#modal-material"><i class="fas fa-fw fa-plus"></i> Add Material</a>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
+                                <tr>
+                                    <th colspan="4"></th>
+                                    <th colspan="3" class="text-center">IN</th>
+                                    <th colspan="3" class="text-center">OUT</th>
+                                    <th colspan="2"></th>
+                                </tr>
                                 <tr class="text-center">
                                     <th>No</th>
                                     <th>Tanggal</th>
@@ -41,6 +46,10 @@
                                     <th>Quantity</th>
                                     <th>Harga</th>
                                     <th>Sub Total</th>
+                                    <th>Quantity</th>
+                                    <th>Harga</th>
+                                    <th>Sub Total</th>
+                                    <th>Sisa Stock</th>
                                     <!-- <th>Action</th> -->
                                 </tr>
                             </thead>
@@ -49,7 +58,6 @@
                                 $sub_total = 0;
                                 $total = 0;
                                 ?>
-
                                 <?php foreach ($kartu_stock as $key => $value) { ?>
                                     <?php $sub_total = $value->quantity * $value->harga ?>
                                     <tr>
@@ -57,13 +65,22 @@
                                         <td><?= $value->tanggal ?></td>
                                         <td><?= $value->ket ?></td>
                                         <td><?= $value->material . " / " . $value->satuan  ?></td>
-                                        <td class="text-center"><?= number_format($value->quantity, 0) ?></td>
-                                        <td class="text-right">Rp. <?= number_format($value->harga, 0) ?></td>
-                                        <td class="text-right">Rp. <?= number_format($sub_total, 0) ?></td>
-                                        <!-- <td class="text-right">
-                                            <a href="<?= base_url('material/delete/') . $value->id ?>" onclick="return validation()" class="btn btn-sm btn-danger"><i class="fas fa-fw fa-trash"></i></a>
-                                            <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-material" class="btn btn-sm btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
-                                        </td> -->
+                                        <?php if ($value->tipe == 'in') { ?>
+                                            <td class="text-center"><?= number_format($value->quantity, 0) ?></td>
+                                            <td class="text-right">Rp. <?= number_format($value->harga, 0) ?></td>
+                                            <td class="text-right">Rp. <?= number_format($sub_total, 0) ?></td>
+                                            <td class="text-center"> - </td>
+                                            <td class="text-center"> - </td>
+                                            <td class="text-center"> - </td>
+                                        <?php } else { ?>
+                                            <td class="text-center"> - </td>
+                                            <td class="text-center"> - </td>
+                                            <td class="text-center"> - </td>
+                                            <td class="text-center"><?= number_format($value->quantity, 0) ?></td>
+                                            <td class="text-right">Rp. <?= number_format($value->harga, 0) ?></td>
+                                            <td class="text-right">Rp. <?= number_format($sub_total, 0) ?></td>
+                                        <?php } ?>
+                                        <td class="text-center"><?= $value->stockUpdate ?></td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
