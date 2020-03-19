@@ -45,7 +45,7 @@
                                     <select class="form-control select2" style="width:100%;" name="surat_jalan" id="surat_jalan">
                                         <option value=""></option>
                                         <?php foreach ($momor_pengjuan as $key => $value) { ?>
-                                            <option value="<?= $value->datetime ?>"><?= $value->datetime ?></option>
+                                            <option value="<?= $value->no_pendanaan ?>"><?= $value->no_pendanaan ?></option>
                                         <?php } ?>
                                     </select>
                                 </div>

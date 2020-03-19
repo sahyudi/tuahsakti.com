@@ -33,8 +33,7 @@ class M_accounting extends CI_Model
     function get_nomor_pengajuan()
     {
         $this->db->select('*');
-        $this->db->group_by('datetime');
-        $data = $this->db->get('pengajuan_dana');
+        $data = $this->db->get('pendanaan');
         return $data;
     }
 
