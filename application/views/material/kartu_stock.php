@@ -50,8 +50,8 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <a href="<?= base_url('material') ?>" class="btn btn-danger float-left"> Back</a>
-                            <button type="submit" class="btn btn-primary float-right"><i class="fas fa-fw fa-save"></i> Back</button>
+                            <a href="<?= base_url('material') ?>" class="btn btn-danger float-left btn-sm"> Back</a>
+                            <button type="submit" class="btn btn-primary float-right btn-sm"><i class="fas fa-fw fa-save"></i> Back</button>
                         </div>
                     </form>
                 </div>

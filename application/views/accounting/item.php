@@ -27,7 +27,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Data Item Pengajuan</h3>
-                        <a href="#" class="btn btn-primary float-right" data-toggle="modal" onclick="reset_form()" data-target="#modal-item"><i class="fas fa-fw fa-plus"></i> Add Material</a>
+                        <a href="#" class="btn btn-primary btn-sm float-right" data-toggle="modal" onclick="reset_form()" data-target="#modal-item"><i class="fas fa-fw fa-plus"></i> Add Material</a>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -45,8 +45,8 @@
                                         <td class="text-center"><?= $key + 1 ?></td>
                                         <td><?= $value->nama ?></td>
                                         <td class="text-right">
-                                            <a href="<?= base_url('accounting/deleteItem/') . $value->id ?>" onclick="return validation()" class="btn btn-sm btn-danger"><i class="fas fa-fw fa-trash"></i></a>
-                                            <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-item" class="btn btn-sm btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
+                                            <a href="<?= base_url('accounting/deleteItem/') . $value->id ?>" onclick="return validation()" class="btn btn-xs btn-danger"><i class="fas fa-fw fa-trash"></i></a>
+                                            <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-item" class="btn btn-xs btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
                                         </td>
                                     </tr>
                                 <?php } ?>

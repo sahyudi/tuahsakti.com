@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Vendor</h1>
+                    <h1 class="m-0 text-dark">Users</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -26,8 +26,8 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Data USers</h3>
-                        <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#modal-vendor"><i class="fas fa-fw fa-plus"></i> Add Users</a>
+                        <h3 class="card-title">Data Users</h3>
+                        <a href="#" class="btn btn-primary float-right btn-sm" data-toggle="modal" data-target="#modal-vendor"><i class="fas fa-fw fa-plus"></i> Add Users</a>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -49,8 +49,8 @@
                                         <td><?= $value->email ?></td>
                                         <td class="text-center"><?= ($value->is_active == 1) ? '<label class="badge badge-success">Aktif</label>' : '<label class="badge badge-danger">Non aktif</label>' ?></td>
                                         <td class="text-right">
-                                            <a href="<?= base_url('setting/deleteMenu/') . $value->id ?>" class="btn btn-sm btn-danger"><i class="fas fa-fw fa-trash"></i></a>
-                                            <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-users" class="btn btn-sm btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
+                                            <a href="<?= base_url('setting/deleteMenu/') . $value->id ?>" class="btn btn-xs btn-danger"><i class="fas fa-fw fa-trash"></i></a>
+                                            <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-users" class="btn btn-xs btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
                                         </td>
                                     </tr>
                                 <?php } ?>

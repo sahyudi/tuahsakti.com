@@ -24,7 +24,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Data Pengadaan Material</h3>
-                        <a href="<?= base_url('pengadaan/form') ?>" class="btn btn-primary float-right"><i class="fas fa-fw fa-plus"></i> Add Material</a>
+                        <a href="<?= base_url('pengadaan/form') ?>" class="btn btn-primary float-right btn-sm"><i class="fas fa-fw fa-plus"></i> Add Pengadaan</a>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">

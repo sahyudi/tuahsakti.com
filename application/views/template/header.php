@@ -80,5 +80,11 @@
     <script src="<?= base_url('assets/plugins/select2-3.5.3/select2.min.js') ?>"></script>
 </head>
 
+<style>
+    body {
+        font-size: 12px !important;
+    }
+</style>
+
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
     <div class="wrapper">

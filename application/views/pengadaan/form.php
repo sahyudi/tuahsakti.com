@@ -110,7 +110,7 @@
                                                 <input type="text" class="form-control form-sub_upah text-right" name="sub_upah[]" id="sub_upah-0" value="0" readonly>
                                             </td>
                                             <td class="for-button">
-                                                <button type="button" class="btn btn-info btn-add" onclick="addItem()"><i class="fa fa-plus"></i></button>
+                                                <button type="button" class="btn btn-info btn-sm btn-add" onclick="addItem()"><i class="fa fa-plus"></i></button>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -136,8 +136,8 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <a href="<?= base_url('pengadaan') ?>" class="btn btn-danger float-left">Back</a>
-                            <button type="submit" class="btn btn-primary float-right">Submit</button>
+                            <a href="<?= base_url('pengadaan') ?>" class="btn btn-danger btn-sm float-left">Back</a>
+                            <button type="submit" class="btn btn-primary btn-sm float-right">Submit</button>
                         </div>
                     </form>
                 </div>

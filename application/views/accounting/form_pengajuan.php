@@ -70,7 +70,7 @@
                                                     <input type="text" class="form-control form-sub_total text-right" onkeyup="hitung_total()" name="sub_total[]" id="sub_total-0">
                                                 </td>
                                                 <td class="for-button">
-                                                    <button class="btn btn-info" onclick="addItem()" type="button"><i class="fas fa-fw fa-plus"></i></button>
+                                                    <button class="btn btn-info btn-sm" onclick="addItem()" type="button"><i class="fas fa-fw fa-plus"></i></button>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -79,8 +79,8 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <a href="<?= base_url('accounting/pengajuan') ?>" class="btn btn-danger float-left">Back <i class="fas fa-fw fa-save"></i></a>
-                            <button type="submit" class="btn btn-primary float-right">Submit <i class="fas fa-fw fa-save"></i></button>
+                            <a href="<?= base_url('accounting/pengajuan') ?>" class="btn btn-danger btn-sm float-left">Back <i class="fas fa-fw fa-save"></i></a>
+                            <button type="submit" class="btn btn-primary btn-sm float-right">Submit <i class="fas fa-fw fa-save"></i></button>
                         </div>
                     </form>
                 </div>

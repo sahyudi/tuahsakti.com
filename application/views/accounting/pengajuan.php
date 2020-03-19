@@ -27,7 +27,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Daftar Pengajuan Pendanaan</h3>
-                        <a href="<?= base_url('accounting/form_pengajuan') ?>" class="btn btn-primary float-right"><i class="fas fa-fw fa-plus"></i> Add Pengajuan</a>
+                        <a href="<?= base_url('accounting/form_pengajuan') ?>" class="btn btn-primary btn-sm float-right"><i class="fas fa-fw fa-plus"></i> Add Pengajuan</a>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -54,8 +54,8 @@
                                         <td class="text-right">Rp. <?= number_format($total += $value->total, 0) ?></td>
                                         <td><?= $value->keterangan ?></td>
                                         <td class="text-right">
-                                            <a href="<?= base_url('accounting/deleteItem/') . $value->id ?>" onclick="return validation()" class="btn btn-sm btn-danger"><i class="fas fa-fw fa-trash"></i></a>
-                                            <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-item" class="btn btn-sm btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
+                                            <a href="<?= base_url('accounting/deleteItem/') . $value->id ?>" onclick="return validation()" class="btn btn-xs btn-danger"><i class="fas fa-fw fa-trash"></i></a>
+                                            <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-item" class="btn btn-xs btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
                                         </td>
                                     </tr>
                                 <?php } ?>

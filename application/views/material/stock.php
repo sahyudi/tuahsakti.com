@@ -27,7 +27,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Data Stock Material</h3>
-                        <a href="#" class="btn btn-primary float-right" data-toggle="modal" onclick="reset_form()" data-target="#modal-material"><i class="fas fa-fw fa-plus"></i> Add Material</a>
+                        <a href="#" class="btn btn-primary float-right btn-sm" data-toggle="modal" onclick="reset_form()" data-target="#modal-material"><i class="fas fa-fw fa-plus"></i> Add Material</a>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -49,8 +49,8 @@
                                         <td class="text-center"><?= number_format($value->stock, 0) ?></td>
                                         <td class="text-right">Rp. <?= number_format($value->harga_jual, 0) ?></td>
                                         <td class="text-right">
-                                            <a href="<?= base_url('material/delete/') . $value->id ?>" onclick="return validation()" class="btn btn-sm btn-danger"><i class="fas fa-fw fa-trash"></i></a>
-                                            <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-material" class="btn btn-sm btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
+                                            <a href="<?= base_url('material/delete/') . $value->id ?>" onclick="return validation()" class="btn btn-danger btn-xs"><i class="fas fa-fw fa-trash"></i></a>
+                                            <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-material" class="btn btn-success btn-edit btn-xs"><i class="fas fa-fw fa-pencil-alt"></i></a>
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -69,7 +69,7 @@
 </div>
 
 <div class="modal fade" id="modal-material">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Material Form</h4>
@@ -80,26 +80,38 @@
             <form action="<?= base_url('material/add') ?>" id="form-material" method="post" enctype="multipart/form-data">
                 <input type="hidden" id="id" name="id">
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Nama</label>
-                        <input type="text" name="nama" id="nama" class="form-control" placeholder="Nama material">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Satuan</label>
-                        <input type="text" name="satuan" id="satuan" class="form-control" placeholder="Harag jual">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Harga Jual</label>
-                        <input type="number" name="harga_jual" id="harga_jual" class="form-control" placeholder="Harga Jual">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Keterangan</label>
-                        <textarea name="keterangan" id="keterangan" class="form-control" cols="3" placeholder="Keterangan"></textarea>
+                    <div class="row">
+
+                        <div class="form-group col-md-6">
+                            <label for="exampleInputEmail1">Nama</label>
+                            <input type="text" name="nama" id="nama" class="form-control" placeholder="Nama material">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="exampleInputPassword1">Satuan</label>
+                            <input type="text" name="satuan" id="satuan" class="form-control" placeholder="Harag jual">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="exampleInputPassword1">Harga Jual</label>
+                            <input type="number" name="harga_jual" id="harga_jual" class="form-control" placeholder="Harga Jual">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="exampleInputPassword1">Upah Laut</label>
+                            <input type="number" name="upah_laut" id="upah_laut" class="form-control" placeholder="Upah Laut">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="exampleInputPassword1">Upah Darat</label>
+                            <input type="number" name="upah_darat" id="upah_darat" class="form-control" placeholder="Upah Darat">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="exampleInputPassword1">Keterangan</label>
+                            <textarea name="keterangan" id="keterangan" class="form-control" cols="3" placeholder="Keterangan"></textarea>
+                        </div>
+
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Save changes</button>
                 </div>
             </form>
         </div>
