@@ -79,7 +79,7 @@ class Penjualan extends CI_Controller
                 'satuan' => $material->satuan,
                 'upah' => ($material->upah),
                 'ket_detail' => 'Penjualan nomor ' . $nota,
-                'stock_updated' => $quantity - $material->stock,
+                'stock_updated' => $material->stock - $quantity,
                 'created_at' => $date,
                 'created_user' => $user = $this->session->userdata('id')
             ];
