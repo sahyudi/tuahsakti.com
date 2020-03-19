@@ -13,6 +13,8 @@ class Accounting extends CI_Controller
         $this->load->model('m_accounting');
     }
 
+    // public $this->user = $this->session->userdata('id');
+
     public function index()
     {
         $data['material'] = $this->m_material->get_material()->result();
@@ -30,6 +32,14 @@ class Accounting extends CI_Controller
         $data['subview'] = 'accounting/pengajuan';
         $this->load->view('template/main', $data);
     }
+    public function detail_pendanaan($id)
+    {
+        $data['detail'] = $this->m_accounting->get_detail_pendanaan($id)->result();
+        $data['active'] = 'accounting/pengajuan';
+        $data['title'] = 'Pengajuan';
+        $data['subview'] = 'accounting/detail_pendanaan';
+        $this->load->view('template/main', $data);
+    }
 
     public function form_pengajuan()
     {
@@ -42,26 +52,36 @@ class Accounting extends CI_Controller
 
     function simpan_pengajuan()
     {
+        $this->db->trans_begin();
+
+
         $nomor = $this->input->post('nomor');
         $tanggal = $this->input->post('tanggal');
         $keterangan = $this->input->post('keterangan');
         $item = $this->input->post('item');
         $sub_total = $this->input->post('sub_total');
 
+        $master = [
+            'tanggal' => $tanggal,
+            'no_pendanaan' => $nomor,
+            'keterangan' => $keterangan,
+            'gudang_id' => 1,
+            'created_user' => $this->session->userdata('id')
+        ];
+
+        $this->db->insert('pendanaan', $master);
+        $id = $this->db->insert_id();
         $data = [];
         for ($i = 0; $i < count($item); $i++) {
             $data[] = [
-                'datetime' => $nomor,
-                'keterangan' => $keterangan,
-                'gudang_id' => 1,
+                'pendanaan_id' => $id,
                 'item_id' => $item[$i],
                 'total' => $sub_total[$i]
             ];
         }
 
-        $this->db->trans_begin();
 
-        $this->db->insert_batch('pengajuan_dana', $data);
+        $this->db->insert_batch('pendanaan_detail', $data);
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
         } else {

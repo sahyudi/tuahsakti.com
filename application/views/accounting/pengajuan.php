@@ -36,10 +36,9 @@
                                 <tr class="text-center">
                                     <th>No</th>
                                     <th>Tanggal</th>
-                                    <th>No Nota</th>
-                                    <th>Item</th>
-                                    <th>Sub Total</th>
+                                    <th>No Pendanaan</th>
                                     <th>Keterangan</th>
+                                    <th>Total</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -49,13 +48,13 @@
                                     <tr>
                                         <td class="text-center"><?= $key + 1 ?></td>
                                         <td><?= $value->tanggal ?></td>
-                                        <td><?= $value->datetime ?></td>
-                                        <td><?= $value->nama ?></td>
-                                        <td class="text-right">Rp. <?= number_format($total += $value->total, 0) ?></td>
+                                        <td><?= $value->no_pendanaan ?></td>
                                         <td><?= $value->keterangan ?></td>
+                                        <td class="text-right">Rp. <?= number_format($total += $value->total, 0) ?></td>
                                         <td class="text-right">
                                             <a href="<?= base_url('accounting/deleteItem/') . $value->id ?>" onclick="return validation()" class="btn btn-xs btn-danger"><i class="fas fa-fw fa-trash"></i></a>
-                                            <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-item" class="btn btn-xs btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
+                                            <a href="<?= base_url('accounting/detail_pendanaan/') . $value->id ?>" data-id="<?= $value->id ?>" class="btn btn-xs btn-info btn-edit"><i class="fas fa-fw fa-info"></i></a>
+                                            <!-- <a href="<?= base_url('accounting/deleteItem/') . $value->id ?>" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-item" class="btn btn-xs btn-info btn-edit"><i class="fas fa-fw fa-info"></i></a> -->
                                         </td>
                                     </tr>
                                 <?php } ?>

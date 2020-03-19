@@ -33,7 +33,7 @@
                             <div class="row">
                                 <div class="form-group col-md-6 float-right">
                                     <label for="">Nomor</label>
-                                    <input type="text" class="form-control" name="nomor" id="nomor" value="<?= time() ?>" style="background-color: white;" readonly>
+                                    <input type="text" class="form-control" name="nomor" id="nomor" value="PD-<?= time() ?>" style="background-color: white;" readonly>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="">Tanggal</label>
@@ -50,16 +50,16 @@
                                     <table class="table" id="table-item">
                                         <thead>
                                             <tr class="text-center text-bold">
-                                                <td>Item</td>
-                                                <td>Total</td>
-                                                <td>Actions</td>
+                                                <th width="40%">Item</th>
+                                                <th width="30%">Total</th>
+                                                <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <input type="hidden" id="jumlah-baris" value="1">
                                         <tbody>
                                             <tr class="material" id="material-0">
                                                 <td>
-                                                    <select name="item[]" id="item-0" onchange="getItem(this,0)" class="form-control form-item" style="width: 100%">
+                                                    <select name="item[]" id="item-0" onchange="getItem(this,0)" class="form-control form-item select2" style="width: 100%">
                                                         <option value=""></option>
                                                         <?php foreach ($item as $key => $value) { ?>
                                                             <option value="<?= $value->id ?>"><?= $value->nama ?></option>
@@ -128,6 +128,7 @@
     }
 
     function addItem() {
+        $('.select2').select2('destroy');
         const rangeId = $('#jumlah-baris').val()
         const item = $('#material-0').first().clone();
         $('#table-item tbody').append(item);
@@ -146,6 +147,8 @@
         var btn = '<button type="button" onclick="hapus(' + rangeId + ')" class="btn btn-danger"><i class="fa fa-minus"></i></button>';
         $('#' + id + ' .for-button').append(btn);
         $('#jumlah-baris').val(parseInt(parseInt(rangeId) + 1));
+        $('.select2').select2();
+
     }
 </script>
 <!-- /.content-wrapper -->
