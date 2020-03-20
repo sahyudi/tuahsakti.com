@@ -84,7 +84,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="">Parent Menu</label>
-                        <select name="parent" id="parent" class="form-control select2">
+                        <select name="parent" id="parent" class="form-control form-control-sm select2">
                             <option value="0" selected>Parent ID</option>
                             <?php foreach ($parent as $key => $value) { ?>
                                 <option value="<?= $value->id ?>"><?= $value->title ?></option>
@@ -93,15 +93,15 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Title</label>
-                        <input type="text" name="title" id="title" class="form-control" placeholder="title menu">
+                        <input type="text" name="title" id="title" class="form-control form-control-sm" placeholder="title menu">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Url Menu</label>
-                        <input type="text" name="link" id="link" class="form-control" placeholder="Url ..">
+                        <input type="text" name="link" id="link" class="form-control form-control-sm" placeholder="Url ..">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Icon Menu</label>
-                        <input name="icon" id="icon" class="form-control" placeholder="Icon Menu ...">
+                        <input name="icon" id="icon" class="form-control form-control-sm" placeholder="Icon Menu ...">
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">

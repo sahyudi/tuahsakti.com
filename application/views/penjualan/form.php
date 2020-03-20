@@ -42,11 +42,11 @@
                                 </div> -->
                                 <div class="form-group col-md-6">
                                     <label for="">Tanggal</label>
-                                    <input type="date" name="tanggal" id="tanggal" class="form-control" placeholder="No nota" value="<?= date('Y-m-d') ?>">
+                                    <input type="date" name="tanggal" id="tanggal" class="form-control form-control-sm" placeholder="No nota" value="<?= date('Y-m-d') ?>">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="">Costumer</label>
-                                    <input type="text" name="customer" id="customer" class="form-control" placeholder="Costumer" style="background-color: white;">
+                                    <input type="text" name="customer" id="customer" class="form-control form-control-sm" placeholder="Costumer" style="background-color: white;">
                                 </div>
                             </div>
 
@@ -70,21 +70,21 @@
                                         <input type="hidden" id="jumlah-baris" value="1">
                                         <tr class="material" id="material-0">
                                             <td>
-                                                <select onchange="getItem(this,0)" class="form-control form-item" id="item-0" name="item[]">
+                                                <select onchange="getItem(this,0)" class="form-control form-control-sm form-item select2" id="item-0" name="item[]">
                                                     <option value="0">SELECT ITEM</option>
                                                     <?php foreach ($material as $key => $value) { ?>
                                                         <option value="<?= $value->id ?>"><?= $value->nama . " / " . $value->satuan ?></option>
                                                     <?php } ?>
                                                 </select>
                                             </td>
-                                            <td><input type="text" class="form-control form-stock text-right" name="stock[]" id="stock-0" readonly></td>
-                                            <td><input type="number" class="form-control form-qty text-right" name="qty[]" id="qty-0" onchange="hitung_sub_total(0)" onkeyup="hitung_sub_total(0)"></td>
-                                            <td><input type="text" class="form-control form-harga_jual text-right" name="harga_jual[]" id="harga_jual-0" readonly></td>
-                                            <td><input type="text" class="form-control form-sub_total text-right" name="sub_total[]" id="sub_total-0" value="0" readonly></td>
-                                            <td><input type="text" class="form-control form-upah text-right" name="upah[]" id="upah-0" value="0" readonly></td>
-                                            <td><input type="text" class="form-control form-sub_upah text-right" name="sub_upah[]" id="sub_upah-0" value="0" readonly></td>
+                                            <td><input type="text" class="form-control form-control-sm form-stock text-right" name="stock[]" id="stock-0" readonly></td>
+                                            <td><input type="number" class="form-control form-control-sm form-qty text-right" name="qty[]" id="qty-0" onchange="hitung_sub_total(0)" onkeyup="hitung_sub_total(0)"></td>
+                                            <td><input type="text" class="form-control form-control-sm form-harga_jual text-right" name="harga_jual[]" id="harga_jual-0" readonly></td>
+                                            <td><input type="text" class="form-control form-control-sm form-sub_total text-right" name="sub_total[]" id="sub_total-0" value="0" readonly></td>
+                                            <td><input type="text" class="form-control form-control-sm form-upah text-right" name="upah[]" id="upah-0" value="0" readonly></td>
+                                            <td><input type="text" class="form-control form-control-sm form-sub_upah text-right" name="sub_upah[]" id="sub_upah-0" value="0" readonly></td>
                                             <td class="for-button">
-                                                <button type="button" class="btn btn-info btn-add" onclick="addItem()"><i class="fa fa-plus"></i></button>
+                                                <button type="button" class="btn btn-info btn-sm btn-add" onclick="addItem()"><i class="fa fa-plus"></i></button>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -100,11 +100,11 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="">Tunai</label>
-                                        <input type="text" name="tunai" id="tunai" class="form-control text-right" onkeyup="hitung_tunai()" value="0">
+                                        <input type="text" name="tunai" id="tunai" class="form-control form-control-sm text-right" onkeyup="hitung_tunai()" value="0">
                                     </div>
                                     <div class="form-group">
                                         <label for="">Kredit</label>
-                                        <input type="text" name="kredit" id="kredit" class="form-control text-right" readonly>
+                                        <input type="text" name="kredit" id="kredit" class="form-control form-control-sm text-right" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -128,6 +128,7 @@
     // });
 
     function addItem() {
+        $('.select2').select2('destroy');
         const rangeId = $('#jumlah-baris').val()
         const item = $('#material-0').first().clone();
         $('#table-material tbody').append(item);
@@ -159,12 +160,10 @@
         }).val(0);
         $('#' + id + ' button').remove();
 
-        var btn = '<button href="#" onclick="hapus(' + rangeId + ')" class="btn btn-danger"><i class="fa fa-minus"></i></button>';
+        var btn = '<button href="#" onclick="hapus(' + rangeId + ')" class="btn btn-sm btn-danger"><i class="fa fa-minus"></i></button>';
         $('#' + id + ' .for-button').append(btn);
-        // $('select').select2('destroy');
         $('#jumlah-baris').val(parseInt(parseInt(rangeId) + 1));
-        //$(".select2").select2("destroy").select2();
-        // $(".select2").select2();
+        $(".select2").select2();
     }
 
     function hapus(params) {

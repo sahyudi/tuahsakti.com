@@ -38,11 +38,11 @@
                                 <!-- <div class="col-md-6"> -->
                                 <!-- <div class="form-group col-md-6">
                                     <label for="">No Nota</label>
-                                    <input type="text" name="no_nota" id="no_nota" class="form-control" value="PE<?= time() ?>" placeholder="No nota" readonly style="background-color: white;">
+                                    <input type="text" name="no_nota" id="no_nota" class="form-control form-control-sm" value="PE<?= time() ?>" placeholder="No nota" readonly style="background-color: white;">
                                 </div> -->
                                 <div class="form-group col-md-6">
                                     <label>Surat Jalan</label>
-                                    <select class="form-control select2" style="width:100%;" name="surat_jalan" id="surat_jalan">
+                                    <select class="form-control form-control-sm select2" style="width:100%;" name="surat_jalan" id="surat_jalan">
                                         <option value=""></option>
                                         <?php foreach ($momor_pengjuan as $key => $value) { ?>
                                             <option value="<?= $value->no_pendanaan ?>"><?= $value->no_pendanaan ?></option>
@@ -51,11 +51,11 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="">Tanggal</label>
-                                    <input type="date" name="tanggal" id="tanggal" class="form-control" placeholder="No nota" value="<?= date('Y-m-d') ?>">
+                                    <input type="date" name="tanggal" id="tanggal" class="form-control form-control-sm" placeholder="No nota" value="<?= date('Y-m-d') ?>">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Vendor</label>
-                                    <select class="form-control" name="vendor" id="vendor">
+                                    <select class="form-control form-control-sm" name="vendor" id="vendor">
                                         <option value=""></option>
                                         <?php foreach ($vendor as $key => $value) { ?>
                                             <option value="<?= $value->id ?>"><?= $value->nama ?></option>
@@ -64,7 +64,7 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="">Keterangan</label>
-                                    <textarea name="keterangan" id="keterangan" class="form-control" rows="1"></textarea>
+                                    <textarea name="keterangan" id="keterangan" class="form-control form-control-sm" rows="1"></textarea>
                                 </div>
                             </div>
 
@@ -87,7 +87,7 @@
                                         <input type="hidden" id="jumlah-baris" value="1">
                                         <tr class="material" id="material-0">
                                             <td>
-                                                <select onchange="getItem(this,0)" class="form-control select2 form-item" id="item-0" name="item[]">
+                                                <select onchange="getItem(this,0)" class="form-control form-control-sm select2 form-item" id="item-0" name="item[]">
                                                     <option value=""></option>
                                                     <?php foreach ($material as $key => $value) { ?>
                                                         <option value="<?= $value->id ?>"><?= $value->nama . " / " . $value->satuan ?></option>
@@ -95,19 +95,19 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control form-qty text-right" name="qty[]" id="qty-0" onkeyup="hitung_sub_total(0)" value="0">
+                                                <input type="text" class="form-control form-control-sm form-qty text-right" name="qty[]" id="qty-0" onkeyup="hitung_sub_total(0)" value="0">
                                             </td>
                                             <td>
-                                                <input type=" text" class="form-control form-harga_beli text-right" name="harga_beli[]" id="harga_beli-0" onkeyup="hitung_sub_total(0)" value="0">
+                                                <input type=" text" class="form-control form-control-sm form-harga_beli text-right" name="harga_beli[]" id="harga_beli-0" onkeyup="hitung_sub_total(0)" value="0">
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control form-sub_total text-right" name="sub_total[]" id="sub_total-0" value="0" readonly>
+                                                <input type="text" class="form-control form-control-sm form-sub_total text-right" name="sub_total[]" id="sub_total-0" value="0" readonly>
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control form-upah text-right" name="upah[]" id="upah-0" value="0" onkeyup="hitung_upah()">
+                                                <input type="text" class="form-control form-control-sm form-upah text-right" name="upah[]" id="upah-0" value="0" onkeyup="hitung_upah()">
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control form-sub_upah text-right" name="sub_upah[]" id="sub_upah-0" value="0" readonly>
+                                                <input type="text" class="form-control form-control-sm form-sub_upah text-right" name="sub_upah[]" id="sub_upah-0" value="0" readonly>
                                             </td>
                                             <td class="for-button">
                                                 <button type="button" class="btn btn-info btn-sm btn-add" onclick="addItem()"><i class="fa fa-plus"></i></button>
@@ -126,11 +126,11 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="">Tunai</label>
-                                        <input type="text" name="tunai" id="tunai" class="form-control text-right" onkeyup="hitung_tunai()" value="0">
+                                        <input type="text" name="tunai" id="tunai" class="form-control form-control-sm text-right" onkeyup="hitung_tunai()" value="0">
                                     </div>
                                     <div class="form-group">
                                         <label for="">Kredit</label>
-                                        <input type="text" name="kredit" id="kredit" class="form-control text-right" readonly>
+                                        <input type="text" name="kredit" id="kredit" class="form-control form-control-sm text-right" readonly>
                                     </div>
                                 </div>
                             </div>

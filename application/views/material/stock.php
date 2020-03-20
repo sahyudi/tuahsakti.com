@@ -84,27 +84,27 @@
 
                         <div class="form-group col-md-6">
                             <label for="exampleInputEmail1">Nama</label>
-                            <input type="text" name="nama" id="nama" class="form-control" placeholder="Nama material">
+                            <input type="text" name="nama" id="nama" class="form-control form-control-sm" placeholder="Nama material">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="exampleInputPassword1">Satuan</label>
-                            <input type="text" name="satuan" id="satuan" class="form-control" placeholder="Harag jual">
+                            <input type="text" name="satuan" id="satuan" class="form-control form-control-sm" placeholder="Harag jual">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="exampleInputPassword1">Harga Jual</label>
-                            <input type="number" name="harga_jual" id="harga_jual" class="form-control" placeholder="Harga Jual">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="exampleInputPassword1">Upah Laut</label>
-                            <input type="number" name="upah_laut" id="upah_laut" class="form-control" placeholder="Upah Laut">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="exampleInputPassword1">Upah Darat</label>
-                            <input type="number" name="upah_darat" id="upah_darat" class="form-control" placeholder="Upah Darat">
+                            <input type="number" name="harga_jual" id="harga_jual" class="form-control form-control-sm" placeholder="Harga Jual">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="exampleInputPassword1">Keterangan</label>
-                            <textarea name="keterangan" id="keterangan" class="form-control" cols="3" placeholder="Keterangan"></textarea>
+                            <textarea name="keterangan" id="keterangan" class="form-control form-control-sm" cols="3" placeholder="Keterangan"></textarea>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="exampleInputPassword1">Upah Laut</label>
+                            <input type="number" name="upah_laut" id="upah_laut" class="form-control form-control-sm" placeholder="Upah Laut">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="exampleInputPassword1">Upah Darat</label>
+                            <input type="number" name="upah_darat" id="upah_darat" class="form-control form-control-sm" placeholder="Upah Darat">
                         </div>
 
                     </div>
