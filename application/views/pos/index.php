@@ -138,9 +138,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <label for="">Item List</label>
                                                     <select name="item-select" id="item-select" class="form-control form-control-sm select2" onchange="addItem()">
                                                         <option value=""></option>
-                                                        <?php foreach ($material as $key => $value) { ?>
+                                                        <!-- <?php foreach ($material as $key => $value) { ?>
                                                             <option value="<?= $value->id ?>"><?= $value->nama . " / " . $value->satuan ?></option>
-                                                        <?php } ?>
+                                                        <?php } ?> -->
                                                     </select>
 
                                                 </div>
@@ -191,23 +191,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script type="text/javascript">
         $(function() {
             //Initialize Select2 Elements
-            $('.select2').select2({
-                'placeholder': 'Select One'
-            });
+            // $('.select2').select2({
+            //     'placeholder': 'Select One'
+            // });
         });
 
         $(document).ready(function() {
             list_need_approve();
+            get_item();
         })
 
         function addItem() {
             $('.select2').select2('destroy');
+            var id = $(this).val()
             const rangeId = $('#jumlah-baris').val()
             // const item = $('#material-0').first().clone();
             let item = `
                 <tr class="material" id="material-${rangeId}">
                     <td>
-                        <input type="text"class="form-control form-control-sm form-item " id="item-${rangeId}" name="item[]">
+                        <input type="text"class="form-control form-control-sm form-item " id="item-${rangeId}" name="item[]" value"${id}">
                     </td>
                     <td><input type="text" class="form-control form-control-sm form-stock text-right" name="stock[]" id="stock-${rangeId}" readonly></td>
                     <td><input type="number" class="form-control form-control-sm form-qty text-right" name="qty[]" id="qty-${rangeId}" onchange="hitung_sub_total(0)" onkeyup="hitung_sub_total(0)"></td>
@@ -243,20 +245,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
             }
         }
 
-        function cari_plu(no = '') {
-            $("#qty_" + no).attr('readonly', true);
-            if ($("#plu_" + no).val() == null) {
-                $("#plu_" + no).empty();
-            }
+        function get_item(no = '') {
+            // $("#qty_" + no).attr('readonly', true);
+            // if ($("#plu_" + no).val() == null) {
+            //     $("#plu_" + no).empty();
+            // }
             var id_gudang = $('#idgudang').val();
             var selectednumbers = [];
-            $('[name="plu[]"] :selected').each(function(i, selected) {
+            $('[name="item[]"] :selected').each(function(i, selected) {
                 selectednumbers[i] = $(selected).val();
             });
-            $("#plu_" + no).select2({
+            $('#item-select').select2({
                 placeholder: 'Pilih Item',
                 ajax: {
-                    url: "<?php echo base_url(); ?>produksi_new/getplu",
+                    url: "<?php echo base_url(); ?>pos/get_item_list",
                     type: "POST",
                     dataType: 'json',
                     delay: 250,
@@ -276,16 +278,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     cache: true
                 }
             });
-            $("#qty_" + no).removeAttr('class');
-            $("#qty_" + no).addClass('form-control text-center plu_' + $("#plu_" + no).val());
-            if ($("#plu_" + no).val() !== null) {
-                $("#qty_" + no).attr('readonly', false);
-            }
-            $("input[type='number']").on("keypress keyup blur", function(event) {
-                if (event.which != 8 && event.which != 0 && (event.which < 48 || event.which > 57)) {
-                    return false;
-                }
-            });
+            // $("#qty_" + no).removeAttr('class');
+            // $("#qty_" + no).addClass('form-control text-center plu_' + $("#plu_" + no).val());
+            // if ($("#plu_" + no).val() !== null) {
+            //     $("#qty_" + no).attr('readonly', false);
+            // }
+            // $("input[type='number']").on("keypress keyup blur", function(event) {
+            //     if (event.which != 8 && event.which != 0 && (event.which < 48 || event.which > 57)) {
+            //         return false;
+            //     }
+            // });
         }
 
 
