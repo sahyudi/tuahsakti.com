@@ -136,7 +136,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="">Item List</label>
-                                                    <select name="item-select" id="item-select" class="form-control form-control-sm select2" onchange="addItem()">
+                                                    <select name="item-select" id="item-select" onchange="addItem(this)" class="form-control form-control-sm select2" onchange="addItem()">
                                                         <option value=""></option>
                                                         <!-- <?php foreach ($material as $key => $value) { ?>
                                                             <option value="<?= $value->id ?>"><?= $value->nama . " / " . $value->satuan ?></option>
@@ -161,7 +161,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <input type="hidden" id="jumlah-baris" value="1">
+                                                    <input type="hidden" id="jumlah-baris" value="0">
 
 
                                                 </tbody>
@@ -189,52 +189,76 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- page script -->
     <script type="text/javascript">
-        $(function() {
-            //Initialize Select2 Elements
-            // $('.select2').select2({
-            //     'placeholder': 'Select One'
-            // });
+        $(document).ready(function() {
+            get_item();
         });
 
-        $(document).ready(function() {
-            list_need_approve();
-            get_item();
-        })
+        function get_item() {
+            $('#item-select').empty();
+            let item_select = [];
+            $('[name="item[]"]').each(function(i, value) {
+                item_select[i] = $(value).val();
+            });
+            console.log(item_select)
+
+            $.ajax({
+                url: "<?= base_url('pos/get_item_list'); ?>",
+                type: 'POST',
+                data: {
+                    id: item_select
+                },
+                dataType: 'json',
+                success: function(data) {
+                    $('.select2').select2('destroy');
+                    var item = '<option value=""></option>';
+
+                    $.each(data, function(i, val) {
+                        item += `<option value="${val.id}">${val.nama}</option>`;
+                    });
+                    $('#item-select').append(item);
+                    $('.select2').select2();
+                }
+            });
+        }
+
+
 
         function addItem() {
-            $('.select2').select2('destroy');
-            var id = $(this).val()
+            var id = $('#item-select').val();
             const rangeId = $('#jumlah-baris').val()
-            // const item = $('#material-0').first().clone();
-            let item = `
-                <tr class="material" id="material-${rangeId}">
-                    <td>
-                        <input type="text"class="form-control form-control-sm form-item " id="item-${rangeId}" name="item[]" value"${id}">
-                    </td>
-                    <td><input type="text" class="form-control form-control-sm form-stock text-right" name="stock[]" id="stock-${rangeId}" readonly></td>
-                    <td><input type="number" class="form-control form-control-sm form-qty text-right" name="qty[]" id="qty-${rangeId}" onchange="hitung_sub_total(0)" onkeyup="hitung_sub_total(0)"></td>
-                    <td><input type="text" class="form-control form-control-sm form-harga_jual text-right" name="harga_jual[]" id="harga_jual-${rangeId}" readonly></td>
-                    <td><input type="text" class="form-control form-control-sm form-sub_total text-right" name="sub_total[]" id="sub_total-${rangeId}" value="0" readonly></td>
-                    <td><input type="text" class="form-control form-control-sm form-upah text-right" name="upah[]" id="upah-${rangeId}" value="0" readonly></td>
-                    <td><input type="text" class="form-control form-control-sm form-sub_upah text-right" name="sub_upah[]" id="sub_upah-${rangeId}" value="0" readonly></td>
-                    <td class="for-button">
-                        <button href="#" onclick="hapus(${rangeId})" class="btn btn-sm btn-danger"><i class="fa fa-minus"></i></button>
-                    </td>
-                </tr>
-            `;
-            $('#table-belanja tbody').append(item);
-
-            // var btn = '';
-            // $('#' + id + ' .for-button').append(btn);
-            // $('#jumlah-baris').val(parseInt(parseInt(rangeId) + 1));
+            $.ajax({
+                url: "<?= base_url('penjualan/get_item/') ?>" + id,
+                type: "post",
+                dataType: 'JSON',
+                success: function(data) {
+                    let item = `
+                                <tr class="material" id="material-${rangeId}">
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm form-item" id="item-${rangeId}" name="item[]" value="${id}">
+                                    </td>
+                                    <td><input type="text" class="form-control form-control-sm form-stock text-right" name="stock[]" id="stock-${rangeId}" value="${data.stock}" readonly></td>
+                                    <td><input type="number" class="form-control form-control-sm form-qty text-right" name="qty[]" id="qty-${rangeId}" onchange="hitung_sub_total(0)" onkeyup="hitung_sub_total(0)" value="1"></td>
+                                    <td><input type="text" class="form-control form-control-sm form-harga_jual text-right" name="harga_jual[]" id="harga_jual-${rangeId}" value="${data.harga_jual}" readonly></td>
+                                    <td><input type="text" class="form-control form-control-sm form-sub_total text-right" name="sub_total[]" id="sub_total-${rangeId}" value="0" readonly></td>
+                                    <td><input type="text" class="form-control form-control-sm form-upah text-right" name="upah[]" id="upah-${rangeId}" value="0" readonly></td>
+                                    <td><input type="text" class="form-control form-control-sm form-sub_upah text-right" name="sub_upah[]" id="sub_upah-${rangeId}" value="0" readonly></td>
+                                    <td class="for-button">
+                                        <button href="#" onclick="hapus(${rangeId})" class="btn btn-sm btn-danger"><i class="fa fa-minus"></i></button>
+                                    </td>
+                                </tr>
+                            `;
+                    $('#table-belanja tbody').append(item);
+                }
+            });
 
             $('#item-select').val('');
-            $(".select2").select2();
+            get_item();
         }
 
         function hapus(params) {
             var id = 'material-' + params;
             $('#' + id).remove('');
+            get_item();
         }
 
         function handleAjaxError(xhr, textStatus, error) {
@@ -245,51 +269,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             }
         }
 
-        function get_item(no = '') {
-            // $("#qty_" + no).attr('readonly', true);
-            // if ($("#plu_" + no).val() == null) {
-            //     $("#plu_" + no).empty();
-            // }
-            var id_gudang = $('#idgudang').val();
-            var selectednumbers = [];
-            $('[name="item[]"] :selected').each(function(i, selected) {
-                selectednumbers[i] = $(selected).val();
-            });
-            $('#item-select').select2({
-                placeholder: 'Pilih Item',
-                ajax: {
-                    url: "<?php echo base_url(); ?>pos/get_item_list",
-                    type: "POST",
-                    dataType: 'json',
-                    delay: 250,
-                    // data: dataString,
-                    data: function(params) {
-                        return {
-                            cari: params.term, // search term
-                            id_gudang: id_gudang,
-                            sel: JSON.stringify(selectednumbers),
-                        };
-                    },
-                    processResults: function(data) {
-                        return {
-                            results: data
-                        };
-                    },
-                    cache: true
-                }
-            });
-            // $("#qty_" + no).removeAttr('class');
-            // $("#qty_" + no).addClass('form-control text-center plu_' + $("#plu_" + no).val());
-            // if ($("#plu_" + no).val() !== null) {
-            //     $("#qty_" + no).attr('readonly', false);
-            // }
-            // $("input[type='number']").on("keypress keyup blur", function(event) {
-            //     if (event.which != 8 && event.which != 0 && (event.which < 48 || event.which > 57)) {
-            //         return false;
-            //     }
-            // });
-        }
-
 
         function list_need_approve() {
             if (oTable) {
@@ -297,7 +276,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             }
             $('#example1').dataTable().fnDestroy();
             var oTable = $('#example1').dataTable({
-                // "ordering": false,
                 "bProcessing": true,
                 "bServerSide": true,
                 'searching': true,

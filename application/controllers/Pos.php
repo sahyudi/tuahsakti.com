@@ -37,20 +37,10 @@ class Pos extends CI_Controller
 
     public function get_item_list()
     {
-        $idgudang   = $this->input->post('id_gudang');
-        $searchTerm = $this->input->post('cari');
-        $sel_plu   = array_unique(json_decode(html_entity_decode($this->input->post('sel'))));
-        // $cabangnya = CABANG;
-        // $gudangnya = $this->db->query("SELECT id_cabang FROM d_gudang WHERE id='$idgudang'")->row_array();
-        // if ($cabangnya == '1' || $cabangnya == '0') {
-        //     $query = $this->db->query("SELECT d_item_recipi_produksi.plu, d_item_recipi_produksi.duplicate, d_item.nama_item FROM d_item_recipi_produksi LEFT JOIN d_item ON d_item_recipi_produksi.plu=d_item.plu WHERE d_item.nama_item  LIKE '%" . $searchTerm . "%' AND d_item_recipi_produksi.id_kota='$gudangnya[id_cabang]' UNION ALL SELECT d_item_recipi_produksi.duplicate, d_item_recipi_produksi.duplicate, d_item.nama_item FROM d_item_recipi_produksi LEFT JOIN d_item ON d_item_recipi_produksi.duplicate=d_item.plu WHERE d_item.nama_item LIKE '%" . $searchTerm . "%' AND d_item_recipi_produksi.id_kota='$gudangnya[id_cabang]' ORDER BY plu ASC");
-        // } else {
-        //     $query = $this->db->query("SELECT d_item_recipi_produksi.plu, d_item_recipi_produksi.duplicate, d_item.nama_item FROM d_item_recipi_produksi LEFT JOIN d_item ON d_item_recipi_produksi.plu=d_item.plu WHERE d_item.nama_item  LIKE '%" . $searchTerm . "%' AND d_item_recipi_produksi.id_kota='$cabangnya' UNION ALL SELECT d_item_recipi_produksi.duplicate, d_item_recipi_produksi.duplicate, d_item.nama_item FROM d_item_recipi_produksi LEFT JOIN d_item ON d_item_recipi_produksi.duplicate=d_item.plu WHERE d_item.nama_item LIKE '%" . $searchTerm . "%' AND d_item_recipi_produksi.id_kota='$cabangnya' ORDER BY plu ASC");
-        // }
-        // $json = array();
-        // if (empty($cari)) {
-        //     $cari = " ";
-        // }
+        // $idgudang   = $this->input->post('id_gudang');
+        // $searchTerm = $this->input->post('cari');
+        // $sel_plu   = array_unique(json_decode(html_entity_decode($this->input->post('sel'))));
+
         $id = $this->input->post('id');
         $this->db->select('A.*, B.stock');
         $this->db->join('stock B', 'A.id = B.material_id');
@@ -58,10 +48,7 @@ class Pos extends CI_Controller
         if ($id) {
             $this->db->where_not_in('A.id', $id);
         }
-        $data = $this->db->get('material A');
-        // foreach ($data as $key => $value) {
-        //     $json[] = array("id" => $value->id, "text" => "$value->nama");
-        // }
+        $data = $this->db->get('material A')->result();
         echo json_encode($data);
     }
 }

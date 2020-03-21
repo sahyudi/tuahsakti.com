@@ -8,10 +8,10 @@
                     <h1 class="m-0 text-dark">Vendor</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
-                    <!-- <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Dashboard v2</li>
-                    </ol> -->
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="<?= base_url('home') ?>">Home</a></li>
+                        <li class="breadcrumb-item active">Vendor</li>
+                    </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -105,8 +105,8 @@
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Save changes</button>
                 </div>
             </form>
         </div>
