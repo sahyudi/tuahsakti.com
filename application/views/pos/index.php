@@ -125,20 +125,44 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <div class="form-group col-md-6">
-                                                <label for="">Tanggal</label>
+                                            <div class="row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="">Tanggal</label>
+                                                    <p><?= date('d F Y') ?></p>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="">No Nota</label>
+                                                    <p><?= 'FE' . time() ?></p>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="">Item List</label>
+                                                    <select name="item-select" id="item-select" class="form-control form-control-sm select2" onchange="addItem()">
+                                                        <option value=""></option>
+                                                        <?php foreach ($material as $key => $value) { ?>
+                                                            <option value="<?= $value->id ?>"><?= $value->nama . " / " . $value->satuan ?></option>
+                                                        <?php } ?>
+                                                    </select>
+
+                                                </div>
                                             </div>
+
                                             <div class="card-tite">List Item</div>
-                                            <table id="" class="table table-bordered table-striped">
+                                            <table id="table-belanja" class="table table-bordered table-striped">
                                                 <thead>
                                                     <tr class="text-center">
-                                                        <th>Material / Satuan</th>
+                                                        <th style="width: 25%;">Item / Satuan</th>
                                                         <th>Stock</th>
-                                                        <th>Harga Jual</th>
-                                                        <th>Action</th>
+                                                        <th>Quantity</th>
+                                                        <th>Harga</th>
+                                                        <th>Sub Total</th>
+                                                        <th>Upah / Satuan</th>
+                                                        <th>Sub Upah</th>
+                                                        <th>Actions</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    <input type="hidden" id="jumlah-baris" value="1">
+
 
                                                 </tbody>
                                             </table>
@@ -173,9 +197,43 @@ scratch. This page gets rid of all links and provides the needed markup only.
         });
 
         $(document).ready(function() {
-            // $('#example1').DataTable()
-            list_need_approve()
+            list_need_approve();
         })
+
+        function addItem() {
+            $('.select2').select2('destroy');
+            const rangeId = $('#jumlah-baris').val()
+            // const item = $('#material-0').first().clone();
+            let item = `
+                <tr class="material" id="material-${rangeId}">
+                    <td>
+                        <input type="text"class="form-control form-control-sm form-item " id="item-${rangeId}" name="item[]">
+                    </td>
+                    <td><input type="text" class="form-control form-control-sm form-stock text-right" name="stock[]" id="stock-${rangeId}" readonly></td>
+                    <td><input type="number" class="form-control form-control-sm form-qty text-right" name="qty[]" id="qty-${rangeId}" onchange="hitung_sub_total(0)" onkeyup="hitung_sub_total(0)"></td>
+                    <td><input type="text" class="form-control form-control-sm form-harga_jual text-right" name="harga_jual[]" id="harga_jual-${rangeId}" readonly></td>
+                    <td><input type="text" class="form-control form-control-sm form-sub_total text-right" name="sub_total[]" id="sub_total-${rangeId}" value="0" readonly></td>
+                    <td><input type="text" class="form-control form-control-sm form-upah text-right" name="upah[]" id="upah-${rangeId}" value="0" readonly></td>
+                    <td><input type="text" class="form-control form-control-sm form-sub_upah text-right" name="sub_upah[]" id="sub_upah-${rangeId}" value="0" readonly></td>
+                    <td class="for-button">
+                        <button href="#" onclick="hapus(${rangeId})" class="btn btn-sm btn-danger"><i class="fa fa-minus"></i></button>
+                    </td>
+                </tr>
+            `;
+            $('#table-belanja tbody').append(item);
+
+            // var btn = '';
+            // $('#' + id + ' .for-button').append(btn);
+            // $('#jumlah-baris').val(parseInt(parseInt(rangeId) + 1));
+
+            $('#item-select').val('');
+            $(".select2").select2();
+        }
+
+        function hapus(params) {
+            var id = 'material-' + params;
+            $('#' + id).remove('');
+        }
 
         function handleAjaxError(xhr, textStatus, error) {
             if (textStatus === 'timeout') {
@@ -185,20 +243,67 @@ scratch. This page gets rid of all links and provides the needed markup only.
             }
         }
 
+        function cari_plu(no = '') {
+            $("#qty_" + no).attr('readonly', true);
+            if ($("#plu_" + no).val() == null) {
+                $("#plu_" + no).empty();
+            }
+            var id_gudang = $('#idgudang').val();
+            var selectednumbers = [];
+            $('[name="plu[]"] :selected').each(function(i, selected) {
+                selectednumbers[i] = $(selected).val();
+            });
+            $("#plu_" + no).select2({
+                placeholder: 'Pilih Item',
+                ajax: {
+                    url: "<?php echo base_url(); ?>produksi_new/getplu",
+                    type: "POST",
+                    dataType: 'json',
+                    delay: 250,
+                    // data: dataString,
+                    data: function(params) {
+                        return {
+                            cari: params.term, // search term
+                            id_gudang: id_gudang,
+                            sel: JSON.stringify(selectednumbers),
+                        };
+                    },
+                    processResults: function(data) {
+                        return {
+                            results: data
+                        };
+                    },
+                    cache: true
+                }
+            });
+            $("#qty_" + no).removeAttr('class');
+            $("#qty_" + no).addClass('form-control text-center plu_' + $("#plu_" + no).val());
+            if ($("#plu_" + no).val() !== null) {
+                $("#qty_" + no).attr('readonly', false);
+            }
+            $("input[type='number']").on("keypress keyup blur", function(event) {
+                if (event.which != 8 && event.which != 0 && (event.which < 48 || event.which > 57)) {
+                    return false;
+                }
+            });
+        }
+
+
         function list_need_approve() {
             if (oTable) {
                 oTable.fnDestroy();
             }
-            // $('#example1').DataTable().fnDestroy();
-            var oTable = $('#example1').DataTable({
-                "ordering": false,
+            $('#example1').dataTable().fnDestroy();
+            var oTable = $('#example1').dataTable({
+                // "ordering": false,
                 "bProcessing": true,
                 "bServerSide": true,
+                'searching': true,
                 'sAjaxSource': "<?= base_url('pos/get_data_stock') ?>",
                 'fnServerData': function(sSource, aoData, fnCallback) {
                     aoData.push({
-                        "name": "ci_csrf_token",
-                        "value": ""
+                        "name": "status",
+                        "value": "1"
                     });
                     $.ajax({
                         'dataType': 'json',
@@ -210,17 +315,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     });
 
                 },
-
                 'fnDrawCallback': function(oSettings) {
                     $('#modal-loading').modal('hide');
                 },
-
-                'fnRowCallback': function(nRow, aData, iDisplayIndex) {
-                    nRow.id = aData.id_inout;
-                    nRow.className = "detail_link";
-                    return nRow;
-                },
-
                 "columns": [{
                         "data": "nama"
                     },
@@ -233,10 +330,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     },
                     {
                         "data": "harga_jual",
-                        "className": "text-right",
+                        // "className": "text-right",
                         "render": function(data, type, oObj) {
                             var status = oObj['harga_jual'];
-                            return `Rp. ${addCommas(status)}`;
+                            return `<td class="text-right">Rp. ${addCommas(status)}</right>`;
                         }
                     },
 
