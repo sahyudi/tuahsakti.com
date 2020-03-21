@@ -124,7 +124,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-7">
+                                        <div class="col-md-12">
                                             <div class="form-group col-md-6">
                                                 <label for="">Tanggal</label>
                                             </div>
@@ -225,30 +225,35 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         "data": "nama"
                     },
                     {
+                        "data": "satuan"
+                    },
+                    {
+                        "className": "text-center",
                         "data": "stock"
                     },
                     {
-                        "data": "harga_jual"
-                    },
-                    {
-                        "data": "id",
+                        "data": "harga_jual",
+                        "className": "text-right",
                         "render": function(data, type, oObj) {
-                            var status = oObj['id'];
-
-                            if (status == 1) {
-                                // Active
-                                return '<center><span class="label label-success tip">Approved</span></center>';
-                            } else if (status == 2) {
-                                // Rejected
-                                return '<center><span class="label label-danger tip">Rejected</span></center>';
-                            } else {
-                                // Not Active
-                                return '<center><span class="label label-warning tip">Need Approve</span></center>';
-                            }
+                            var status = oObj['harga_jual'];
+                            return `Rp. ${addCommas(status)}`;
                         }
-                    }
+                    },
+
                 ]
             })
+        }
+
+        function addCommas(nStr) {
+            nStr += '';
+            x = nStr.split(',');
+            x1 = x[0];
+            x2 = x.length > 1 ? ',' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + ',' + '$2');
+            }
+            return x1 + x2;
         }
     </script>
 </body>
@@ -264,14 +269,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div>
             <div class="modal-body">
                 <div class="table-responsive">
-                    <table id="example1" class="table table-bordered table-striped">
+                    <table id="example1" class="table table-bordered table-striped" width="100%">
                         <thead>
                             <tr class="text-center">
-                                <th>No</th>
-                                <th>Material / Satuan</th>
+                                <th>Material</th>
+                                <th>Satuan</th>
                                 <th>Quantity</th>
                                 <th>Harga Jual</th>
-                                <th>Action</th>
                             </tr>
                         </thead>
                     </table>
@@ -279,7 +283,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary btn-sm">Save changes</button>
             </div>
         </div>
         <!-- /.modal-content -->
