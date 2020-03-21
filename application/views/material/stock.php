@@ -31,31 +31,33 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped">
-                            <thead>
-                                <tr class="text-center">
-                                    <th>No</th>
-                                    <th>Material / Satuan</th>
-                                    <th>Quantity</th>
-                                    <th>Harga Jual</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($material as $key => $value) { ?>
-                                    <tr>
-                                        <td class="text-center"><?= $key + 1 ?></td>
-                                        <td><?= $value->nama . " (" . $value->satuan . ")" ?></td>
-                                        <td class="text-center"><?= number_format($value->stock, 0) ?></td>
-                                        <td class="text-right">Rp. <?= number_format($value->harga_jual, 0) ?></td>
-                                        <td class="text-right">
-                                            <a href="<?= base_url('material/delete/') . $value->id ?>" onclick="return validation()" class="btn btn-danger btn-xs"><i class="fas fa-fw fa-trash"></i></a>
-                                            <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-material" class="btn btn-success btn-edit btn-xs"><i class="fas fa-fw fa-pencil-alt"></i></a>
-                                        </td>
+                        <div class="table-responsive">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th>No</th>
+                                        <th>Material / Satuan</th>
+                                        <th>Quantity</th>
+                                        <th>Harga Jual</th>
+                                        <th>Action</th>
                                     </tr>
-                                <?php } ?>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($material as $key => $value) { ?>
+                                        <tr>
+                                            <td class="text-center"><?= $key + 1 ?></td>
+                                            <td><?= $value->nama . " (" . $value->satuan . ")" ?></td>
+                                            <td class="text-center"><?= number_format($value->stock, 0) ?></td>
+                                            <td class="text-right">Rp. <?= number_format($value->harga_jual, 0) ?></td>
+                                            <td class="text-right">
+                                                <a href="<?= base_url('material/delete/') . $value->id ?>" onclick="return validation()" class="btn btn-danger btn-xs"><i class="fas fa-fw fa-trash"></i></a>
+                                                <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-material" class="btn btn-success btn-edit btn-xs"><i class="fas fa-fw fa-pencil-alt"></i></a>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <!-- /.card-body -->
                 </div>
