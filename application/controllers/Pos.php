@@ -31,7 +31,7 @@ class Pos extends CI_Controller
         $this->datatables->select('A.nama, A.satuan, A.harga_jual, B.stock');
         $this->datatables->from('material A');
         $this->datatables->join('stock B', 'A.id = B.material_id');
-        echo $this->db->last_query();
+        // echo $this->db->last_query();
         echo $this->datatables->generate();
     }
 
@@ -50,5 +50,28 @@ class Pos extends CI_Controller
         }
         $data = $this->db->get('material A')->result();
         echo json_encode($data);
+    }
+
+    function update_character()
+    {
+        $this->db->trans_begin();
+
+
+        $data = $this->db->query("SELECT CONCAT('ALTER TABLE `', t.`TABLE_SCHEMA`, '`.`', t.`TABLE_NAME`,
+        '` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;') as stmt 
+       FROM `information_schema`.`TABLES` t
+       WHERE 1
+       AND t.`TABLE_SCHEMA` = 'db_tuahsakti'")->result();
+        foreach ($data as $key => $value) {
+            $this->db->query("{$value->stmt}");
+        }
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            log_r('gagal');
+        } else {
+            $this->db->trans_commit();
+            log_r('berhasil');
+        }
     }
 }

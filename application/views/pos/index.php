@@ -136,7 +136,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="">Item List</label>
-                                                    <select name="item-select" id="item-select" onchange="addItem(this)" class="form-control form-control-sm select2" onchange="addItem()">
+                                                    <select name="item-select" id="item-select" onchange="addItem()" class="form-control form-control-sm select2" onchange="addItem()">
                                                         <option value=""></option>
                                                         <!-- <?php foreach ($material as $key => $value) { ?>
                                                             <option value="<?= $value->id ?>"><?= $value->nama . " / " . $value->satuan ?></option>
@@ -161,10 +161,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <input type="hidden" id="jumlah-baris" value="0">
-
-
+                                                    <input type="hidden" id="jumlah-baris" value="1">
                                                 </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td colspan="4" class="text-right">TOTAL</td>
+                                                        <td class="text-right">Rp. <span id="total"></span></td>
+                                                    </tr>
+                                                </tfoot>
                                             </table>
                                         </div>
                                     </div>
@@ -191,13 +195,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script type="text/javascript">
         $(document).ready(function() {
             get_item();
+            get_stock()
         });
 
         function get_item() {
-            $('#item-select').empty();
-            let item_select = [];
+            const item_select = [];
             $('[name="item[]"]').each(function(i, value) {
                 item_select[i] = $(value).val();
+                console.log(value);
             });
             console.log(item_select)
 
@@ -209,6 +214,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 },
                 dataType: 'json',
                 success: function(data) {
+                    $('#item-select').empty();
                     $('.select2').select2('destroy');
                     var item = '<option value=""></option>';
 
@@ -221,11 +227,62 @@ scratch. This page gets rid of all links and provides the needed markup only.
             });
         }
 
+        function hitung_sub_total(id) {
+            var sub_total = 0;
+            const stock = parseInt($('#stock-' + id).val().replace(/\,/g, ''));
+            const qty_awal = parseInt($('#qty-' + id).val().replace(/\,/g, ''));
+            const harga = parseInt($('#harga_jual-' + id).val().replace(/\,/g, ''));
+            if (qty_awal < 1 || qty_awal == 'NaN') {
+                var qty = 1;
+            } else if (qty_awal > stock) {
+                var qty = stock;
+            } else {
+                var qty = qty_awal;
+            }
 
+            sub_total = qty * harga;
+            if (sub_total > 0) {
+                $('#sub_total-' + id).val(addCommas(sub_total));
+            } else {
+                $('#sub_total-' + id).val(0);
+            }
+            // if (qty > 0) {
+            //     return_qty = qty;
+            // } else {
+            //     return_qty = 0;
+            // }
+            if (harga > 0) {
+                return_harga = harga;
+            } else {
+                return_harga = 0;
+            }
+
+            $('#qty-' + id).val(addCommas(qty));
+            $('#harga_jual-' + id).val(addCommas(return_harga));
+            hitungtotal();
+        }
+
+        function hitungtotal() {
+            const rangeId = $('#jumlah-baris').val();
+            var sumHarga = 0;
+
+            for (let index = 1; index < parseInt(rangeId); index++) {
+                if ($('#sub_total-' + index).length != 0) {
+                    var SubTotal = $('#sub_total-' + index).val();
+                    if (SubTotal == null || SubTotal == '') {
+                        SubTotal = 0;
+                    }
+                    sumHarga += parseInt(SubTotal.replace(/\,/g, ''));
+                }
+            }
+            $('#total').html(addCommas(sumHarga));
+            const kredit = sumHarga - $('#tunai').val().replace(/\,/g, '');
+            $('#kredit').val(addCommas(kredit));
+        }
 
         function addItem() {
             var id = $('#item-select').val();
-            const rangeId = $('#jumlah-baris').val()
+            const rangeId = $('#jumlah-baris').val();
             $.ajax({
                 url: "<?= base_url('penjualan/get_item/') ?>" + id,
                 type: "post",
@@ -234,11 +291,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     let item = `
                                 <tr class="material" id="material-${rangeId}">
                                     <td>
-                                        <input type="text" class="form-control form-control-sm form-item" id="item-${rangeId}" name="item[]" value="${id}">
+                                        <input type="hidden" class="form-control form-control-sm form-item" id="item-${rangeId}" name="item[]" value="${id}">
+                                        ${data.nama}
                                     </td>
-                                    <td><input type="text" class="form-control form-control-sm form-stock text-right" name="stock[]" id="stock-${rangeId}" value="${data.stock}" readonly></td>
-                                    <td><input type="number" class="form-control form-control-sm form-qty text-right" name="qty[]" id="qty-${rangeId}" onchange="hitung_sub_total(0)" onkeyup="hitung_sub_total(0)" value="1"></td>
-                                    <td><input type="text" class="form-control form-control-sm form-harga_jual text-right" name="harga_jual[]" id="harga_jual-${rangeId}" value="${data.harga_jual}" readonly></td>
+                                    <td><input type="text" class="form-control form-control-sm form-stock text-right" name="stock[]" id="stock-${rangeId}" value="${addCommas(data.stock)}" readonly></td>
+                                    <td><input type="number" class="form-control form-control-sm form-qty text-right" name="qty[]" id="qty-${rangeId}" onchange="hitung_sub_total(${rangeId})" onkeyup="hitung_sub_total(${rangeId})" value="1"></td>
+                                    <td><input type="text" class="form-control form-control-sm form-harga_jual text-right" name="harga_jual[]" id="harga_jual-${rangeId}" value="${addCommas(data.harga_jual)}" readonly></td>
                                     <td><input type="text" class="form-control form-control-sm form-sub_total text-right" name="sub_total[]" id="sub_total-${rangeId}" value="0" readonly></td>
                                     <td><input type="text" class="form-control form-control-sm form-upah text-right" name="upah[]" id="upah-${rangeId}" value="0" readonly></td>
                                     <td><input type="text" class="form-control form-control-sm form-sub_upah text-right" name="sub_upah[]" id="sub_upah-${rangeId}" value="0" readonly></td>
@@ -248,11 +306,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </tr>
                             `;
                     $('#table-belanja tbody').append(item);
+                    $('#item-select').val('');
+                    $('#jumlah-baris').val(parseInt(rangeId) + parseInt(1));
+                    get_item();
+                    hitung_sub_total(rangeId);
                 }
             });
 
-            $('#item-select').val('');
-            get_item();
+
         }
 
         function hapus(params) {
@@ -270,7 +331,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         }
 
 
-        function list_need_approve() {
+        function get_stock() {
             if (oTable) {
                 oTable.fnDestroy();
             }
