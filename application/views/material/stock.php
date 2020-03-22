@@ -39,6 +39,8 @@
                                         <th>Material / Satuan</th>
                                         <th>Quantity</th>
                                         <th>Harga Jual</th>
+                                        <th>Upah Darat</th>
+                                        <th>Upah Laut</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -49,6 +51,8 @@
                                             <td><?= $value->nama . " (" . $value->satuan . ")" ?></td>
                                             <td class="text-center"><?= number_format($value->stock, 0) ?></td>
                                             <td class="text-right">Rp. <?= number_format($value->harga_jual, 0) ?></td>
+                                            <td class="text-right">Rp. <?= number_format($value->upah_darat, 0) ?></td>
+                                            <td class="text-right">Rp. <?= number_format($value->upah_laut, 0) ?></td>
                                             <td class="text-right">
                                                 <a href="<?= base_url('material/delete/') . $value->id ?>" onclick="return validation()" class="btn btn-danger btn-xs"><i class="fas fa-fw fa-trash"></i></a>
                                                 <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-material" class="btn btn-success btn-edit btn-xs"><i class="fas fa-fw fa-pencil-alt"></i></a>
@@ -93,20 +97,20 @@
                             <input type="text" name="satuan" id="satuan" class="form-control form-control-sm" placeholder="Harag jual">
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="exampleInputPassword1">Harga Jual</label>
-                            <input type="number" name="harga_jual" id="harga_jual" class="form-control form-control-sm" placeholder="Harga Jual">
-                        </div>
-                        <div class="form-group col-md-6">
                             <label for="exampleInputPassword1">Keterangan</label>
                             <textarea name="keterangan" id="keterangan" class="form-control form-control-sm" cols="3" placeholder="Keterangan"></textarea>
                         </div>
                         <div class="form-group col-md-6">
+                            <label for="exampleInputPassword1">Harga Jual</label>
+                            <input type="text" name="harga_jual" id="harga_jual" class="form-control form-control-sm text-right" placeholder="Harga Jual">
+                        </div>
+                        <div class="form-group col-md-6">
                             <label for="exampleInputPassword1">Upah Laut</label>
-                            <input type="number" name="upah_laut" id="upah_laut" class="form-control form-control-sm" placeholder="Upah Laut">
+                            <input type="number" name="upah_laut" id="upah_laut" class="form-control form-control-sm text-right" placeholder="Upah Laut">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="exampleInputPassword1">Upah Darat</label>
-                            <input type="number" name="upah_darat" id="upah_darat" class="form-control form-control-sm" placeholder="Upah Darat">
+                            <input type="number" name="upah_darat" id="upah_darat" class="form-control form-control-sm text-right" placeholder="Upah Darat">
                         </div>
 
                     </div>
@@ -159,6 +163,8 @@
                 $('#satuan').val(data.satuan);
                 $('#harga_jual').val(data.harga_jual);
                 $('#keterangan').val(data.keterangan);
+                $('#upah_laut').val(data.upah_laut);
+                $('#upah_darat').val(data.upah_darat);
             }
         });
     });

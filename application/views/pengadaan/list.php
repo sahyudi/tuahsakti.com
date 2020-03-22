@@ -66,6 +66,12 @@
                                         </tr>
                                     <?php } ?>
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="8" class="text-right">Total</td>
+                                        <td class="text-right">Rp. <?= number_format($sub_total, 0) ?></td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
 

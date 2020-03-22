@@ -74,7 +74,7 @@
                                     <th>No</th>
                                     <th>Tanggal</th>
                                     <th>Keterangan</th>
-                                    <th>Material / Satuan</th>
+                                    <th>Material (Satuan)</th>
                                     <th>Quantity</th>
                                     <th>Harga</th>
                                     <th>Sub Total</th>
@@ -99,7 +99,7 @@
                                             <td class="text-center"><?= $key + 1 ?></td>
                                             <td><?= $value->tanggal ?></td>
                                             <td><?= $value->ket ?></td>
-                                            <td><?= $value->material . " / " . $value->satuan  ?></td>
+                                            <td><?= $value->material . " (" . $value->satuan  ?>)</td>
                                             <?php if ($value->tipe == 'in') { ?>
                                                 <td class="text-center"><?= number_format($value->quantity, 0) ?></td>
                                                 <td class="text-right">Rp. <?= number_format($value->harga, 0) ?></td>

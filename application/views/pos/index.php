@@ -145,8 +145,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                                                 </div>
                                             </div>
-
-                                            <div class="card-tite">List Item</div>
+                                            <h5 class="text-center">Daftar Belanjaan</h5>
                                             <table id="table-belanja" class="table table-bordered table-striped">
                                                 <thead>
                                                     <tr class="text-center">
@@ -170,6 +169,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     </tr>
                                                 </tfoot>
                                             </table>
+                                        </div>
+                                        <div class="col-md-6"></div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="">Bayar</label>
+                                                <input type="text" name="tunai" id="tunai" class="form-control form-control-sm text-right" onkeyup="hitung_tunai()" value="0">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="">Lebih uang</label>
+                                                <input type="text" name="lebih-uang" id="lebih-uang" class="form-control form-control-sm text-right" value="0" readonly>
+                                            </div>
+                                            <!-- <select name="upah[]" id="upah-0" class="form-control select2">
+                                                <option value="0">0</option>
+                                                <option value="0">Darat</option>
+                                                <option value="0">Laut</option>
+                                            </select> -->
                                         </div>
                                     </div>
                                 </div>
@@ -262,6 +277,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
             hitungtotal();
         }
 
+        function hitung_tunai() {
+            const total = parseInt($('#total').html().replace(/\,/g, ''));
+            const tunai = $('#tunai').val().replace(/\,/g, '');
+
+            $('#lebih-uang').val(addCommas(parseInt(tunai) - total));
+            $('#tunai').val(addCommas(tunai));
+        }
+
         function hitungtotal() {
             const rangeId = $('#jumlah-baris').val();
             var sumHarga = 0;
@@ -276,8 +299,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 }
             }
             $('#total').html(addCommas(sumHarga));
-            const kredit = sumHarga - $('#tunai').val().replace(/\,/g, '');
-            $('#kredit').val(addCommas(kredit));
         }
 
         function addItem() {
@@ -294,12 +315,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <input type="hidden" class="form-control form-control-sm form-item" id="item-${rangeId}" name="item[]" value="${id}">
                                         ${data.nama}
                                     </td>
-                                    <td><input type="text" class="form-control form-control-sm form-stock text-right" name="stock[]" id="stock-${rangeId}" value="${addCommas(data.stock)}" readonly></td>
-                                    <td><input type="number" class="form-control form-control-sm form-qty text-right" name="qty[]" id="qty-${rangeId}" onchange="hitung_sub_total(${rangeId})" onkeyup="hitung_sub_total(${rangeId})" value="1"></td>
-                                    <td><input type="text" class="form-control form-control-sm form-harga_jual text-right" name="harga_jual[]" id="harga_jual-${rangeId}" value="${addCommas(data.harga_jual)}" readonly></td>
-                                    <td><input type="text" class="form-control form-control-sm form-sub_total text-right" name="sub_total[]" id="sub_total-${rangeId}" value="0" readonly></td>
-                                    <td><input type="text" class="form-control form-control-sm form-upah text-right" name="upah[]" id="upah-${rangeId}" value="0" readonly></td>
-                                    <td><input type="text" class="form-control form-control-sm form-sub_upah text-right" name="sub_upah[]" id="sub_upah-${rangeId}" value="0" readonly></td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm form-stock text-right" name="stock[]" id="stock-${rangeId}" value="${addCommas(data.stock)}" readonly>
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control form-control-sm form-qty text-right" name="qty[]" id="qty-${rangeId}" onchange="hitung_sub_total(${rangeId})" onkeyup="hitung_sub_total(${rangeId})" value="1">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm form-harga_jual text-right" name="harga_jual[]" id="harga_jual-${rangeId}" value="${addCommas(data.harga_jual)}" readonly>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm form-sub_total text-right" name="sub_total[]" id="sub_total-${rangeId}" value="0" readonly>
+                                    </td>
+                                    <td>
+
+                                    <select name="upah[]" id="upah-0" class="form-control select2">
+                                                <option value="0">0</option>
+                                                <option value="${data.upah_darat}">Darat</option>
+                                                <option value="${data.upah_laut}">Laut</option>
+                                            </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm form-sub_upah text-right" name="sub_upah[]" id="sub_upah-${rangeId}" value="0" readonly>
+                                    </td>
                                     <td class="for-button">
                                         <button href="#" onclick="hapus(${rangeId})" class="btn btn-sm btn-danger"><i class="fa fa-minus"></i></button>
                                     </td>

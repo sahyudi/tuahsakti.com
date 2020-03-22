@@ -19,6 +19,7 @@ class M_pengadaan extends CI_Model
         $this->db->join($this->pengadaan_detail . ' as d', 'a.id = d.pengadaan_id', 'left');
         $this->db->join($this->material . ' as m', 'm.id = d.material_id', 'left');
         $this->db->join($this->vendor . ' as v', 'v.id = a.vendor_id', 'left');
+        $this->db->order_by('a.tanggal', 'asc');
         $data = $this->db->get($this->pengadaan . ' as a');
         return $data;
     }
