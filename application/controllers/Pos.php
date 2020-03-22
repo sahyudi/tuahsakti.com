@@ -23,8 +23,17 @@ class Pos extends CI_Controller
 
     function index()
     {
+        // $data['active'] = 'active'
         $data['material'] = $this->m_material->get_material()->result();
-        $this->load->view('pos/index', $data);
+        $data['subview'] = 'pos/index';
+        $this->load->view('pos/main', $data);
+    }
+
+    function penjualan()
+    {
+        $data['penjualan'] = $this->m_penjualan->get_data()->result();
+        $data['subview'] = 'pos/penjualan';
+        $this->load->view('pos/main', $data);
     }
 
     function get_data_stock()

@@ -127,6 +127,6 @@ class Auth extends CI_Controller
         $data['active'] = null;
         $data['title'] = 'Page Not Found';
         $data['subview'] = 'auth/not_found';
-        $this->load->view('template/main', $data);
+        $this->load->view('auth/not_found', $data);
     }
 }
