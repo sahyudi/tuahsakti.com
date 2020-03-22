@@ -187,7 +187,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             </div>
                                         </div>
                                         <div class="col-md-12">
-                                            <button type="submit" class="btn btn-primary float-right btn-ms">Payment <i class="fas fa-fw fa-file-invoice-dollar"></i> </button>
+                                            <button type="submit" onclick="return cek_item_input()" class="btn btn-primary float-right btn-ms">Payment <i class="fas fa-fw fa-file-invoice-dollar"></i> </button>
                                         </div>
                                     </form>
                                 </div>
@@ -217,13 +217,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
             // get_stock()
         });
 
+        function cek_item_input() {
+            const item_select = [];
+
+            $('[name="item[]"]').each(function(i, value) {
+                item_select[i] = $(value).val();
+                // console.log(value);
+            });
+            if (item_select.length < 1) {
+                alert('Silakan pilih item terlebih dahulu');
+                return false;
+            } else {
+                return confirm('Apakah anda yakin akan menyimpan data ?');
+            }
+        }
+
         function get_item() {
             const item_select = [];
             $('[name="item[]"]').each(function(i, value) {
                 item_select[i] = $(value).val();
-                console.log(value);
+                // console.log(value);
             });
-            console.log(item_select)
+            // console.log(item_select)
 
             $.ajax({
                 url: "<?= base_url('pos/get_item_list'); ?>",

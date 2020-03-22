@@ -74,6 +74,7 @@ class Pos extends CI_Controller
             'created_user' => $user = $this->session->userdata('id')
         ];
 
+        log_r($data_pengadaan);
         $this->db->insert($this->penjualan, $data_pengadaan);
         $penjualan_id = $this->db->insert_id();
 
