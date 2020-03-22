@@ -75,6 +75,14 @@ class Setting extends CI_Controller
         $this->load->view('template/main', $data);
     }
 
+    function create_user()
+    {
+        $data['active'] = 'setting/users';
+        $data['title'] = 'Form User';
+        $data['subview'] = 'setting/user_form';
+        $this->load->view('template/main', $data);
+    }
+
 
     public function group()
     {

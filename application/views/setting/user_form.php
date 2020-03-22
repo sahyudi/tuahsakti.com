@@ -5,12 +5,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Users</h1>
+                    <h1 class="m-0 text-dark">Form User</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="<?= base_url('home') ?>">Home</a></li>
-                        <li class="breadcrumb-item active">Users</li>
+                        <li class="breadcrumb-item active">User</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -26,36 +26,64 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Data Users</h3>
-                        <a href="<?= base_url('setting/create_user') ?>" class="btn btn-primary float-right btn-sm"><i class="fas fa-fw fa-plus"></i> Add Users</a>
+                        <h3 class="card-title">Form</h3>
+                        <a href="#" class="btn btn-primary float-right btn-sm" data-toggle="modal" data-target="#modal-vendor"><i class="fas fa-fw fa-plus"></i> Add Users</a>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped">
-                            <thead>
-                                <tr class="text-center">
-                                    <th>No</th>
-                                    <th>Nama</th>
-                                    <th>Email</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($users as $key => $value) { ?>
-                                    <tr>
-                                        <td class="text-center"><?= $key + 1 ?></td>
-                                        <td><?= $value->name ?></td>
-                                        <td><?= $value->email ?></td>
-                                        <td class="text-center"><?= ($value->is_active == 1) ? '<label class="badge badge-success">Aktif</label>' : '<label class="badge badge-danger">Non aktif</label>' ?></td>
-                                        <td class="text-right">
-                                            <a href="<?= base_url('setting/deleteMenu/') . $value->id ?>" class="btn btn-xs btn-danger"><i class="fas fa-fw fa-trash"></i></a>
-                                            <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-users" class="btn btn-xs btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
-                                        </td>
-                                    </tr>
-                                <?php } ?>
-                            </tbody>
-                        </table>
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-8">
+                                <form action="<?= base_url('auth/registration') ?>" method="post">
+                                    <div class="input-group">
+                                        <input type="text" name="name" id="name" class="form-control" placeholder="Full name" value="<?= set_value('name') ?>">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-user"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?= form_error('name', '<small class="text-danger">', '</small>'); ?>
+                                    <div class="input-group mt-3">
+                                        <input type="email" name="email" id="email" class="form-control" value="<?= set_value('email') ?>" placeholder="Email">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-envelope"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?= form_error('email', '<small class="text-danger">', '</small>'); ?>
+                                    <div class="input-group mt-3">
+                                        <input type="password" name="password" id="password" class="form-control" placeholder="Password">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-lock"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?= form_error('password', '<small class="text-danger">', '</small>'); ?>
+                                    <div class="input-group mt-3">
+                                        <input type="password" name="password2" id="password2" class="form-control" placeholder="Retype password">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="fas fa-lock"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-8">
+
+                                        </div>
+                                        <!-- /.col -->
+                                        <div class="col-4">
+                                            <button type="submit" class="btn btn-primary btn-block">Register</button>
+                                        </div>
+                                        <!-- /.col -->
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-2"></div>
+                        </div>
                     </div>
                     <!-- /.card-body -->
                 </div>
