@@ -26,7 +26,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Data Vedor</h3>
+                        <h3 class="card-title">Data Vendor</h3>
                         <a href="#" class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#modal-vendor"><i class="fas fa-fw fa-plus"></i> Add Vendor</a>
                     </div>
                     <!-- /.card-header -->

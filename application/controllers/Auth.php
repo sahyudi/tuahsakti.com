@@ -45,7 +45,7 @@ class Auth extends CI_Controller
                     if ($user['group_id'] == 1) {
                         redirect('home');
                     } else {
-                        redirect('book');
+                        redirect('pos');
                     }
                 } else {
                     $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Wrong password!</div>');
