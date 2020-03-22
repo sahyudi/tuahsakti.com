@@ -32,32 +32,34 @@
                                         </div>
                                     </div>
                                     <h5 class="text-center">Daftar Belanjaan</h5>
-                                    <table id="table-belanja" class="table table-bordered table-striped">
-                                        <thead>
-                                            <tr class="text-center">
-                                                <th style="width: 25%;">Item / Satuan</th>
-                                                <th>Stock</th>
-                                                <th>Quantity</th>
-                                                <th>Harga</th>
-                                                <th>Sub Total</th>
-                                                <th>Upah / Satuan</th>
-                                                <th>Sub Upah</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <input type="hidden" id="jumlah-baris" value="1">
-                                            <tr id="remove-null">
-                                                <td colspan="8" class="text-center">Item Belum dipilih</td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <td colspan="4" class="text-right">TOTAL</td>
-                                                <td class="text-right">Rp. <span id="total"></span></td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
+                                    <div class="table-responsive">
+                                        <table id="table-belanja" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th style="width: 25%;">Item / Satuan</th>
+                                                    <th>Stock</th>
+                                                    <th>Quantity</th>
+                                                    <th>Harga</th>
+                                                    <th>Sub Total</th>
+                                                    <th>Upah / Satuan</th>
+                                                    <th>Sub Upah</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <input type="hidden" id="jumlah-baris" value="1">
+                                                <tr id="remove-null">
+                                                    <td colspan="8" class="text-center">Item Belum dipilih</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="4" class="text-right">TOTAL</td>
+                                                    <td class="text-right">Rp. <span id="total"></span></td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
                                 </div>
                                 <div class="col-md-6"></div>
                                 <div class="col-md-6">
