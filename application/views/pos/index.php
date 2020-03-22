@@ -280,11 +280,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             } else {
                 $('#sub_total-' + id).val(0);
             }
-            // if (qty > 0) {
-            //     return_qty = qty;
-            // } else {
-            //     return_qty = 0;
-            // }
+
             if (harga > 0) {
                 return_harga = harga;
             } else {

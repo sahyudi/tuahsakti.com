@@ -61,7 +61,7 @@
                                             <th>Quantity</th>
                                             <th>Harga</th>
                                             <th>Sub Total</th>
-                                            <th>Upah / Satuan</th>
+                                            <th style="width: 20%;">Upah / Satuan</th>
                                             <th>Sub Upah</th>
                                             <th>Actions</th>
                                         </tr>
