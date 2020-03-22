@@ -37,6 +37,7 @@
                                     <th>No</th>
                                     <th>Nama</th>
                                     <th>Email</th>
+                                    <th>Group Name</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -47,6 +48,7 @@
                                         <td class="text-center"><?= $key + 1 ?></td>
                                         <td><?= $value->name ?></td>
                                         <td><?= $value->email ?></td>
+                                        <td><?= $value->group_name ?></td>
                                         <td class="text-center"><?= ($value->is_active == 1) ? '<label class="badge badge-success">Aktif</label>' : '<label class="badge badge-danger">Non aktif</label>' ?></td>
                                         <td class="text-right">
                                             <a href="<?= base_url('setting/deleteMenu/') . $value->id ?>" class="btn btn-xs btn-danger"><i class="fas fa-fw fa-trash"></i></a>

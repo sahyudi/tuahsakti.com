@@ -22,6 +22,10 @@
             'placeholder': 'Select One'
         });
     });
+
+    function button_back() {
+        window.history.go(-1);
+    }
 </script>
 </body>
 

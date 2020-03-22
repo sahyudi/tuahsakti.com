@@ -120,73 +120,76 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <div class="card card-primary card-outline">
                                 <div class="card-header">
                                     <h5 class="card-title m-0">Stock Item</h5>
-                                    <a href="#" data-toggle="modal" data-target="#modal-stock" class="btn btn-sm btn-info  float-right"><i class="fa fa-database"> Stock</i></a>
+                                    <a href="#" onclick="get_stock()" data-toggle="modal" data-target="#modal-stock" class="btn btn-sm btn-info  float-right"><i class="fa fa-database"> Stock</i></a>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row">
+                                    <form action="<?= base_url('pos/save_payment') ?>" method="POST">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="form-group col-md-4">
+                                                        <label for="">Tanggal</label>
+                                                        <p><?= date('d F Y') ?></p>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="">No Nota</label>
+                                                        <p><?= $this->session->userdata('email'); ?></p>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="">Keterangan</label>
+                                                        <textarea name="keterangan" id="keterangan" class="form-control form-control-sm" rows="1"></textarea>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="">Item List</label>
+                                                        <select name="item-select" id="item-select" onchange="addItem()" class="form-control form-control-sm select2" onchange="addItem()">
+                                                            <option value=""></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <h5 class="text-center">Daftar Belanjaan</h5>
+                                                <table id="table-belanja" class="table table-bordered table-striped">
+                                                    <thead>
+                                                        <tr class="text-center">
+                                                            <th style="width: 25%;">Item / Satuan</th>
+                                                            <th>Stock</th>
+                                                            <th>Quantity</th>
+                                                            <th>Harga</th>
+                                                            <th>Sub Total</th>
+                                                            <th>Upah / Satuan</th>
+                                                            <th>Sub Upah</th>
+                                                            <th>Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <input type="hidden" id="jumlah-baris" value="1">
+                                                        <tr id="remove-null">
+                                                            <td colspan="8" class="text-center">Item Belum dipilih</td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <td colspan="4" class="text-right">TOTAL</td>
+                                                            <td class="text-right">Rp. <span id="total"></span></td>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                            <div class="col-md-6"></div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="">Bayar</label>
+                                                    <input type="text" name="tunai" id="tunai" class="form-control form-control-sm text-right" onkeyup="hitung_tunai()" value="0">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="">Lebih uang</label>
+                                                    <input type="text" name="lebih-uang" id="lebih-uang" class="form-control form-control-sm text-right" value="0" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="col-md-12">
-                                            <div class="row">
-                                                <div class="form-group col-md-6">
-                                                    <label for="">Tanggal</label>
-                                                    <p><?= date('d F Y') ?></p>
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="">No Nota</label>
-                                                    <p><?= 'FE' . time() ?></p>
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="">Item List</label>
-                                                    <select name="item-select" id="item-select" onchange="addItem()" class="form-control form-control-sm select2" onchange="addItem()">
-                                                        <option value=""></option>
-                                                        <!-- <?php foreach ($material as $key => $value) { ?>
-                                                            <option value="<?= $value->id ?>"><?= $value->nama . " / " . $value->satuan ?></option>
-                                                        <?php } ?> -->
-                                                    </select>
-
-                                                </div>
-                                            </div>
-                                            <h5 class="text-center">Daftar Belanjaan</h5>
-                                            <table id="table-belanja" class="table table-bordered table-striped">
-                                                <thead>
-                                                    <tr class="text-center">
-                                                        <th style="width: 25%;">Item / Satuan</th>
-                                                        <th>Stock</th>
-                                                        <th>Quantity</th>
-                                                        <th>Harga</th>
-                                                        <th>Sub Total</th>
-                                                        <th>Upah / Satuan</th>
-                                                        <th>Sub Upah</th>
-                                                        <th>Actions</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <input type="hidden" id="jumlah-baris" value="1">
-                                                </tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                        <td colspan="4" class="text-right">TOTAL</td>
-                                                        <td class="text-right">Rp. <span id="total"></span></td>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
+                                            <button type="submit" class="btn btn-primary float-right btn-ms">Payment <i class="fas fa-fw fa-file-invoice-dollar"></i> </button>
                                         </div>
-                                        <div class="col-md-6"></div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="">Bayar</label>
-                                                <input type="text" name="tunai" id="tunai" class="form-control form-control-sm text-right" onkeyup="hitung_tunai()" value="0">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="">Lebih uang</label>
-                                                <input type="text" name="lebih-uang" id="lebih-uang" class="form-control form-control-sm text-right" value="0" readonly>
-                                            </div>
-                                            <!-- <select name="upah[]" id="upah-0" class="form-control select2">
-                                                <option value="0">0</option>
-                                                <option value="0">Darat</option>
-                                                <option value="0">Laut</option>
-                                            </select> -->
-                                        </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -209,8 +212,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- page script -->
     <script type="text/javascript">
         $(document).ready(function() {
+            // $('#table-belanja').dataTable();
             get_item();
-            get_stock()
+            // get_stock()
         });
 
         function get_item() {
@@ -309,6 +313,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 type: "post",
                 dataType: 'JSON',
                 success: function(data) {
+                    $('#remove-null').remove();
                     let item = `
                                 <tr class="material" id="material-${rangeId}">
                                     <td>
@@ -328,12 +333,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <input type="text" class="form-control form-control-sm form-sub_total text-right" name="sub_total[]" id="sub_total-${rangeId}" value="0" readonly>
                                     </td>
                                     <td>
-
-                                    <select name="upah[]" id="upah-0" class="form-control select2">
-                                                <option value="0">0</option>
-                                                <option value="${data.upah_darat}">Darat</option>
-                                                <option value="${data.upah_laut}">Laut</option>
-                                            </select>
+                                        <select name="upah[]" id="upah-0" class="form-control select2">
+                                            <option value="0">0</option>
+                                            <option value="${data.upah_darat}">Darat</option>
+                                            <option value="${data.upah_laut}">Laut</option>
+                                        </select>
                                     </td>
                                     <td>
                                         <input type="text" class="form-control form-control-sm form-sub_upah text-right" name="sub_upah[]" id="sub_upah-${rangeId}" value="0" readonly>
@@ -357,6 +361,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
         function hapus(params) {
             var id = 'material-' + params;
             $('#' + id).remove('');
+            if ($('.material').length < 1) {
+                $('#remove-null').remove();
+                const nul = `<tr id="remove-null"><td colspan="8" class="text-center">Item Belum dipilih</td></tr>`;
+                $('#table-belanja tbody').append(nul);
+            }
             get_item();
         }
 
@@ -415,6 +424,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             return `<td class="text-right">Rp. ${addCommas(status)}</right>`;
                         }
                     },
+                    {
+                        "data": "harga_jual",
+                        // "className": "text-right",
+                        "render": function(data, type, oObj) {
+                            var status = oObj['upah_darat'];
+                            return `<td class="text-right">Rp. ${addCommas(status)}</right>`;
+                        }
+                    },
+                    {
+                        "data": "harga_jual",
+                        // "className": "text-right",
+                        "render": function(data, type, oObj) {
+                            var status = oObj['upah_darat'];
+                            return `<td class="text-right">Rp. ${addCommas(status)}</right>`;
+                        }
+                    },
 
                 ]
             })
@@ -452,6 +477,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <th>Satuan</th>
                                 <th>Quantity</th>
                                 <th>Harga Jual</th>
+                                <th>Upah Darat</th>
+                                <th>Upah Laut</th>
                             </tr>
                         </thead>
                     </table>

@@ -40,8 +40,9 @@ class M_setting extends CI_Model
 
     public function get_users($id = null)
     {
-        $this->db->select('A.*');
+        $this->db->select('A.*, B.group_name');
         $this->db->from('users A');
+        $this->db->join('groups B', 'A.group_id = B.id');
         if ($id != 0) {
             $this->db->where('A.id', $id);
         }
