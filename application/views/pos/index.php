@@ -17,7 +17,7 @@
                                             <p><?= date('d F Y') ?></p>
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label for="">No Nota</label>
+                                            <label for="">Kasir</label>
                                             <p><?= $this->session->userdata('email'); ?></p>
                                         </div>
                                         <div class="form-group col-md-4">

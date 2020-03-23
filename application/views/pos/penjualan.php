@@ -1,6 +1,6 @@
 <section class="content">
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 mr-10 ">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Data Penjualan Material</h3>

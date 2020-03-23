@@ -54,7 +54,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <span class="brand-text font-weight-light">Point Of Sale</span>
                 </a>
 
-
+                <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
                 <div class="collapse navbar-collapse order-3" id="navbarCollapse">
                     <!-- Left navbar links -->
                     <ul class="navbar-nav">
@@ -62,7 +64,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <a href="<?= base_url('pos') ?>" class="nav-link">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">Contact</a>
+                            <a href="<?= base_url('pos/pengadaan') ?>" class="nav-link">Pengadaan</a>
                         </li>
                         <li class="nav-item">
                             <a href="<?= base_url('pos/penjualan') ?>" class="nav-link">Penjualan</a>
@@ -70,13 +72,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </ul>
                 </div>
 
+
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
                     <li class="nav-item dropdown">
-                        <a class="nav-link" data-toggle="dropdown" href="#"><?= $this->session->userdata('email'); ?>
-                            <i class="fas fa-fw fa-user-cog"></i>
+                        <a class="nav-link" data-toggle="dropdown" href="#">
+                            <i class="mr-3 fas fa-fw fa-user-cog"> </i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-
 
                             <div class="dropdown-divider"></div>
                             <a href="#" class="dropdown-item">
@@ -102,12 +104,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <div class="col-sm-6">
                             <h1 class="m-0 text-dark"> POS <small>Versi 1.0</small></h1>
                         </div>
-                        <div class="col-sm-6">
+                        <!-- <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="#">Pos</a></li>
                                 <li class="breadcrumb-item active">Home</li>
                             </ol>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
