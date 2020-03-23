@@ -1,91 +1,91 @@
 <div class="content">
-    <div class="col-md-12">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card card-primary card-outline">
-                    <div class="card-header">
-                        <h5 class="card-title m-0">Stock Item</h5>
-                        <a href="#" onclick="get_stock()" data-toggle="modal" data-target="#modal-stock" class="btn btn-sm btn-info  float-right"><i class="fa fa-database"> Stock</i></a>
-                    </div>
-                    <div class="card-body">
-                        <form action="<?= base_url('pos/save_payment') ?>" method="POST">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        <div class="form-group col-md-4">
-                                            <label for="">Tanggal</label>
-                                            <p><?= date('d F Y') ?></p>
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label for="">Kasir</label>
-                                            <p><?= $this->session->userdata('email'); ?></p>
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label for="">Keterangan</label>
-                                            <textarea name="keterangan" id="keterangan" class="form-control form-control-sm" rows="1"></textarea>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="">Item List</label>
-                                            <select name="item-select" id="item-select" onchange="addItem()" class="form-control form-control-sm select2" onchange="addItem()">
-                                                <option value=""></option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <h5 class="text-center">Daftar Belanjaan</h5>
-                                    <div class="table-responsive">
-                                        <table id="table-belanja" class="table table-bordered table-striped">
-                                            <thead>
-                                                <tr class="text-center">
-                                                    <th style="width: 25%;">Item / Satuan</th>
-                                                    <th>Stock</th>
-                                                    <th>Quantity</th>
-                                                    <th>Harga</th>
-                                                    <th>Sub Total</th>
-                                                    <th>Upah / Satuan</th>
-                                                    <th>Sub Upah</th>
-                                                    <th>Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <input type="hidden" id="jumlah-baris" value="1">
-                                                <tr id="remove-null">
-                                                    <td colspan="8" class="text-center">Item Belum dipilih</td>
-                                                </tr>
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <td colspan="4" class="text-right">TOTAL</td>
-                                                    <td class="text-right">Rp. <span id="total"></span></td>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="col-md-6"></div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="">Bayar</label>
-                                        <input type="text" name="tunai" id="tunai" class="form-control form-control-sm text-right" onkeyup="hitung_tunai()" value="0">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="">Lebih uang</label>
-                                        <input type="text" name="lebih-uang" id="lebih-uang" class="form-control form-control-sm text-right" value="0" readonly>
-                                    </div>
-                                </div>
-                            </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <?= $this->session->flashdata('message'); ?>
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h5 class="card-title m-0">Stock Item</h5>
+                    <a href="#" onclick="get_stock()" data-toggle="modal" data-target="#modal-stock" class="btn btn-sm btn-info  float-right"><i class="fa fa-database"> Stock</i></a>
+                </div>
+                <div class="card-body">
+                    <form action="<?= base_url('pos/save_payment') ?>" method="POST">
+                        <div class="row">
                             <div class="col-md-12">
-                                <button type="submit" onclick="return cek_item_input()" class="btn btn-primary float-right btn-ms">Payment <i class="fas fa-fw fa-file-invoice-dollar"></i> </button>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label for="">Kasir</label>
+                                        <p><?= $this->session->userdata('email'); ?></p>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="">Tanggal</label>
+                                        <p><?= date('D, d F Y') ?></p>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="">Keterangan</label>
+                                        <textarea name="keterangan" id="keterangan" class="form-control form-control-sm" rows="1"></textarea>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="">Item List</label>
+                                        <select name="item-select" id="item-select" onchange="addItem()" class="form-control form-control-sm select2" onchange="addItem()">
+                                            <option value=""></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <h5 class="text-center">Daftar Belanjaan</h5>
+                                <div class="table-responsive">
+                                    <table id="table-belanja" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr class="text-center">
+                                                <th style="width: 25%;">Item / Satuan</th>
+                                                <th>Stock</th>
+                                                <th>Quantity</th>
+                                                <th>Harga</th>
+                                                <th>Sub Total</th>
+                                                <!-- <th>Upah / Satuan</th>
+                                                    <th>Sub Upah</th> -->
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <input type="hidden" id="jumlah-baris" value="1">
+                                            <tr id="remove-null">
+                                                <td colspan="6" class="text-center">Item Belum dipilih</td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="4" class="text-right">TOTAL</td>
+                                                <td class="text-right">Rp. <span id="total"></span></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
                             </div>
-                        </form>
-                    </div>
+                            <div class="col-md-6"></div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Bayar</label>
+                                    <input type="text" name="tunai" id="tunai" class="form-control form-control-sm text-right" onkeyup="hitung_tunai()" value="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Lebih uang</label>
+                                    <input type="text" name="lebih-uang" id="lebih-uang" class="form-control form-control-sm text-right" value="0" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <button type="submit" onclick="return cek_item_input()" class="btn btn-primary float-right btn-ms">Payment <i class="fas fa-fw fa-file-invoice-dollar"></i> </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+
 <div class="modal fade" id="modal-stock">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Material Stock</h4>
@@ -144,9 +144,7 @@
         const item_select = [];
         $('[name="item[]"]').each(function(i, value) {
             item_select[i] = $(value).val();
-            // console.log(value);
         });
-        // console.log(item_select)
 
         $.ajax({
             url: "<?= base_url('pos/get_item_list'); ?>",
@@ -195,7 +193,7 @@
             return_harga = 0;
         }
 
-        $('#qty-' + id).val(addCommas(qty));
+        // $('#qty-' + id).val(qty);
         $('#harga_jual-' + id).val(addCommas(return_harga));
         hitungtotal();
     }
@@ -215,6 +213,7 @@
         for (let index = 1; index < parseInt(rangeId); index++) {
             if ($('#sub_total-' + index).length != 0) {
                 var SubTotal = $('#sub_total-' + index).val();
+                // var SubUpah = $('#sub_upah-' + index).val();
                 if (SubTotal == null || SubTotal == '') {
                     SubTotal = 0;
                 }
@@ -234,38 +233,35 @@
             success: function(data) {
                 $('#remove-null').remove();
                 let item = `
-                                <tr class="material" id="material-${rangeId}">
-                                    <td>
-                                        <input type="hidden" class="form-control form-control-sm form-item" id="item-${rangeId}" name="item[]" value="${id}">
-                                        ${data.nama}
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control form-control-sm form-stock text-right" name="stock[]" id="stock-${rangeId}" value="${addCommas(data.stock)}" readonly>
-                                    </td>
-                                    <td>
-                                        <input type="number" class="form-control form-control-sm form-qty text-right" name="qty[]" id="qty-${rangeId}" onchange="hitung_sub_total(${rangeId})" onkeyup="hitung_sub_total(${rangeId})" value="1">
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control form-control-sm form-harga_jual text-right" name="harga_jual[]" id="harga_jual-${rangeId}" value="${addCommas(data.harga_jual)}" readonly>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control form-control-sm form-sub_total text-right" name="sub_total[]" id="sub_total-${rangeId}" value="0" readonly>
-                                    </td>
-                                    <td>
-                                        <select name="upah[]" id="upah-0" class="form-control select2">
-                                            <option value="0">0</option>
-                                            <option value="${data.upah_darat}">Darat</option>
-                                            <option value="${data.upah_laut}">Laut</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control form-control-sm form-sub_upah text-right" name="sub_upah[]" id="sub_upah-${rangeId}" value="0" readonly>
-                                    </td>
-                                    <td class="for-button">
-                                        <button href="#" onclick="hapus(${rangeId})" class="btn btn-sm btn-danger"><i class="fa fa-minus"></i></button>
-                                    </td>
-                                </tr>
+                            <tr class="material" id="material-${rangeId}">
+                                <td>
+                                    <input type="hidden" class="form-control form-control-sm form-item" id="item-${rangeId}" name="item[]" value="${id}">
+                                    ${data.nama} / ${data.satuan}
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control form-control-sm form-stock text-right" name="stock[]" id="stock-${rangeId}" value="${addCommas(data.stock)}" readonly>
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control form-control-sm form-qty text-right" name="qty[]" id="qty-${rangeId}" onchange="hitung_sub_total(${rangeId})" onkeyup="hitung_sub_total(${rangeId})" value="1">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control form-control-sm form-harga_jual text-right" name="harga_jual[]" id="harga_jual-${rangeId}" value="${addCommas(data.harga_jual)}" readonly>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control form-control-sm form-sub_total text-right" name="sub_total[]" id="sub_total-${rangeId}" value="0" readonly>
+                                </td>
+                                
+                                <td class="for-button">
+                                    <button href="#" onclick="hapus(${rangeId})" class="btn btn-sm btn-danger"><i class="fa fa-minus"></i></button>
+                                </td>
+                            </tr>
                             `;
+                // <td>
+                //    <input type="text" name="upah[]" id="upah-${rangeId}" class="form-control form-control-sm text-right" value="${addCommas(data.upah_darat)}" readonly>
+                // </td>
+                // <td>
+                //    <input type="text" class="form-control form-control-sm form-sub_upah text-right" name="sub_upah[]" id="sub_upah-${rangeId}" value="0" readonly>
+                // </td>
                 $('#table-belanja tbody').append(item);
                 $('#item-select').val('');
                 $('#jumlah-baris').val(parseInt(rangeId) + parseInt(1));

@@ -17,6 +17,9 @@
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
+<?php
+$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"> Transaksi dengan nomor ' . $detail[0]->transaksi_id . ' berhasil !</div>');
+?>
 
 <body>
     <div class="wrapper">

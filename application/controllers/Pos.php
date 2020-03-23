@@ -23,7 +23,7 @@ class Pos extends CI_Controller
 
     function index()
     {
-        // $data['active'] = 'active'
+        $data['active'] = 'Pos';
         $data['material'] = $this->m_material->get_material()->result();
         $data['subview'] = 'pos/index';
         $this->load->view('pos/main', $data);
@@ -31,6 +31,7 @@ class Pos extends CI_Controller
 
     function penjualan()
     {
+        $data['active'] = 'Penjualan';
         $data['penjualan'] = $this->m_penjualan->get_data()->result();
         $data['subview'] = 'pos/penjualan';
         $this->load->view('pos/main', $data);
@@ -98,7 +99,8 @@ class Pos extends CI_Controller
                 'qty' => $quantity,
                 'harga_jual' => str_replace(",", "", $harga_jual[$i]),
                 'satuan' => $material->satuan,
-                'upah' => $upah[$i],
+                'upah' => $material->upah_darat,
+                // 'upah' => str_replace(",", "", $upah[$i]),
                 'ket_detail' => 'Penjualan nomor ' . $nota,
                 'stock_updated' => $material->stock - $quantity,
                 'created_at' => $date,
