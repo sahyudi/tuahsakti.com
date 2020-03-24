@@ -74,8 +74,10 @@ class Pos extends CI_Controller
 
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"> Item gagal disimpan !</div>');
         } else {
             $this->db->trans_commit();
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"> Item berhasil disimpan !</div>');
         }
         redirect('pos/item_master');
     }

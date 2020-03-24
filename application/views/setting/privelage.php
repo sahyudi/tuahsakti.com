@@ -26,32 +26,36 @@
                 <?= $this->session->flashdata('message'); ?>
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">List Vedor</h3>
-                        <a href="#" class="btn btn-primary float-right btn-sm" data-toggle="modal" data-target="#modal-menu"><i class="fas fa-fw fa-plus"></i> Add Menu</a>
+                        <h3 class="card-title">Role Access</h3>
                     </div>
                     <!-- /.card-header -->
-                    <div class="card-body">
-                        <form method="POST" action="<?= base_url('setting/update_privelage') ?>">
+                    <form method="POST" action="<?= base_url('setting/update_privelage') ?>">
+                        <input type="hidden" name="group_id" id="group_id" value="<?= $group_id ?>">
+                        <div class="card-body">
                             <table class="table table-striped table-bordered tree">
                                 <!-- Loop menu -->
                                 <?php foreach ($menu as $key => $value) { ?>
                                     <?php if ($value->parent_id == 0) { ?>
                                         <tr>
-                                            <td><input type="checkbox" name="menu[]" id="checkbox-<?= $value->id; ?>" value="<?= $value->id; ?>"> <?= $value->title; ?></td>
+                                            <td><input type="checkbox" name="menu[]" id="checkbox-<?= $value->id; ?>" value="<?= $value->id; ?>" <?= check_menu($group_id, $value->id) ?>> <?= $value->title; ?></td>
                                         </tr>
                                         <!-- Loop submenu -->
                                         <?php foreach ($menu as $key => $submenu) { ?>
                                             <?php if ($submenu->parent_id == $value->id) { ?>
                                                 <tr class="m-3" style="margin-left:10%;">
-                                                    <td><input class="ml-5" type="checkbox" id="checkbox-<?= $submenu->id; ?>" name="sub_menu[]" value="<?= $submenu->id ?>"> <?= $submenu->title; ?></td>
+                                                    <td><input class="ml-5" type="checkbox" id="checkbox-<?= $submenu->id; ?>" name="menu[]" value="<?= $submenu->id ?>" <?= check_menu($group_id, $submenu->id) ?>> <?= $submenu->title; ?></td>
                                                 </tr>
                                             <?php } ?>
                                         <?php } ?>
                                     <?php } ?>
                                 <?php } ?>
                             </table>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" onclick="button_back()" class="btn btn-danger btn-sm float-left">Back</button>
+                            <button type="submit" class="btn btn-primary btn-sm float-right">Save Changes</button>
+                        </div>
+                    </form>
                     <!-- /.card-body -->
                 </div>
                 <!-- /.card -->

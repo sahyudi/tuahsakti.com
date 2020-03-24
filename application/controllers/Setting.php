@@ -136,7 +136,7 @@ class Setting extends CI_Controller
             $data['updated_at'] = date('Y-m-d H:i:s');
             $this->db->update('groups', $data, ['id' => $id]);
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Success update groups!</div>');
-            log_r($data);
+            // log_r($data);
         } else {
             $data['created_at'] = date('Y-m-d H:i:s');
             $this->db->insert('groups', $data);
@@ -146,10 +146,35 @@ class Setting extends CI_Controller
         redirect('setting/group');
     }
 
-    public function privelage()
+    function update_privelage()
+    {
+        $group_id = $this->input->post('group_id');
+        $menu = $this->input->post('menu');
+        $data_menu = [];
+        foreach ($menu as $key => $value) {
+            $data_menu[] = [
+                'group_id' => $group_id,
+                'menu_id' => $value
+            ];
+        }
+        $this->db->trans_begin();
+
+        $this->db->delete('user_access_role', ['group_id' => $group_id]);
+        $this->db->insert_batch('user_access_role', $data_menu);
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"> User role gagal disimpan !</div>');
+        } else {
+            $this->db->trans_commit();
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"> User role berhasil disimpan !</div>');
+        }
+        redirect('setting/group');
+    }
+
+    public function privelage($id)
     {
         $data['menu'] = $this->m_setting->get_menu()->result();
-
+        $data['group_id'] = $id;
         $data['active'] = 'setting/privelage';
         $data['title'] = 'Menu';
         $data['subview'] = 'setting/privelage';

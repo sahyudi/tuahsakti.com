@@ -98,41 +98,45 @@
                 }
                 ?>
                 <?php foreach ($menu as $key => $value) { ?>
-                    <?php if ($value->link == '#' || $value->link == '') {  ?>
-                        <!-- <li class="nav-item has-treeview menu-open"> -->
-                        <li class="nav-item has-treeview <?= ($parent == $value->id) ? 'menu-open' : '' ?>">
-                            <!-- <a href="#" class="nav-link active"> -->
-                            <a href="#" class="nav-link <?= ($parent == $value->id) ? 'active' : '' ?> ">
-                                <i class="nav-icon fas fa-fw <?= $value->icon ?>"></i>
-                                <p>
-                                    <?= $value->title ?>
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <?php
-                                $list = $this->db->get_where('menus', ['parent_id' => $value->id])->result();
-                                foreach ($list as $sub => $list_menu) {
-                                ?>
-                                    <li class="nav-item">
-                                        <a href="<?= base_url($list_menu->link) ?>" class="nav-link <?= ($list_menu->link == $active) ? 'active' : '' ?>">
-                                            <i class="far <?= ($list_menu->icon) ? $list_menu->icon : 'fa-circle' ?>  fa-circle nav-icon"></i>
-                                            <p><?= $list_menu->title ?></p>
-                                        </a>
-                                    </li>
-                                <?php } ?>
-                            </ul>
-                        </li>
-                    <?php } else { ?>
-                        <li class="nav-item">
-                            <a href="<?= base_url($value->link) ?>" class="nav-link <?= ($value->link == $active) ? 'active' : '' ?>">
-                                <i class="nav-icon fas fa-fw <?= $value->icon ?>"></i>
-                                <p>
-                                    <?= $value->title ?>
-                                    <!-- <span class="right badge badge-danger">New</span> -->
-                                </p>
-                            </a>
-                        </li>
+                    <?php if (check_persmission_views($this->session->userdata('group_id'), $value->id)) { ?>
+                        <?php if ($value->link == '#' || $value->link == '') {  ?>
+                            <!-- <li class="nav-item has-treeview menu-open"> -->
+                            <li class="nav-item has-treeview <?= ($parent == $value->id) ? 'menu-open' : '' ?>">
+                                <!-- <a href="#" class="nav-link active"> -->
+                                <a href="#" class="nav-link <?= ($parent == $value->id) ? 'active' : '' ?> ">
+                                    <i class="nav-icon fas fa-fw <?= $value->icon ?>"></i>
+                                    <p>
+                                        <?= $value->title ?>
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <?php
+                                    $list = $this->db->get_where('menus', ['parent_id' => $value->id])->result();
+                                    foreach ($list as $sub => $list_menu) {
+                                    ?>
+                                        <?php if (check_persmission_views($this->session->userdata('group_id'), $list_menu->id)) { ?>
+                                            <li class="nav-item">
+                                                <a href="<?= base_url($list_menu->link) ?>" class="nav-link <?= ($list_menu->link == $active) ? 'active' : '' ?>">
+                                                    <i class="far <?= ($list_menu->icon) ? $list_menu->icon : 'fa-circle' ?>  fa-circle nav-icon"></i>
+                                                    <p><?= $list_menu->title ?></p>
+                                                </a>
+                                            </li>
+                                        <?php } ?>
+                                    <?php } ?>
+                                </ul>
+                            </li>
+                        <?php } else { ?>
+                            <li class="nav-item">
+                                <a href="<?= base_url($value->link) ?>" class="nav-link <?= ($value->link == $active) ? 'active' : '' ?>">
+                                    <i class="nav-icon fas fa-fw <?= $value->icon ?>"></i>
+                                    <p>
+                                        <?= $value->title ?>
+                                        <!-- <span class="right badge badge-danger">New</span> -->
+                                    </p>
+                                </a>
+                            </li>
+                        <?php } ?>
                     <?php } ?>
                 <?php } ?>
                 <li class="nav-header">LOGOUT</li>
