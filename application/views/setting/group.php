@@ -27,7 +27,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">List Menu</h3>
-                        <a href="#" class="btn btn-primary float-right btn-sm" onclick="clear_form()" data-toggle="modal" data-target="#modal-menu"><i class="fas fa-fw fa-plus"></i> Add Menu</a>
+                        <a href="#" class="btn btn-primary float-right btn-sm" onclick="clear_form()" data-toggle="modal" data-target="#modal-menu"><i class="fas fa-fw fa-plus"></i> Add Groups</a>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">

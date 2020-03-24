@@ -91,4 +91,26 @@ class Material extends CI_Controller
         $data['subview'] = 'material/kartu_stock';
         $this->load->view('template/main', $data);
     }
+
+    function report_stock()
+    {
+        $this->form_validation->set_rules('start_date', 'Tanggal Mulai', 'trim|required');
+        $this->form_validation->set_rules('end_date', 'Tanggal Akhir', 'trim|required');
+        $this->form_validation->set_rules('material', 'Material', 'trim|required');
+
+
+        if ($this->form_validation->run() == false) {
+            $data['kartu_stock'] = $this->m_material->get_report_stock()->result();
+        } else {
+            $start_date = $this->input->post('start_date');
+            $end_date = $this->input->post('end_date');
+            $material = $this->input->post('material');
+            $data['kartu_stock'] = $this->m_material->get_report_stock($start_date, $end_date, $material)->result();
+        }
+        $data['material'] = $this->m_material->get_material()->result();
+        $data['active'] = 'material/report';
+        $data['title'] = 'Report Material';
+        $data['subview'] = 'material/report';
+        $this->load->view('template/main', $data);
+    }
 }
