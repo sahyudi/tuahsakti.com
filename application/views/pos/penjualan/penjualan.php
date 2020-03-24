@@ -1,10 +1,11 @@
 <section class="content">
     <div class="row">
-        <div class="col-12 mr-10 ">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Data Penjualan Material</h3>
-                    <!-- <a href="<?= base_url('penjualan/form') ?>" class="btn btn-primary float-right"><i class="fas fa-fw fa-plus"></i> Add Penjualan</a> -->
+                    <a href="<?= base_url('pos') ?>" class="btn btn-primary btn-sm float-right"><i class="fas fa-fw fa-plus"></i> Add Penjualan</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -64,6 +65,7 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-1"></div>
     </div>
 </section>
 <script type="text/javascript">

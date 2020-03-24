@@ -1,6 +1,7 @@
 <div class="content">
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
             <?= $this->session->flashdata('message'); ?>
             <div class="card card-primary card-outline">
                 <div class="card-header">
@@ -80,6 +81,7 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-1"></div>
     </div>
 </div>
 
@@ -358,17 +360,5 @@
 
             ]
         })
-    }
-
-    function addCommas(nStr) {
-        nStr += '';
-        x = nStr.split(',');
-        x1 = x[0];
-        x2 = x.length > 1 ? ',' + x[1] : '';
-        var rgx = /(\d+)(\d{3})/;
-        while (rgx.test(x1)) {
-            x1 = x1.replace(rgx, '$1' + ',' + '$2');
-        }
-        return x1 + x2;
     }
 </script>

@@ -30,7 +30,9 @@ class Material extends CI_Controller
             'nama' => $this->input->post('nama'),
             'satuan' => $this->input->post('satuan'),
             'harga_jual' => $this->input->post('harga_jual'),
-            'keterangan' => $this->input->post('keterangan')
+            'keterangan' => $this->input->post('keterangan'),
+            'upah_laut' => $this->input->post('upah_laut'),
+            'upah_darat' => $this->input->post('upah_darat'),
         ];
 
         if ($id) {

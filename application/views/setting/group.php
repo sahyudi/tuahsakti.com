@@ -45,9 +45,9 @@
                                         <td class="text-center"><?= $key + 1 ?></td>
                                         <td><?= $value->group_name ?></td>
                                         <td class="text-right">
-                                            <a href="<?= base_url('setting/edi_privelage/') . $value->id ?>" class="btn btn-xs btn-info"><i class="fas fa-fw fa-user-shield"></i></a>
-                                            <a href="<?= base_url('setting/deleteGroup/') . $value->id ?>" class="btn btn-xs btn-danger" onclick="return confirm_delete()"><i class="fas fa-fw fa-trash"></i></a>
-                                            <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-menu" class="btn btn-xs btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
+                                            <a href="<?= base_url('setting/privelage/') . $value->id ?>" class="btn btn-xs btn-info" title="Hak Akses Group"><i class="fas fa-fw fa-user-shield"></i></a>
+                                            <a href="<?= base_url('setting/deleteGroup/') . $value->id ?>" class="btn btn-xs btn-danger" title="Delete Group" onclick="return confirm_delete()"><i class="fas fa-fw fa-trash"></i></a>
+                                            <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-menu" title="Edit Group" class="btn btn-xs btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
                                         </td>
                                     </tr>
                                 <?php } ?>

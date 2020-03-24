@@ -140,8 +140,6 @@
 
     function validation() {
         return confirm('Apakah anda yakin akan mengahapus materia ??');
-        // confirm
-        // alert('test');
     }
 
     function reset_form() {

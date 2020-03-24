@@ -60,12 +60,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="collapse navbar-collapse order-3" id="navbarCollapse">
                     <?php
                     $menu[] = [
-                        'title' => 'Pos',
+                        'title' => 'Home',
                         'link' => 'pos'
-                    ];
-                    $menu[] = [
-                        'title' => 'Item',
-                        'link' => 'pos/item'
                     ];
                     $menu[] = [
                         'title' => 'Pengadaan',
@@ -74,6 +70,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     $menu[] = [
                         'title' => 'Penjualan',
                         'link' => 'pos/penjualan'
+                    ];
+                    $menu[] = [
+                        'title' => 'Item Master',
+                        'link' => 'pos/item_master'
                     ];
                     ?>
                     <!-- Left navbar links -->

@@ -17,15 +17,14 @@
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
-<?php
-$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"> Transaksi dengan nomor ' . $detail[0]->transaksi_id . ' berhasil !</div>');
-?>
+
 
 <body>
+    <?php
+    $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"> Transaksi dengan nomor ' . $detail[0]->transaksi_id . ' berhasil !</div>');
+    ?>
     <div class="wrapper">
-        <!-- Main content -->
         <section class="invoice">
-            <!-- title row -->
             <div class="row">
                 <div class="col-12">
                     <h2 class="page-header">
@@ -33,9 +32,8 @@ $this->session->set_flashdata('message', '<div class="alert alert-success" role=
                         <small class="float-right">Date: <?= date('d/m/Y') ?></small>
                     </h2>
                 </div>
-                <!-- /.col -->
             </div>
-            <!-- info row -->
+
             <div class="row invoice-info">
                 <div class="col-sm-4 invoice-col">
                     From
@@ -47,7 +45,7 @@ $this->session->set_flashdata('message', '<div class="alert alert-success" role=
                         Email: info@almasaeedstudio.com
                     </address>
                 </div>
-                <!-- /.col -->
+
                 <div class="col-sm-4 invoice-col">
                     To
                     <address>
@@ -58,7 +56,7 @@ $this->session->set_flashdata('message', '<div class="alert alert-success" role=
                         Email: john.doe@example.com
                     </address>
                 </div>
-                <!-- /.col -->
+
                 <div class="col-sm-4 invoice-col">
                     <b>Invoice <?= $detail[0]->transaksi_id ?></b><br>
                     <br>
@@ -66,11 +64,8 @@ $this->session->set_flashdata('message', '<div class="alert alert-success" role=
                     <b>Payment Due:</b> 2/22/2014<br>
                     <b>Account:</b> 968-34567
                 </div>
-                <!-- /.col -->
             </div>
-            <!-- /.row -->
 
-            <!-- Table row -->
             <div class="row">
                 <div class="col-12 table-responsive">
                     <table class="table table-striped">
@@ -95,38 +90,15 @@ $this->session->set_flashdata('message', '<div class="alert alert-success" role=
                                     <td class="text-right"><?= number_format($value->qty * $value->harga_jual, 0) ?></td>
                                 </tr>
                             <?php } ?>
-
                         </tbody>
-                        <!-- <tfoot>
-                            <tr>
-                                <td><?= $sub_total ?></td>
-                            </tr>
-                        </tfoot> -->
                     </table>
                 </div>
-                <!-- /.col -->
             </div>
-            <!-- /.row -->
 
             <div class="row">
-                <!-- accepted payments column -->
+                <div class="col-6"></div>
                 <div class="col-6">
-                    <!-- <p class="lead">Payment Methods:</p>
-                    <img src="<?= base_url('assets') ?>/dist/img/credit/visa.png" alt="Visa">
-                    <img src="<?= base_url('assets') ?>/dist/img/credit/mastercard.png" alt="Mastercard">
-                    <img src="<?= base_url('assets') ?>/dist/img/credit/american-express.png" alt="American Express">
-                    <img src="<?= base_url('assets') ?>/dist/img/credit/paypal2.png" alt="Paypal">
-
-                    <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
-                        Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning heekya handango imeem plugg dopplr
-                        jibjab, movity jajah plickers sifteo edmodo ifttt zimbra.
-                    </p> -->
-                </div>
-                <!-- /.col -->
-                <div class="col-6">
-                    <!-- <p class="lead">Amount Due 2/22/2014</p> -->
                     <p class="lead">Payment :</p>
-
                     <div class="table-responsive">
                         <table class="table">
                             <tr>
@@ -144,24 +116,15 @@ $this->session->set_flashdata('message', '<div class="alert alert-success" role=
                         </table>
                     </div>
                 </div>
-                <!-- /.col -->
             </div>
-            <!-- /.row -->
         </section>
-        <!-- /.content -->
     </div>
-    <!-- ./wrapper -->
 
     <script type="text/javascript">
         window.addEventListener("load", window.print());
-        // window.close("<?= base_url('pos') ?>");
         window.onafterprint = function(e) {
             closePrintView();
         };
-
-        // function myFunction() {
-        //     window.print();
-        // }
 
         function closePrintView() {
             window.location.href = '<?= base_url('pos') ?>';
