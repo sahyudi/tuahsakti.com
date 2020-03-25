@@ -85,9 +85,15 @@ function cek_status($status)
 function cek_pengeluaran_project($id_project)
 {
     $CI = get_instance();
-    $CI->db->select('SUM(harga_jual * qty) AS pengeluaran');
+    $CI->db->select('SUM(harga * qty) AS pengeluaran');
     $CI->db->where('proyek_id', $id_project);
     $CI->db->group_by('proyek_id');
-    $data = $CI->db->get('proyek_detail')->row();
-    return $data->pengeluaran;
+    $data_material = $CI->db->get('proyek_detail')->row();
+
+
+    $CI->db->select('SUM(total) AS pengeluaran');
+    $CI->db->where('proyek_id', $id_project);
+    $CI->db->group_by('proyek_id');
+    $data_dana = $CI->db->get('proyek_dana')->row();
+    return ($data_dana->pengeluaran + $data_material->pengeluaran);
 }

@@ -75,15 +75,15 @@
                                     ?>
                                     <?php foreach ($detail as $key => $value) { ?>
                                         <?php
-                                        $sub_total = $value->qty * $value->harga_jual;
+                                        $sub_total = $value->qty * $value->harga;
                                         ?>
                                         <tr>
                                             <td><?= $key + 1 ?></td>
                                             <td><?= $value->tanggal_detail ?></td>
                                             <td><?= $value->item ?></td>
                                             <td class="text-center"><?= $value->qty ?></td>
-                                            <td class="text-right"><?= number_format($value->harga_jual, 0) ?></td>
-                                            <td class="text-right"><?= number_format($value->qty * $value->harga_jual, 0) ?></td>
+                                            <td class="text-right"><?= number_format($value->harga, 0) ?></td>
+                                            <td class="text-right"><?= number_format($value->qty * $value->harga, 0) ?></td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>

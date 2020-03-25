@@ -104,12 +104,25 @@ class Pos extends CI_Controller
         echo $this->datatables->generate();
     }
 
-    public function get_item_list()
+    public function get_item_list_penjualan()
     {
         $id = $this->input->post('id');
         $this->db->select('A.*, B.stock');
         $this->db->join('stock B', 'A.id = B.material_id');
         $this->db->where('B.stock >=', 1);
+        if ($id) {
+            $this->db->where_not_in('A.id', $id);
+        }
+        $data = $this->db->get('material A')->result();
+        echo json_encode($data);
+    }
+
+    public function get_item_list()
+    {
+        $id = $this->input->post('id');
+        $this->db->select('A.*, B.stock');
+        $this->db->join('stock B', 'A.id = B.material_id');
+        // $this->db->where('B.stock >=', 1);
         if ($id) {
             $this->db->where_not_in('A.id', $id);
         }
