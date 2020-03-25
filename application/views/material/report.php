@@ -33,7 +33,7 @@
                         </div>
                     </div>
 
-                    <form action="<?= base_url('material/kartu_stock') ?>" method="post" enctype="multipart/form-data" id="fom-kartu-stock">
+                    <form action="<?= base_url('material/report_stock') ?>" method="post" enctype="multipart/form-data" id="fom-kartu-stock">
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-6 float-right">
