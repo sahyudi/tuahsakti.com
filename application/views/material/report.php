@@ -24,7 +24,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title">Monthly Recap Report</h5>
+                        <h5 class="card-title">Form Pencarian Data</h5>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -34,44 +34,6 @@
                     </div>
 
                     <form action="<?= base_url('material/kartu_stock') ?>" method="post" enctype="multipart/form-data" id="fom-kartu-stock">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="form-group col-md-6 float-right">
-                                    <label for="">Tanggal Mulai</label>
-                                    <input type="date" class="form-control" name="start_date" id="start_date" style="background-color: white;">
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="">Tanggal Selesai</label>
-                                    <input type="date" class="form-control" name="end_date" id="end_date" placeholder="Tujuan">
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="">Material</label>
-                                    <select name="material" id="material" class="form-control select2">
-                                        <option value="0">All</option>
-                                        <?php foreach ($material as $key => $value) { ?>
-                                            <option value="<?= $value->id ?>"><?= $value->nama ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <a href="<?= base_url('material') ?>" class="btn btn-danger float-left btn-sm"> Back</a>
-                            <button type="submit" class="btn btn-primary float-right btn-sm"><i class="fas fa-fw fa-save"></i> Back</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Form Pencarian Data</h3>
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <form action="<?= base_url('material/report_stock') ?>" method="post" enctype="multipart/form-data" id="fom-kartu-stock">
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-6 float-right">
