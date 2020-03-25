@@ -75,7 +75,7 @@
                                         <th colspan="4"></th>
                                         <th colspan="3" class="text-center">IN</th>
                                         <th colspan="3" class="text-center">OUT</th>
-                                        <th colspan="2"></th>
+                                        <!-- <th colspan="2"></th> -->
                                     </tr>
                                     <tr class="text-center">
                                         <th>No</th>
@@ -88,7 +88,7 @@
                                         <th>Quantity</th>
                                         <th>Harga</th>
                                         <th>Sub Total</th>
-                                        <th>Sisa Stock</th>
+                                        <!-- <th>Sisa Stock</th> -->
                                         <!-- <th>Action</th> -->
                                     </tr>
                                 </thead>
@@ -106,14 +106,14 @@
                                             <?php $sub_total = $value->quantity * $value->harga ?>
                                             <tr>
                                                 <td class="text-center"><?= $key + 1 ?></td>
-                                                <td><?= $value->tanggal ?></td>
+                                                <td><?= date('d F Y', strtotime($value->tanggal)) ?></td>
                                                 <td><?= $value->ket ?></td>
                                                 <td><?= $value->material . " (" . $value->satuan  ?>)</td>
                                                 <?php if ($value->tipe == 'in') { ?>
                                                     <?php $sub_total_in += $sub_total ?>
                                                     <td class="text-center"><?= number_format($value->quantity, 0) ?></td>
-                                                    <td class="text-right">Rp. <?= number_format($value->harga, 0) ?></td>
-                                                    <td class="text-right">Rp. <?= number_format($sub_total, 0) ?></td>
+                                                    <td class="text-right"><?= number_format($value->harga, 0) ?></td>
+                                                    <td class="text-right"><?= number_format($sub_total, 0) ?></td>
                                                     <td class="text-center"> - </td>
                                                     <td class="text-center"> - </td>
                                                     <td class="text-center"> - </td>
@@ -123,10 +123,10 @@
                                                     <td class="text-center"> - </td>
                                                     <td class="text-center"> - </td>
                                                     <td class="text-center"><?= number_format($value->quantity, 0) ?></td>
-                                                    <td class="text-right">Rp. <?= number_format($value->harga, 0) ?></td>
-                                                    <td class="text-right">Rp. <?= number_format($sub_total, 0) ?></td>
+                                                    <td class="text-right"><?= number_format($value->harga, 0) ?></td>
+                                                    <td class="text-right"><?= number_format($sub_total, 0) ?></td>
                                                 <?php } ?>
-                                                <td class="text-center"><?= $value->stockUpdate ?></td>
+                                                <!-- <td class="text-center"><?= $value->stockUpdate ?></td> -->
                                             </tr>
                                         <?php } ?>
 
@@ -134,11 +134,11 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th colspan="6" class="tetx-right">Total</th>
+                                        <th colspan="6" class="text-right">Total</th>
                                         <th class="text-right">Rp.&nbsp;<?= number_format($sub_total_in, 0) ?> </th>
                                         <th colspan="2"></th>
                                         <th class="text-right">Rp.&nbsp;<?= number_format($sub_total_out, 0) ?> </th>
-                                        <th></th>
+                                        <!-- <th></th> -->
                                     </tr>
                                 </tfoot>
                             </table>

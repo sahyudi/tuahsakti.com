@@ -25,6 +25,47 @@ class Project extends CI_Controller
         $this->load->view('template/main', $data);
     }
 
+    function pendanaan()
+    {
+        $data['pendanaan'] = $this->m_proyek->get_proyek_dana()->result();;
+        $data['active'] = 'project/pendanaan';
+        $data['title'] = 'Pendanaan';
+        $data['subview'] = 'project/dana';
+        $this->load->view('template/main', $data);
+    }
+
+    function form_pendanaan()
+    {
+        $data['proyek'] = $this->m_proyek->get_proyek()->result();
+        // log_r($data['proyek']);
+        $data['active'] = 'project/pendanaan';
+        $data['title'] = 'Form Pendanaan';
+        $data['subview'] = 'project/form_dana';
+        $this->load->view('template/main', $data);
+    }
+
+    function simpan_pendanaan()
+    {
+        $proyek = $this->input->post('proyek_id');
+        $tanggal = $this->input->post('tanggal');
+        $date = date('Y-m-d H:i:s');
+        $keterangan = $this->input->post('keterangan');
+        $sub_total = $this->input->post('sub_total');
+        for ($i = 0; $i < count($keterangan); $i++) {
+            $data[] = [
+                'proyek_id' => $proyek,
+                'tanggal' => $tanggal,
+                'total' => $sub_total[$i],
+                'keterangan' => $keterangan[$i],
+                'created_at' => $date,
+                'created_user' => $this->session->userdata('id')
+            ];
+        }
+
+        $this->db->insert_batch('proyek_dana', $data);
+        redirect('project/pendanaan');
+    }
+
     function create_project()
     {
         $data['proyek'] = $this->m_proyek->get_proyek()->result();
@@ -38,7 +79,8 @@ class Project extends CI_Controller
     {
         $data['master'] = $this->m_proyek->get_proyek($id)->row();
         $data['detail'] = $this->m_proyek->get_proyek_detail($id)->result();
-        // log_r($data['detail']);
+        $data['pendanaan'] = $this->m_proyek->get_proyek_dana($id)->result();
+        // log_r($data['pendanaan']);
         $data['active'] = 'project';
         $data['title'] = 'Project';
         $data['subview'] = 'project/info';

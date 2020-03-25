@@ -248,7 +248,7 @@ class Pos extends CI_Controller
                 'pengadaan_id' => $pengadaan_id,
                 'material_id' => $item[$i],
                 'qty' => str_replace(",", "", $quantity),
-                'harga_beli' => $harga_beli,
+                'harga_beli' => ($material->harga_beli) ? $material->harga_beli : 0,
                 'satuan' => $material->satuan,
                 'upah' => $material->upah_laut,
                 'ket_detail' => 'Pengadaan nomor ' . $nota,
