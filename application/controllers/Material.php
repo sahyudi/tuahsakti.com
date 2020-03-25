@@ -29,6 +29,7 @@ class Material extends CI_Controller
         $data = [
             'nama' => $this->input->post('nama'),
             'satuan' => $this->input->post('satuan'),
+            'harga_beli' => $this->input->post('harga_beli'),
             'harga_jual' => $this->input->post('harga_jual'),
             'keterangan' => $this->input->post('keterangan'),
             'upah_laut' => $this->input->post('upah_laut'),

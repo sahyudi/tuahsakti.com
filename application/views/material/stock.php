@@ -1,20 +1,18 @@
-<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0 text-dark">Stock Material</h1>
-                </div><!-- /.col -->
+                </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="<?= base_url('home') ?>">Home</a></li>
                         <li class="breadcrumb-item active">Material</li>
                     </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+                </div>
+            </div>
+        </div>
     </div>
     <!-- /.content-header -->
 
@@ -39,6 +37,7 @@
                                         <th>Material / Satuan</th>
                                         <th>Satuan</th>
                                         <th>Quantity</th>
+                                        <th>Harga Beli</th>
                                         <th>Harga Jual</th>
                                         <th>Upah Darat</th>
                                         <th>Upah Laut</th>
@@ -52,6 +51,7 @@
                                             <td><?= $value->nama . " (" . $value->satuan . ")" ?></td>
                                             <td><?= $value->satuan ?></td>
                                             <td class="text-center"><?= number_format($value->stock, 0) ?></td>
+                                            <td class="text-right"><?= number_format($value->harga_beli, 0) ?></td>
                                             <td class="text-right"><?= number_format($value->harga_jual, 0) ?></td>
                                             <td class="text-right"><?= number_format($value->upah_darat, 0) ?></td>
                                             <td class="text-right"><?= number_format($value->upah_laut, 0) ?></td>
@@ -103,6 +103,10 @@
                             <textarea name="keterangan" id="keterangan" class="form-control form-control-sm" cols="3" placeholder="Keterangan"></textarea>
                         </div>
                         <div class="form-group col-md-6">
+                            <label for="exampleInputPassword1">Harga Beli</label>
+                            <input type="text" name="harga_beli" id="harga_beli" class="form-control form-control-sm text-right" placeholder="Harga Jual">
+                        </div>
+                        <div class="form-group col-md-6">
                             <label for="exampleInputPassword1">Harga Jual</label>
                             <input type="text" name="harga_jual" id="harga_jual" class="form-control form-control-sm text-right" placeholder="Harga Jual">
                         </div>
@@ -129,16 +133,7 @@
 </div>
 <script>
     $(document).ready(function() {
-        $("#example1").DataTable({
-            // dom: 'Bfrtip',
-            // buttons: [
-            //     'excelHtml5',
-            //     'pdfHtml5'
-            // ],
-            // exportOptions: {
-            //     columns: [0, 1, 2, 5]
-            // }
-        });
+        $("#example1").DataTable({});
     });
 
     function validation() {
@@ -162,6 +157,7 @@
                 $('#id').val(data.id);
                 $('#nama').val(data.nama);
                 $('#satuan').val(data.satuan);
+                $('#harga_beli').val(data.harga_beli);
                 $('#harga_jual').val(data.harga_jual);
                 $('#keterangan').val(data.keterangan);
                 $('#upah_laut').val(data.upah_laut);

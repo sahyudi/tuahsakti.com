@@ -57,7 +57,7 @@
                         </div>
                         <div class="card-footer">
                             <a href="<?= base_url('material') ?>" class="btn btn-danger float-left btn-sm"> Back</a>
-                            <button type="submit" class="btn btn-primary float-right btn-sm"><i class="fas fa-fw fa-save"></i> Back</button>
+                            <button type="submit" class="btn btn-primary float-right btn-sm"><i class="fas fa-fw fa-search"></i> Search</button>
                         </div>
                     </form>
                 </div>
@@ -68,79 +68,81 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th colspan="4"></th>
-                                    <th colspan="3" class="text-center">IN</th>
-                                    <th colspan="3" class="text-center">OUT</th>
-                                    <th colspan="2"></th>
-                                </tr>
-                                <tr class="text-center">
-                                    <th>No</th>
-                                    <th>Tanggal</th>
-                                    <th>Keterangan</th>
-                                    <th>Material (Satuan)</th>
-                                    <th>Quantity</th>
-                                    <th>Harga</th>
-                                    <th>Sub Total</th>
-                                    <th>Quantity</th>
-                                    <th>Harga</th>
-                                    <th>Sub Total</th>
-                                    <th>Sisa Stock</th>
-                                    <!-- <th>Action</th> -->
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if ($kartu_stock) { ?>
+                        <div class="table-responsive">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th colspan="4"></th>
+                                        <th colspan="3" class="text-center">IN</th>
+                                        <th colspan="3" class="text-center">OUT</th>
+                                        <th colspan="2"></th>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <th>No</th>
+                                        <th>Tanggal</th>
+                                        <th>Keterangan</th>
+                                        <th>Material (Satuan)</th>
+                                        <th>Quantity</th>
+                                        <th>Harga</th>
+                                        <th>Sub Total</th>
+                                        <th>Quantity</th>
+                                        <th>Harga</th>
+                                        <th>Sub Total</th>
+                                        <th>Sisa Stock</th>
+                                        <!-- <th>Action</th> -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if ($kartu_stock) { ?>
 
 
-                                    <?php
-                                    $sub_total_in = 0;
-                                    $sub_total_out = 0;
-                                    $sub_total = 0;
-                                    $total = 0;
-                                    ?>
-                                    <?php foreach ($kartu_stock as $key => $value) { ?>
-                                        <?php $sub_total = $value->quantity * $value->harga ?>
-                                        <tr>
-                                            <td class="text-center"><?= $key + 1 ?></td>
-                                            <td><?= $value->tanggal ?></td>
-                                            <td><?= $value->ket ?></td>
-                                            <td><?= $value->material . " (" . $value->satuan  ?>)</td>
-                                            <?php if ($value->tipe == 'in') { ?>
-                                                <?php $sub_total_in += $sub_total ?>
-                                                <td class="text-center"><?= number_format($value->quantity, 0) ?></td>
-                                                <td class="text-right">Rp. <?= number_format($value->harga, 0) ?></td>
-                                                <td class="text-right">Rp. <?= number_format($sub_total, 0) ?></td>
-                                                <td class="text-center"> - </td>
-                                                <td class="text-center"> - </td>
-                                                <td class="text-center"> - </td>
-                                            <?php } else { ?>
-                                                <?php $sub_total_out += $sub_total ?>
-                                                <td class="text-center"> - </td>
-                                                <td class="text-center"> - </td>
-                                                <td class="text-center"> - </td>
-                                                <td class="text-center"><?= number_format($value->quantity, 0) ?></td>
-                                                <td class="text-right">Rp. <?= number_format($value->harga, 0) ?></td>
-                                                <td class="text-right">Rp. <?= number_format($sub_total, 0) ?></td>
-                                            <?php } ?>
-                                            <td class="text-center"><?= $value->stockUpdate ?></td>
-                                        </tr>
-                                    <?php } ?>
+                                        <?php
+                                        $sub_total_in = 0;
+                                        $sub_total_out = 0;
+                                        $sub_total = 0;
+                                        $total = 0;
+                                        ?>
+                                        <?php foreach ($kartu_stock as $key => $value) { ?>
+                                            <?php $sub_total = $value->quantity * $value->harga ?>
+                                            <tr>
+                                                <td class="text-center"><?= $key + 1 ?></td>
+                                                <td><?= $value->tanggal ?></td>
+                                                <td><?= $value->ket ?></td>
+                                                <td><?= $value->material . " (" . $value->satuan  ?>)</td>
+                                                <?php if ($value->tipe == 'in') { ?>
+                                                    <?php $sub_total_in += $sub_total ?>
+                                                    <td class="text-center"><?= number_format($value->quantity, 0) ?></td>
+                                                    <td class="text-right">Rp. <?= number_format($value->harga, 0) ?></td>
+                                                    <td class="text-right">Rp. <?= number_format($sub_total, 0) ?></td>
+                                                    <td class="text-center"> - </td>
+                                                    <td class="text-center"> - </td>
+                                                    <td class="text-center"> - </td>
+                                                <?php } else { ?>
+                                                    <?php $sub_total_out += $sub_total ?>
+                                                    <td class="text-center"> - </td>
+                                                    <td class="text-center"> - </td>
+                                                    <td class="text-center"> - </td>
+                                                    <td class="text-center"><?= number_format($value->quantity, 0) ?></td>
+                                                    <td class="text-right">Rp. <?= number_format($value->harga, 0) ?></td>
+                                                    <td class="text-right">Rp. <?= number_format($sub_total, 0) ?></td>
+                                                <?php } ?>
+                                                <td class="text-center"><?= $value->stockUpdate ?></td>
+                                            </tr>
+                                        <?php } ?>
 
-                                <?php  } ?>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th colspan="6" class="tetx-right">Total</th>
-                                    <th class="text-right">Rp.&nbsp;<?= number_format($sub_total_in, 0) ?> </th>
-                                    <th colspan="2"></th>
-                                    <th class="text-right">Rp.&nbsp;<?= number_format($sub_total_out, 0) ?> </th>
-                                    <th></th>
-                                </tr>
-                            </tfoot>
-                        </table>
+                                    <?php  } ?>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="6" class="tetx-right">Total</th>
+                                        <th class="text-right">Rp.&nbsp;<?= number_format($sub_total_in, 0) ?> </th>
+                                        <th colspan="2"></th>
+                                        <th class="text-right">Rp.&nbsp;<?= number_format($sub_total_out, 0) ?> </th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
                     </div>
                     <!-- /.card-body -->
                 </div>

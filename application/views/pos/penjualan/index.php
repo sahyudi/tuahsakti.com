@@ -25,6 +25,13 @@
                                         <label for="">Keterangan</label>
                                         <textarea name="keterangan" id="keterangan" class="form-control form-control-sm" rows="1"></textarea>
                                     </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="">Status </label>
+                                        <div class="form-group">
+                                            <input type="radio" name="keterangan" id="keterangan1" value="1" checked> Toko
+                                            <input type="radio" name="keterangan" id="keterangan2" value="2"> Project
+                                        </div>
+                                    </div>
                                     <div class="form-group col-md-6">
                                         <label for="">Item List</label>
                                         <select name="item-select" id="item-select" onchange="addItem()" class="form-control form-control-sm select2" onchange="addItem()">

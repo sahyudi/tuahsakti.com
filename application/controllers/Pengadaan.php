@@ -80,7 +80,7 @@ class Pengadaan extends CI_Controller
                 'pengadaan_id' => $pengadaan_id,
                 'material_id' => $item[$i],
                 'qty' => $quantity,
-                'harga_beli' => str_replace(",", "", $harga_beli[$i]),
+                'harga_beli' => $material->harga_beli,
                 'satuan' => $material->satuan,
                 'upah' => ($upah[$i]) ? $upah[$i] : 0,
                 'ket_detail' => 'Pengadaan nomor ' . $nota,
