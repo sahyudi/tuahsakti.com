@@ -55,8 +55,8 @@
                                             <td><?= cek_status($value->status) ?></td>
                                             <td><?= $value->deskripsi ?></td>
                                             <td class="text-right">
-                                                <a href="<?= base_url('pengadaan/delete/') . $value->id ?>" onclick="return validation()" class="btn btn-danger btn-xs"><i class="fas fa-fw fa-trash"></i></a>
-                                                <a href="<?= base_url('pengadaan/info/') . $value->id ?>" class="btn btn-info btn-xs btn-edit"><i class="fas fa-fw fa-info"></i></a>
+                                                <a href="<?= base_url('project/delete/') . $value->id ?>" onclick="return validation()" class="btn btn-danger btn-xs"><i class="fas fa-fw fa-trash"></i></a>
+                                                <a href="<?= base_url('project/info_detail/') . $value->id ?>" class="btn btn-info btn-xs btn-edit"><i class="fas fa-fw fa-info"></i></a>
                                             </td>
                                         </tr>
                                     <?php } ?>

@@ -34,6 +34,17 @@ class Project extends CI_Controller
         $this->load->view('template/main', $data);
     }
 
+    function info_detail($id)
+    {
+        $data['master'] = $this->m_proyek->get_proyek($id)->row();
+        $data['detail'] = $this->m_proyek->get_proyek_detail($id)->result();
+        // log_r($data['detail']);
+        $data['active'] = 'project';
+        $data['title'] = 'Project';
+        $data['subview'] = 'project/info';
+        $this->load->view('template/main', $data);
+    }
+
     function save_project()
     {
         $this->db->trans_begin();
@@ -83,7 +94,8 @@ class Project extends CI_Controller
                 'satuan' => $material->satuan,
                 'upah' => ($upah[$i]) ? $upah[$i] : 0,
                 'ket_detail' => 'Proyek nomor ' . $no_proyek,
-                'created_at' => $date
+                'created_at' => $date,
+                'created_user' => $user
             ];
         }
         // log_r($detail);

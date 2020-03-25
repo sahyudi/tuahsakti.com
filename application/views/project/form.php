@@ -93,7 +93,7 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <a href="<?= base_url('pengadaan') ?>" class="btn btn-danger float-left">Back</a>
+                            <a href="<?= base_url('project') ?>" class="btn btn-danger float-left">Back</a>
                             <button type="submit" class="btn btn-primary float-right">Submit</button>
                         </div>
                     </form>
