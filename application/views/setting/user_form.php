@@ -58,7 +58,7 @@
                                     </div>
                                     <?= form_error('name', '<small class="text-danger">', '</small>'); ?>
                                     <div class="input-group mt-3">
-                                        <input type="email" name="email" id="email" class="form-control form-control-sm" value="<?= set_value('email') ?>" placeholder="Email">
+                                        <input type="text" name="email" id="email" class="form-control form-control-sm" value="<?= set_value('email') ?>" placeholder="Email">
                                         <div class="input-group-append">
                                             <div class="input-group-text">
                                                 <span class="fas fa-envelope"></span>
@@ -89,7 +89,7 @@
                                             <button type="submit" class="btn btn-primary btn-sm float-right">Register</button>
                                         </div>
                                     </div>
-                                    
+
                                 </form>
                             </div>
                             <div class="col-md-2"></div>
@@ -106,81 +106,10 @@
     <!-- /.content -->
 </div>
 
-<div class="modal fade" id="modal-users">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Menu</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="<?= base_url('setting/addMenu') ?>" id="form-menu" method="post" enctype="multipart/form-data">
-                <input type="hidden" id="id" name="id">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Nama</label>
-                        <input type="text" name="nama" id="nama" class="form-control form-control-sm" placeholder="Nama menu">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">No Telp</label>
-                        <input type="text" name="no_telp" id="no_telp" class="form-control form-control-sm" placeholder="No Telepon">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Alamat</label>
-                        <textarea name="alamat" id="alamat" class="form-control form-control-sm" cols="3" placeholder="Alamat"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="is_active" name="is_active" value="1">
-                            <label class="form-check-label">Aktif</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                </div>
-            </form>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
+
 <script>
     $(document).ready(function() {
-        $("#example1").DataTable();
-        $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-        });
-    });
-
-    $('.btn-edit').click(function() {
-        const id = $(this).data('id');
-        // alert(id);
-        $.ajax({
-            url: "<?= base_url() . 'vendor/get_data/'; ?>" + id,
-            async: false,
-            type: 'POST',
-            dataType: 'json',
-            success: function(data) {
-                console.log(data);
-                $('#id').val(data.id);
-                $('#nama').val(data.nama);
-                $('#no_telp').val(data.no_telp);
-                $('#alamat').val(data.alamat);
-                if (data.is_active == 1) {
-                    $('#is_active').attr('checked', 'checked');
-                } else {
-                    $('#is_active').removeAttr('checked');
-                }
-            }
-        });
+        $('.select2').select2();
     });
 </script>
 <!-- /.content-wrapper -->

@@ -15,7 +15,7 @@ class M_pengadaan extends CI_Model
 
     public function get_data()
     {
-        $this->db->select('a.*, d.*, m.satuan, m.nama as nama, v.nama as vendor');
+        $this->db->select('a.*, d.*, d.id as detail_id, m.satuan, m.nama as nama, v.nama as vendor');
         $this->db->join($this->pengadaan_detail . ' as d', 'a.id = d.pengadaan_id', 'left');
         $this->db->join($this->material . ' as m', 'm.id = d.material_id', 'left');
         $this->db->join($this->vendor . ' as v', 'v.id = a.vendor_id', 'left');

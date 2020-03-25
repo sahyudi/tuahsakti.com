@@ -65,6 +65,7 @@
                                 <thead>
                                     <tr class="text-center">
                                         <th>No</th>
+                                        <th>Tanggal</th>
                                         <th style="width: 25%;">Item / Satuan</th>
                                         <th>Quantity</th>
                                         <th>Harga Beli</th>
@@ -85,6 +86,7 @@
                                         ?>
                                         <tr>
                                             <td><?= $key + 1 ?></td>
+                                            <td><?= $value->tanggal_detail ?></td>
                                             <td><?= $value->item ?></td>
                                             <td class="text-center"><?= $value->qty ?></td>
                                             <td class="text-right"><?= number_format($value->harga_beli, 0) ?></td>
@@ -96,7 +98,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th colspan="5" class="text-right">TOTAL</th>
+                                        <th colspan="6" class="text-right">TOTAL</th>
                                         <th class="text-right">Rp. <?= number_format($sub_total_beli, 0) ?></th>
                                         <th class="text-right">Rp. <?= number_format($sub_total_jual, 0) ?></th>
                                     </tr>

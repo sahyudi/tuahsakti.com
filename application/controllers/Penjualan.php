@@ -114,4 +114,15 @@ class Penjualan extends CI_Controller
             echo json_encode($data);
         }
     }
+
+    function delete_detail($id)
+    {
+        if ($id) {
+            $this->db->delete($this->penjualan_detail, ['id' => $id]);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Berhasil delete penjualan!</div>');
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Gagal delete penjualan!</div>');
+        }
+        redirect('penjualan');
+    }
 }

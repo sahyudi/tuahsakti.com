@@ -24,7 +24,7 @@ class M_proyek extends CI_Model
 
     public function get_proyek_detail($id = null)
     {
-        $this->db->select('a.*, m.satuan, m.nama as item, d.*');
+        $this->db->select('a.*, m.satuan, m.nama as item, d.*, d.tanggal as tanggal_detail');
         $this->db->join($this->proyek_detail . ' as d', 'a.id = d.proyek_id', 'left');
         $this->db->join($this->material . ' as m', 'm.id = d.material_id', 'left');
         if ($id) {

@@ -80,7 +80,7 @@ class Setting extends CI_Controller
 
         $this->form_validation->set_rules('group', 'Group', 'required|trim');
         $this->form_validation->set_rules('name', 'Name', 'required|trim');
-        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[users.email]', [
+        $this->form_validation->set_rules('email', 'Email', 'required|trim|is_unique[users.email]', [
             'is_unique' => 'This email has already registered!'
         ]);
         $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[3]|matches[password2]', [
@@ -110,6 +110,18 @@ class Setting extends CI_Controller
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"> Congratulations your acount has been created. Please Login</div>');
             redirect('setting/users');
         }
+    }
+
+    function delete_user($id)
+    {
+        if ($id) {
+            $this->db->delete('users', ['id' => $id]);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Berhasil delete user!</div>');
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Gagal delete user!</div>');
+        }
+
+        redirect('setting/users');
     }
 
     public function group()

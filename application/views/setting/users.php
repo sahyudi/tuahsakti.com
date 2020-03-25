@@ -23,7 +23,7 @@
         <div class="row">
             <div class="col-12">
                 <!-- /.card -->
-
+                <?= $this->session->flashdata('message'); ?>
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Data Users</h3>
@@ -51,7 +51,7 @@
                                         <td><?= $value->group_name ?></td>
                                         <td class="text-center"><?= ($value->is_active == 1) ? '<label class="badge badge-success">Aktif</label>' : '<label class="badge badge-danger">Non aktif</label>' ?></td>
                                         <td class="text-right">
-                                            <a href="<?= base_url('setting/deleteMenu/') . $value->id ?>" class="btn btn-xs btn-danger"><i class="fas fa-fw fa-trash"></i></a>
+                                            <a href="<?= base_url('setting/delete_user/') . $value->id ?>" onclick="return delete_confirm()" class="btn btn-xs btn-danger"><i class="fas fa-fw fa-trash"></i></a>
                                             <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-users" class="btn btn-xs btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
                                         </td>
                                     </tr>
@@ -70,47 +70,6 @@
     <!-- /.content -->
 </div>
 
-<div class="modal fade" id="modal-users">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Menu</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="<?= base_url('setting/addMenu') ?>" id="form-menu" method="post" enctype="multipart/form-data">
-                <input type="hidden" id="id" name="id">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Nama</label>
-                        <input type="text" name="nama" id="nama" class="form-control" placeholder="Nama menu">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">No Telp</label>
-                        <input type="text" name="no_telp" id="no_telp" class="form-control" placeholder="No Telepon">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Alamat</label>
-                        <textarea name="alamat" id="alamat" class="form-control" cols="3" placeholder="Alamat"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="is_active" name="is_active" value="1">
-                            <label class="form-check-label">Aktif</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                </div>
-            </form>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
 <script>
     $(document).ready(function() {
         $("#example1").DataTable();
@@ -124,6 +83,10 @@
         });
     });
 
+
+    function delete_confirm() {
+        return confirm('Apakah anda yakin akan menghapus users ?');
+    }
     $('.btn-edit').click(function() {
         const id = $(this).data('id');
         // alert(id);

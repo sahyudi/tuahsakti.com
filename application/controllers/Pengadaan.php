@@ -115,8 +115,19 @@ class Pengadaan extends CI_Controller
     {
         if ($id) {
             $this->db->where('id', $id);
-            $data = $this->db->get('material')->row();
+            $data = $this->db->get($this->material)->row();
             echo json_encode($data);
         }
+    }
+
+    function delete_detail($id)
+    {
+        if ($id) {
+            $this->db->delete($this->pengadaan_detail, ['id' => $id]);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Berhasil delete pengadaan!</div>');
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Gagal delete pengadaan!</div>');
+        }
+        redirect('pengadaan');
     }
 }

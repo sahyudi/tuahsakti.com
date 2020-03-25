@@ -21,6 +21,7 @@
     <section class="content">
         <div class="row">
             <div class="col-12">
+                <?= $this->session->flashdata('message'); ?>
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Data Pengadaan Material</h3>
@@ -70,7 +71,7 @@
                                             <td class="text-right"><?= number_format($value->upah * $value->qty, 0) ?></td>
                                             <td class="text-left"><?= $value->keterangan ?></td>
                                             <td class="text-right">
-                                                <a href="<?= base_url('pengadaan/delete/') . $value->id ?>" onclick="return validation()"><i class="fas fa-fw fa-trash"></i></a>
+                                                <a href="<?= base_url('pengadaan/delete_detail/') . $value->detail_id ?>" onclick="return validation()"><i class="fas fa-fw fa-trash"></i></a>
                                                 <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-material" class="btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
                                             </td>
                                         </tr>
