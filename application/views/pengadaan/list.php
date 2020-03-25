@@ -32,32 +32,42 @@
                                 <thead>
                                     <tr class="text-center">
                                         <th>No</th>
-                                        <th>Surat jalan</th>
+                                        <th>Surat&nbsp;jalan</th>
                                         <th>Tanggal</th>
                                         <th>Nota</th>
                                         <th>Vendor</th>
                                         <th>Material / Satuan</th>
                                         <th>Quantity</th>
                                         <th>Harga Beli</th>
+                                        <th>Upah</th>
                                         <th>Sub Total</th>
+                                        <th>Sub Upah</th>
                                         <th>Keterangan</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $sub_total = 0 ?>
+                                    <?php
+                                    $sub_total = 0;
+                                    $sub_total_upah = 0;
+                                    ?>
                                     <?php foreach ($pengadaan as $key => $value) { ?>
-                                        <?php $sub_total += $value->harga_beli * $value->qty ?>
+                                        <?php
+                                        $sub_total += $value->harga_beli * $value->qty;
+                                        $sub_total_upah += $value->upah * $value->qty;
+                                        ?>
                                         <tr>
                                             <td class="text-center"><?= $key + 1 ?></td>
+                                            <td><?= date('d F Y', strtotime($value->tanggal)) ?></td>
                                             <td><?= $value->surat_jalan ?></td>
-                                            <td><?= $value->tanggal ?></td>
                                             <td><?= $value->no_nota ?></td>
                                             <td><?= $value->vendor ?></td>
                                             <td><?= $value->nama . " (" . $value->satuan . ")" ?></td>
                                             <td class="text-center"><?= number_format($value->qty, 0) ?></td>
-                                            <td class="text-right">Rp. <?= number_format($value->harga_beli, 0) ?></td>
-                                            <td class="text-right">Rp. <?= number_format($value->harga_beli * $value->qty, 0) ?></td>
+                                            <td class="text-right"><?= number_format($value->harga_beli, 0) ?></td>
+                                            <td class="text-right"><?= number_format($value->upah, 0) ?></td>
+                                            <td class="text-right"><?= number_format($value->harga_beli * $value->qty, 0) ?></td>
+                                            <td class="text-right"><?= number_format($value->upah * $value->qty, 0) ?></td>
                                             <td class="text-left"><?= $value->keterangan ?></td>
                                             <td class="text-right">
                                                 <a href="<?= base_url('pengadaan/delete/') . $value->id ?>" onclick="return validation()"><i class="fas fa-fw fa-trash"></i></a>
@@ -68,8 +78,10 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="8" class="text-right">Total</td>
-                                        <td class="text-right">Rp. <?= number_format($sub_total, 0) ?></td>
+                                        <th colspan="9" class="text-right">Total</th>
+                                        <th class="text-right">Rp.&nbsp;<?= number_format($sub_total, 0) ?></th>
+                                        <th class="text-right">Rp.&nbsp;<?= number_format($sub_total_upah, 0) ?></th>
+                                        <th></th>
                                     </tr>
                                 </tfoot>
                             </table>

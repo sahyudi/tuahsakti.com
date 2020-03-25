@@ -19,23 +19,33 @@
                                     <th>Surat Jalan</th>
                                     <th>Material / Satuan</th>
                                     <th>Quantity</th>
+                                    <th>Upah</th>
+                                    <th>Sub Upah</th>
                                     <th>Keterangan</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $sub_total = 0 ?>
+                                <?php $sub_total_upah = 0 ?>
                                 <?php foreach ($pengadaan as $key => $value) { ?>
-                                    <?php $sub_total += $value->harga_beli * $value->qty ?>
+                                    <?php $sub_total_upah += $value->upah * $value->qty ?>
                                     <tr>
                                         <td class="text-center"><?= $key + 1 ?></td>
                                         <td><?= date('d F Y', strtotime($value->tanggal)) ?></td>
                                         <td><?= $value->surat_jalan ?></td>
                                         <td><?= $value->nama . " (" . $value->satuan . ")" ?></td>
                                         <td class="text-center"><?= number_format($value->qty, 0) ?></td>
+                                        <td class="text-right"><?= number_format($value->upah, 0) ?></td>
+                                        <td class="text-right"><?= number_format($value->qty * $value->upah, 0) ?></td>
                                         <td class="text-left"><?= $value->keterangan ?></td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="6" class="text-right">Total</th>
+                                    <th class="text-right">Rp.&nbsp;<?= number_format($sub_total_upah, 0) ?></th>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
 

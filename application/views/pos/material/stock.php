@@ -15,7 +15,8 @@
                             <thead>
                                 <tr class="text-center">
                                     <th>No</th>
-                                    <th>Material / Satuan</th>
+                                    <th>Material</th>
+                                    <th>Satuan</th>
                                     <th>Quantity</th>
                                     <th>Harga Jual</th>
                                     <th>Upah Darat</th>
@@ -24,7 +25,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-
+                                <?php foreach ($material as $key => $value) { ?>
+                                    <tr>
+                                        <td><?= $key + 1 ?></td>
+                                        <td><?= $value->nama ?></td>
+                                        <td><?= $value->satuan ?></td>
+                                        <td class="text-center"><?= number_format($value->stock, 0) ?></td>
+                                        <td class="text-right"><?= number_format($value->harga_jual, 0) ?></td>
+                                        <td class="text-right"><?= number_format($value->upah_darat, 0) ?></td>
+                                        <td class="text-right"><?= number_format($value->upah_laut, 0) ?></td>
+                                        <td class="text-center">
+                                            <a href="<?= base_url('pos/form_item/') . $value->id ?>" class="btn btn-success btn-edit btn-xs"><i class="fas fa-fw fa-pencil-alt"></i></a>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
                             </tbody>
                         </table>
                     </div>
@@ -37,8 +51,8 @@
 
 <script>
     $(document).ready(function() {
-        // $("#example1").DataTable();
-        get_stock();
+        $("#example1").DataTable();
+        // get_stock();
 
 
     });
@@ -115,30 +129,34 @@
                 },
                 {
                     "className": "text-center",
-                    "data": "stock"
-                },
-                {
-                    "data": "harga_jual",
-                    // "className": "text-right",
+                    "data": "stock",
                     "render": function(data, type, oObj) {
-                        var status = oObj['harga_jual'];
-                        return `<td class="text-right">Rp. ${addCommas(status)}</right>`;
+                        var stock = oObj['stock'];
+                        return `<td class="text-right">${addCommas(stock)}</td>`;
                     }
                 },
                 {
                     "data": "harga_jual",
                     // "className": "text-right",
                     "render": function(data, type, oObj) {
-                        var status = oObj['upah_darat'];
-                        return `<td class="text-right">Rp. ${addCommas(status)}</right>`;
+                        var harga_jual = oObj['harga_jual'];
+                        return `<td class="text-right">${addCommas(harga_jual)}</td>`;
                     }
                 },
                 {
                     "data": "harga_jual",
                     // "className": "text-right",
                     "render": function(data, type, oObj) {
-                        var status = oObj['upah_darat'];
-                        return `<td class="text-right">Rp. ${addCommas(status)}</right>`;
+                        var upah_laut = oObj['upah_laut'];
+                        return `<td class="text-right">${addCommas(upah_laut)}</td>`;
+                    }
+                },
+                {
+                    "data": "harga_jual",
+                    // "className": "text-right",
+                    "render": function(data, type, oObj) {
+                        var upah_darat = oObj['upah_darat'];
+                        return `<td class="text-right">${addCommas(upah_darat)}</right>`;
                     }
                 },
                 {

@@ -21,6 +21,7 @@
     <section class="content">
         <div class="row">
             <div class="col-12">
+                <?= $this->session->flashdata('message'); ?>
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Data Project</h3>
@@ -44,17 +45,18 @@
                                 <tbody>
                                     <?php $sub_total = 0 ?>
                                     <?php foreach ($proyek as $key => $value) { ?>
+                                        <?php $detail_pengeluaran = cek_pengeluaran_project($value->id); ?>
                                         <tr>
                                             <td class="text-center"><?= $key + 1 ?></td>
-                                            <td><?= $value->tanggal ?></td>
                                             <td><?= $value->proyek_no ?></td>
                                             <td><?= $value->nama_proyek ?></td>
-                                            <td class="text-center"><?= number_format($value->anggaran, 0) ?></td>
-                                            <td><?= $value->status ?></td>
+                                            <td class="text-right"><?= number_format($value->anggaran, 0) ?></td>
+                                            <td class="text-right"><?= number_format($detail_pengeluaran, 0) ?></td>
+                                            <td><?= cek_status($value->status) ?></td>
                                             <td><?= $value->deskripsi ?></td>
                                             <td class="text-right">
-                                                <a href="<?= base_url('pengadaan/delete/') . $value->id ?>" onclick="return validation()"><i class="fas fa-fw fa-trash"></i></a>
-                                                <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-material" class="btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
+                                                <a href="<?= base_url('pengadaan/delete/') . $value->id ?>" onclick="return validation()" class="btn btn-danger btn-xs"><i class="fas fa-fw fa-trash"></i></a>
+                                                <a href="<?= base_url('pengadaan/info/') . $value->id ?>" class="btn btn-info btn-xs btn-edit"><i class="fas fa-fw fa-info"></i></a>
                                             </td>
                                         </tr>
                                     <?php } ?>

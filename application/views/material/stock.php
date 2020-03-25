@@ -37,6 +37,7 @@
                                     <tr class="text-center">
                                         <th>No</th>
                                         <th>Material / Satuan</th>
+                                        <th>Satuan</th>
                                         <th>Quantity</th>
                                         <th>Harga Jual</th>
                                         <th>Upah Darat</th>
@@ -49,10 +50,11 @@
                                         <tr>
                                             <td class="text-center"><?= $key + 1 ?></td>
                                             <td><?= $value->nama . " (" . $value->satuan . ")" ?></td>
+                                            <td><?= $value->satuan ?></td>
                                             <td class="text-center"><?= number_format($value->stock, 0) ?></td>
-                                            <td class="text-right">Rp. <?= number_format($value->harga_jual, 0) ?></td>
-                                            <td class="text-right">Rp. <?= number_format($value->upah_darat, 0) ?></td>
-                                            <td class="text-right">Rp. <?= number_format($value->upah_laut, 0) ?></td>
+                                            <td class="text-right"><?= number_format($value->harga_jual, 0) ?></td>
+                                            <td class="text-right"><?= number_format($value->upah_darat, 0) ?></td>
+                                            <td class="text-right"><?= number_format($value->upah_laut, 0) ?></td>
                                             <td class="text-right">
                                                 <a href="<?= base_url('material/delete/') . $value->id ?>" onclick="return validation()" class="btn btn-danger btn-xs"><i class="fas fa-fw fa-trash"></i></a>
                                                 <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-material" class="btn btn-success btn-edit btn-xs"><i class="fas fa-fw fa-pencil-alt"></i></a>
@@ -127,14 +129,15 @@
 </div>
 <script>
     $(document).ready(function() {
-        $("#example1").DataTable();
-        $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
+        $("#example1").DataTable({
+            // dom: 'Bfrtip',
+            // buttons: [
+            //     'excelHtml5',
+            //     'pdfHtml5'
+            // ],
+            // exportOptions: {
+            //     columns: [0, 1, 2, 5]
+            // }
         });
     });
 

@@ -41,11 +41,11 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="">Name</label>
-                                    <input type="text" name="nama_proyek" id="nama_proyek" class="form-control form-control-sm" placeholder="Costumer" style="background-color: white;">
+                                    <input type="text" name="nama" id="nama" class="form-control form-control-sm" placeholder="Nama Proyek">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="">Anggaran (Rp.)</label>
-                                    <input type="text" onkeyup="angka_format()" name="anggaran" id="anggaran" class="form-control form-control-sm text-right" style="background-color: white;">
+                                    <input type="number" name="anggaran" id="anggaran" class="form-control form-control-sm text-right" placeholder="Anggaran">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="">Deskripsi</label>
@@ -70,9 +70,10 @@
                                             <th>Stock</th>
                                             <th>Quantity</th>
                                             <th>Harga</th>
+                                            <th>Harga Jual</th>
                                             <th>Sub Total</th>
                                             <th>Upah / Satuan</th>
-                                            <th>Sub Upah</th>
+                                            <!-- <th>Sub Upah</th> -->
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -229,6 +230,9 @@
                                         <input type="number" class="form-control form-control-sm form-qty text-right" name="qty[]" id="qty-${rangeId}" onchange="hitung_sub_total(${rangeId})" onkeyup="hitung_sub_total(${rangeId})" value="1">
                                     </td>
                                     <td>
+                                        <input type="number" class="form-control form-control-sm form-harga_beli text-right" name="harga_beli[]" id="harga_beli-${rangeId}" value="0">
+                                    </td>
+                                    <td>
                                         <input type="text" class="form-control form-control-sm form-harga_jual text-right" name="harga_jual[]" id="harga_jual-${rangeId}" value="${addCommas(data.harga_jual)}" readonly>
                                     </td>
                                     <td>
@@ -240,9 +244,6 @@
                                             <option value="${data.upah_darat}">Darat</option>
                                             <option value="${data.upah_laut}">Laut</option>
                                         </select>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control form-control-sm form-sub_upah text-right" name="sub_upah[]" id="sub_upah-${rangeId}" value="0" readonly>
                                     </td>
                                     <td class="for-button">
                                         <button href="#" onclick="hapus(${rangeId})" class="btn btn-sm btn-danger"><i class="fa fa-minus"></i></button>

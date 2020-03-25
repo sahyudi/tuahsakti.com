@@ -37,24 +37,34 @@
                                         <th>Material / Satuan</th>
                                         <th>Quantity</th>
                                         <th>Harga Jual</th>
+                                        <th>Upah</th>
                                         <th>Sub Total</th>
+                                        <th>Sub Upah</th>
                                         <th>Keterangan</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $sub_total = 0 ?>
+                                    <?php
+                                    $sub_total = 0;
+                                    $sub_total_upah = 0;
+                                    ?>
                                     <?php foreach ($penjualan as $key => $value) { ?>
-                                        <?php $sub_total += $value->harga_jual * $value->qty ?>
+                                        <?php
+                                        $sub_total += $value->harga_jual * $value->qty;
+                                        $sub_total_upah += $value->upah * $value->qty;
+                                        ?>
                                         <tr>
                                             <td class="text-center"><?= $key + 1 ?></td>
                                             <td><?= $value->tanggal ?></td>
                                             <td><?= $value->transaksi_id ?></td>
                                             <td><?= $value->item . " (" . $value->satuan . ")" ?></td>
                                             <td class="text-center"><?= number_format($value->qty, 0) ?></td>
-                                            <td class="text-right">Rp. <?= number_format($value->harga_jual, 0) ?></td>
-                                            <td class="text-right">Rp. <?= number_format($value->harga_jual * $value->qty, 0) ?></td>
-                                            <td><?= $value->ket_detail ?></td>
+                                            <td class="text-right"><?= number_format($value->harga_jual, 0) ?></td>
+                                            <td class="text-right"><?= number_format($value->upah, 0) ?></td>
+                                            <td class="text-right"><?= number_format($value->harga_jual * $value->qty, 0) ?></td>
+                                            <td class="text-right"><?= number_format($value->upah * $value->qty, 0) ?></td>
+                                            <td><?= $value->keterangan ?></td>
                                             <td class="text-right">
                                                 <a href="<?= base_url('pengadaan/delete/') . $value->id ?>" onclick="return validation()"><i class="fas fa-fw fa-trash"></i></a>
                                                 <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-material" class="btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
@@ -64,9 +74,10 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="6" class="text-bold text-right">Total</td>
-                                        <td class="text-bold text-right">Rp. <?= number_format($sub_total, 0) ?></td>
-                                        <td colspan="2"></td>
+                                        <th colspan="7" class="text-right">Total</th>
+                                        <th class="text-right">Rp.&nbsp;<?= number_format($sub_total, 0) ?></th>
+                                        <th class="text-right">Rp.&nbsp;<?= number_format($sub_total_upah, 0) ?></th>
+                                        <th colspan="2"></th>
                                     </tr>
                                 </tfoot>
                             </table>

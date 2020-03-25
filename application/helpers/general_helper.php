@@ -70,3 +70,24 @@ function check_menu($id_group, $menu_id)
         return 'checked';
     }
 }
+
+function cek_status($status)
+{
+    if ($status == 1) {
+        return '<span class="badge badge-succees">Done</span>';
+    } else if ($status == 2) {
+        return '<span class="badge badge-danger">Pending</span>';
+    } else {
+        return '<span class="badge badge-warning">On progress</span>';
+    }
+}
+
+function cek_pengeluaran_project($id_project)
+{
+    $CI = get_instance();
+    $CI->db->select('SUM(harga_jual * qty) AS pengeluaran');
+    $CI->db->where('proyek_id', $id_project);
+    $CI->db->group_by('proyek_id');
+    $data = $CI->db->get('proyek_detail')->row();
+    return $data->pengeluaran;
+}
