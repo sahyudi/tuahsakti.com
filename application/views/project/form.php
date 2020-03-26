@@ -45,7 +45,7 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="">Anggaran (Rp.)</label>
-                                    <input type="text" class="form-control form-control-sm text-right" id="anggaran" name="anggaran" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 2, 'digitsOptional': false, 'prefix': '', 'placeholder': 'Rp. '">
+                                    <input type="text" class="form-control form-control-sm text-right" id="anggaran" name="anggaran" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''" placeholder="Rp">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="">Deskripsi</label>
@@ -54,10 +54,12 @@
 
                                 <div class="form-group col-md-6">
                                     <label for="">Item List</label>
-                                    <select name="item-select" id="item-select" onchange="addItem()" class="form-control form-control-sm select2" onchange="addItem()">
+                                    <select name="item-select" id="item-select" onchange="addItem()" class="form-control form-control-sm select2">
                                         <option value=""></option>
                                     </select>
                                 </div>
+
+
                             </div>
 
                             <hr>
@@ -66,17 +68,18 @@
                                 <table id="table-belanja" class="table table-bordered table-striped">
                                     <thead>
                                         <tr class="text-center">
-                                            <th style="width: 25%;">Item / Satuan</th>
+                                            <th style="width: 20%;">Item / Satuan</th>
                                             <th>Quantity</th>
                                             <th>Harga</th>
                                             <th>Sub Total</th>
+                                            <th style="width: 25%;">Ket Item</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <input type="hidden" id="jumlah-baris" value="1">
                                         <tr id="remove-null">
-                                            <td colspan="5" class="text-center">Item Belum dipilih</td>
+                                            <td colspan="6" class="text-center">Item Belum dipilih</td>
                                         </tr>
                                     </tbody>
                                     <tfoot>
@@ -86,6 +89,27 @@
                                         </tr>
                                     </tfoot>
                                 </table>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="">Vendor</label>
+                                    <select name="vendor" id="vendor" class="form-control form-control-sm select2">
+                                        <option value=""></option>
+                                        <?php foreach ($vendor as $key => $value) { ?>
+                                            <option value="<?= $value->id ?>"><?= $value->nama ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Tunai</label>
+                                        <input type="text" name="tunai" id="tunai" class="form-control form-control-sm text-right" onkeyup="hitung_tunai()" value="0" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Kredit</label>
+                                        <input type="text" name="kredit" id="kredit" class="form-control form-control-sm text-right" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''" readonly>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="card-footer">
@@ -126,7 +150,7 @@
         $('[name="item[]"]').each(function(i, value) {
             item_select[i] = $(value).val();
         });
-        
+
 
         $.ajax({
             url: "<?= base_url('pos/get_item_list'); ?>",
@@ -155,7 +179,7 @@
         const harga = parseInt($('#harga-' + id).val().replace(/\,/g, ''));
         if (qty_awal < 1 || qty_awal == 'NaN') {
             var qty = 1;
-        }else{
+        } else {
             var qty = qty_awal;
         }
         sub_total = qty * harga;
@@ -170,7 +194,6 @@
         } else {
             return_harga = 0;
         }
-
         $('#qty-' + id).val(addCommas(qty));
         $('#harga-' + id).val(addCommas(return_harga));
         hitungtotal();
@@ -180,8 +203,11 @@
         const total = parseInt($('#total').html().replace(/\,/g, ''));
         const tunai = $('#tunai').val().replace(/\,/g, '');
 
-        $('#lebih-uang').val(addCommas(parseInt(tunai) - total));
-        $('#tunai').val(addCommas(tunai));
+        console.log(tunai);
+        const grand_total = parseInt(tunai) - total ;
+        console.log(grand_total);
+        $('#kredit').val(grand_total);
+        // $('#tunai').val(addCommas(tunai));
     }
 
     function hitungtotal() {
@@ -216,16 +242,19 @@
                                         ${data.nama}
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control form-control-sm form-qty text-right" name="qty[]" id="qty-${rangeId}" onchange="hitung_sub_total(${rangeId})" onkeyup="hitung_sub_total(${rangeId})" value="1">
+                                        <input type="text" class="form-control form-control-sm form-qty text-right" name="qty[]" id="qty-${rangeId}"  onchange="hitung_sub_total(${rangeId})" onkeyup="hitung_sub_total(${rangeId})" value="1" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'Rp. ', 'placeholder': ''">
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control form-control-sm form-harga text-right" name="harga[]" id="harga-${rangeId}" onchange="hitung_sub_total(${rangeId})" onkeyup="hitung_sub_total(${rangeId})" value="0">
+                                        <input type="text" class="form-control form-control-sm form-harga text-right" name="harga[]" id="harga-${rangeId}" onchange="hitung_sub_total(${rangeId})" onkeyup="hitung_sub_total(${rangeId})" value="0" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'Rp. ', 'placeholder': ''">
                                     </td>
                                     <td>
                                         <input type="text" class="form-control form-control-sm form-sub_total text-right" name="sub_total[]" id="sub_total-${rangeId}" value="0" readonly>
                                     </td>
-                                    <td class="for-button">
-                                        <button href="#" onclick="hapus(${rangeId})" class="btn btn-sm btn-danger"><i class="fa fa-minus"></i></button>
+                                    <td>
+                                        <textarea type="text" class="form-control form-control-sm form-ket_item text-right" name="ket_item[]" id="ket_item-${rangeId}"></textarea>
+                                    </td>
+                                    <td class="for-button text-center">
+                                        <button href="#" onclick="hapus(${rangeId})" class="btn btn-sm btn-danger "><i class="fa fa-minus"></i></button>
                                     </td>
                                 </tr>
                             `;
@@ -249,12 +278,6 @@
             $('#table-belanja tbody').append(nul);
         }
         get_item();
-    }
-
-    function hanya_angka(val) {
-        var nilai = $('#anggaran').val().replace(/\,/g, '');
-        console.log(nilai);
-        $('#anggaran').val(addCommas(nilai));
     }
 
     function addCommas(nStr) {

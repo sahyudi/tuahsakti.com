@@ -14,11 +14,14 @@ class Project extends CI_Controller
 
         $this->load->model('m_proyek');
         $this->load->model('m_material');
+        $this->load->model('m_vendor');
     }
 
     public function index()
     {
         $data['proyek'] = $this->m_proyek->get_proyek()->result();
+
+        // log_r($data['proyek']);
         $data['active'] = 'project';
         $data['title'] = 'Project';
         $data['subview'] = 'project/list';
@@ -68,7 +71,7 @@ class Project extends CI_Controller
 
     function create_project()
     {
-        $data['proyek'] = $this->m_proyek->get_proyek()->result();
+        $data['vendor'] = $this->m_vendor->get_vendor()->result();
         $data['active'] = 'project';
         $data['title'] = 'Project';
         $data['subview'] = 'project/form';
@@ -79,8 +82,7 @@ class Project extends CI_Controller
     {
         $data['master'] = $this->m_proyek->get_proyek($id)->row();
         $data['detail'] = $this->m_proyek->get_proyek_detail($id)->result();
-        $data['pendanaan'] = $this->m_proyek->get_proyek_dana($id)->result();
-        // log_r($data['pendanaan']);
+        $data['pendanaan'] = null;
         $data['active'] = 'project';
         $data['title'] = 'Project';
         $data['subview'] = 'project/info';
@@ -98,17 +100,21 @@ class Project extends CI_Controller
         $nama = $this->input->post('nama');
         $deksripsi = $this->input->post('deksripsi');
         $anggaran = $this->input->post('anggaran');
+        $vendor = $this->input->post('vendor');
+        $kredit = $this->input->post('kredit');
+
+        // log_r();
+
 
         // detail item
-        $item = $this->input->post('item');
+            $item = $this->input->post('item');
         $qty = $this->input->post('qty');
-        $harga_beli = $this->input->post('harga_beli');
-        $harga_jual = $this->input->post('harga_jual');
-        $upah = $this->input->post('upah');
+        $harga = $this->input->post('harga');
+        $ket_item = $this->input->post('ket_item');
 
         $data_pengadaan = [
             'nama_proyek' => $nama,
-            'anggaran' => $anggaran,
+            'anggaran' => str_replace(",", "", $anggaran),
             'deskripsi' => $deksripsi,
             'proyek_no' => $no_proyek,
             'status' => 0,
@@ -131,29 +137,27 @@ class Project extends CI_Controller
                 'proyek_id' => $proyek_id,
                 'material_id' => $item[$i],
                 'qty' => $quantity,
-                'harga_beli' => str_replace(",", "", $harga_beli[$i]),
-                'harga_jual' => str_replace(",", "", $harga_jual[$i]),
+                'harga' => str_replace(",", "", $harga[$i]),
                 'satuan' => $material->satuan,
-                'upah' => ($upah[$i]) ? $upah[$i] : 0,
-                'ket_detail' => 'Proyek nomor ' . $no_proyek,
+                'ket_detail' => $ket_item[$i],
                 'created_at' => $date,
                 'created_user' => $user
             ];
         }
         // log_r($detail);
 
-
-
-        // if ($kredit != 0) {
-        //     $saldo_hutang = [
-        //         'no_nota' => $nota,
-        //         'vendor_id' => $vendor,
-        //         'saldo' => $saldo = str_replace(",", "", $kredit),
-        //         'updated_at' => $date,
-        //         'created_user' => $user
-        //     ];
-        //     $this->db->insert('saldo_hutang', $saldo_hutang);
-        // }
+        if ($kredit != 0) {
+            $saldo_hutang = [
+                'no_nota' => $no_proyek,
+                'proyek_id'=>$proyek_id,
+                'vendor_id' => $vendor,
+                'saldo' => abs(str_replace(",", "", $kredit)),
+                'updated_at' => $date,
+                'created_user' => $user
+            ];
+            // log_r($saldo_hutang);
+            $this->db->insert('saldo_hutang', $saldo_hutang);
+        }
 
         $this->db->insert_batch($this->proyek_detail, $detail);
 

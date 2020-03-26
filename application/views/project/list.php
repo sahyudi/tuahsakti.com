@@ -52,7 +52,7 @@
                                             <td><?= $value->nama_proyek ?></td>
                                             <td class="text-right"><?= number_format($value->anggaran, 0) ?></td>
                                             <td class="text-right"><?= number_format($detail_pengeluaran, 0) ?></td>
-                                            <td><?= cek_status($value->status) ?></td>
+                                            <td class="text-center"><?= cek_status($value->status) ?></td>
                                             <td><?= $value->deskripsi ?></td>
                                             <td class="text-right">
                                                 <a href="<?= base_url('project/delete/') . $value->id ?>" onclick="return validation()" class="btn btn-danger btn-xs"><i class="fas fa-fw fa-trash"></i></a>

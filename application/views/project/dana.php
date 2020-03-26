@@ -46,13 +46,13 @@
                                     <?php foreach ($pendanaan as $key => $value) { ?>
                                         <tr>
                                             <td class="text-center"><?= $key + 1 ?></td>
-                                            <td><?= $value->tanggal ?></td>
+                                            <td><?= $value->tanggal_detail ?></td>
                                             <td><?= $value->proyek_no . " - " . $value->nama_proyek ?></td>
-                                            <td><?= $value->keterangan ?></td>
+                                            <td><?= $value->ket_detail ?></td>
                                             <td class="text-right">Rp. <?= number_format($total += $value->total, 0) ?></td>
                                             <td class="text-right">
-                                                <a href="<?= base_url('accounting/deleteItem/') . $value->id ?>" onclick="return validation()" class="btn btn-xs btn-danger"><i class="fas fa-fw fa-trash"></i></a>
-                                                <a href="<?= base_url('accounting/detail_pendanaan/') . $value->id ?>" data-id="<?= $value->id ?>" class="btn btn-xs btn-info btn-edit"><i class="fas fa-fw fa-info"></i></a>
+                                                <a href="<?= base_url('project/deleteItem/') . $value->id ?>" onclick="return validation()" class="btn btn-xs btn-danger"><i class="fas fa-fw fa-trash"></i></a>
+                                                <a href="<?= base_url('project/detail_pendanaan/') . $value->id ?>" data-id="<?= $value->id ?>" class="btn btn-xs btn-info btn-edit"><i class="fas fa-fw fa-info"></i></a>
                                             </td>
                                         </tr>
                                     <?php } ?>

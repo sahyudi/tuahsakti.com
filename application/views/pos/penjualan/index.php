@@ -5,7 +5,7 @@
             <?= $this->session->flashdata('message'); ?>
             <div class="card card-primary card-outline">
                 <div class="card-header">
-                    <h5 class="card-title m-0">Stock Item</h5>
+                    <h5 class="card-title m-0">Form Penjualan</h5>
                     <a href="#" onclick="get_stock()" data-toggle="modal" data-target="#modal-stock" class="btn btn-sm btn-info  float-right"><i class="fa fa-database"> Stock</i></a>
                 </div>
                 <div class="card-body">
@@ -76,7 +76,7 @@
                                     <input type="text" name="tunai" id="tunai" class="form-control form-control-sm text-right" onkeyup="hitung_tunai()" value="0">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Lebih uang</label>
+                                    <label for="">Kredit</label>
                                     <input type="text" name="lebih-uang" id="lebih-uang" class="form-control form-control-sm text-right" value="0" readonly>
                                 </div>
                             </div>
