@@ -63,14 +63,15 @@
                             </div>
 
                             <hr>
-                            <h5>List Item</h5>
+                            <h5>List Material</h5>
                             <div class="row">
                                 <table id="table-belanja" class="table table-bordered table-striped">
                                     <thead>
                                         <tr class="text-center">
                                             <th style="width: 20%;">Item / Satuan</th>
+                                            <th>Harga Beli</th>
+                                            <th>Harga Jual</th>
                                             <th>Quantity</th>
-                                            <th>Harga</th>
                                             <th>Sub Total</th>
                                             <th style="width: 25%;">Ket Item</th>
                                             <th>Actions</th>
@@ -79,12 +80,12 @@
                                     <tbody>
                                         <input type="hidden" id="jumlah-baris" value="1">
                                         <tr id="remove-null">
-                                            <td colspan="6" class="text-center">Item Belum dipilih</td>
+                                            <td colspan="7" class="text-center">Item Belum dipilih</td>
                                         </tr>
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td colspan="3" class="text-right">TOTAL</td>
+                                            <td colspan="4" class="text-right">TOTAL</td>
                                             <td class="text-right">Rp. <span id="total"></span></td>
                                         </tr>
                                     </tfoot>
@@ -177,6 +178,7 @@
         var sub_total = 0;
         const qty_awal = parseInt($('#qty-' + id).val().replace(/\,/g, ''));
         const harga = parseInt($('#harga-' + id).val().replace(/\,/g, ''));
+        const harga_beli = parseInt($('#harga_beli-' + id).val().replace(/\,/g, ''));
         if (qty_awal < 1 || qty_awal == 'NaN') {
             var qty = 1;
         } else {
@@ -196,6 +198,7 @@
         }
         $('#qty-' + id).val(addCommas(qty));
         $('#harga-' + id).val(addCommas(return_harga));
+        $('#harga_beli-' + id).val(addCommas(harga_beli));
         hitungtotal();
     }
 
@@ -204,7 +207,7 @@
         const tunai = $('#tunai').val().replace(/\,/g, '');
 
         console.log(tunai);
-        const grand_total = parseInt(tunai) - total ;
+        const grand_total = parseInt(tunai) - total;
         console.log(grand_total);
         $('#kredit').val(grand_total);
         // $('#tunai').val(addCommas(tunai));
@@ -239,13 +242,16 @@
                                 <tr class="material" id="material-${rangeId}">
                                     <td>
                                         <input type="hidden" class="form-control form-control-sm form-item" id="item-${rangeId}" name="item[]" value="${id}">
-                                        ${data.nama}
+                                        ${data.nama} (${data.satuan})
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control form-control-sm form-qty text-right" name="qty[]" id="qty-${rangeId}"  onchange="hitung_sub_total(${rangeId})" onkeyup="hitung_sub_total(${rangeId})" value="1" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'Rp. ', 'placeholder': ''">
+                                        <input type="text" class="form-control form-control-sm form-harga_beli text-right" name="harga_beli[]" id="harga_beli-${rangeId}" onchange="hitung_sub_total(${rangeId})" onkeyup="hitung_sub_total(${rangeId})" value="${addCommas(data.harga_beli)}" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'Rp. ', 'placeholder': ''">
                                     </td>
                                     <td>
                                         <input type="text" class="form-control form-control-sm form-harga text-right" name="harga[]" id="harga-${rangeId}" onchange="hitung_sub_total(${rangeId})" onkeyup="hitung_sub_total(${rangeId})" value="0" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'Rp. ', 'placeholder': ''">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm form-qty text-right" name="qty[]" id="qty-${rangeId}"  onchange="hitung_sub_total(${rangeId})" onkeyup="hitung_sub_total(${rangeId})" value="1" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'Rp. ', 'placeholder': ''">
                                     </td>
                                     <td>
                                         <input type="text" class="form-control form-control-sm form-sub_total text-right" name="sub_total[]" id="sub_total-${rangeId}" value="0" readonly>

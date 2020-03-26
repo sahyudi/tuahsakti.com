@@ -53,7 +53,7 @@ class M_accounting extends CI_Model
         if ($id) {
             $this->db->where('A.id', $id);
         }
-        $data = $this->db->get('saldo_hutang A');
+        $data = $this->db->get('hutang A');
         return $data;
     }
 
@@ -66,7 +66,7 @@ class M_accounting extends CI_Model
         if ($id) {
             $this->db->where('A.id', $id);
         }
-        $data = $this->db->get('saldo_hutang A');
+        $data = $this->db->get('hutang A');
         return $data;
     }
 }

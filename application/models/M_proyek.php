@@ -25,7 +25,7 @@ class M_proyek extends CI_Model
 
     public function get_proyek_detail($id = null)
     {
-        $this->db->select('d1.tanggal as tanggal_detail, m1.nama as nama_item, m1.satuan, d1.qty, d1.harga, d1.ket_detail');
+        $this->db->select('d1.tanggal as tanggal_detail, d1.harga_beli, m1.nama as nama_item, m1.satuan, d1.qty, d1.harga, d1.ket_detail');
         $this->db->from($this->proyek . ' as a1');
         $this->db->join($this->proyek_detail . ' as d1', 'a1.id = d1.proyek_id', 'left');
         $this->db->join($this->material . ' as m1', 'm1.id = d1.material_id', 'left');
@@ -33,7 +33,7 @@ class M_proyek extends CI_Model
         $query_1 = $this->db->get_compiled_select();
 
 
-        $this->db->select('d2.tanggal as tanggal_detail, d2.keterangan AS nama_item, ("-") as satuan, (1) as qty, d2.total AS harga,("-") as ket_detail');
+        $this->db->select('d2.tanggal as tanggal_detail, (0) as harga_beli, d2.keterangan AS nama_item, ("-") as satuan, (1) as qty, d2.total AS harga,("-") as ket_detail');
         $this->db->from($this->proyek . ' as a2');
         $this->db->join($this->proyek_dana . ' as d2', 'a2.id = d2.proyek_id', 'right');
         $this->db->where('a2.id', $id);

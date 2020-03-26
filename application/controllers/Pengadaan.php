@@ -98,7 +98,7 @@ class Pengadaan extends CI_Controller
                 'updated_at' => $date,
                 'created_user' => $user
             ];
-            $this->db->insert('saldo_hutang', $saldo_hutang);
+            $this->db->insert('hutang', $saldo_hutang);
         }
 
         $this->db->insert_batch('pengadaan_detail', $detail);

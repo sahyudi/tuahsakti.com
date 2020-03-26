@@ -107,8 +107,9 @@ class Project extends CI_Controller
 
 
         // detail item
-            $item = $this->input->post('item');
+        $item = $this->input->post('item');
         $qty = $this->input->post('qty');
+        $harga_beli = $this->input->post('harga_beli');
         $harga = $this->input->post('harga');
         $ket_item = $this->input->post('ket_item');
 
@@ -136,7 +137,9 @@ class Project extends CI_Controller
                 'tanggal' => $tanggal,
                 'proyek_id' => $proyek_id,
                 'material_id' => $item[$i],
+                'vendor' => $vendor,
                 'qty' => $quantity,
+                'harga_beli' => str_replace(",", "", $harga_beli[$i]),
                 'harga' => str_replace(",", "", $harga[$i]),
                 'satuan' => $material->satuan,
                 'ket_detail' => $ket_item[$i],
@@ -149,14 +152,13 @@ class Project extends CI_Controller
         if ($kredit != 0) {
             $saldo_hutang = [
                 'no_nota' => $no_proyek,
-                'proyek_id'=>$proyek_id,
+                'proyek_id' => $proyek_id,
                 'vendor_id' => $vendor,
                 'saldo' => abs(str_replace(",", "", $kredit)),
                 'updated_at' => $date,
                 'created_user' => $user
             ];
-            // log_r($saldo_hutang);
-            $this->db->insert('saldo_hutang', $saldo_hutang);
+            $this->db->insert('hutang', $saldo_hutang);
         }
 
         $this->db->insert_batch($this->proyek_detail, $detail);
