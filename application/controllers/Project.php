@@ -172,4 +172,16 @@ class Project extends CI_Controller
         }
         redirect('project');
     }
+
+    function print_project($id)
+    {
+
+        $data['master'] = $this->m_proyek->get_proyek($id)->row();
+        $data['detail'] = $this->m_proyek->get_proyek_detail($id)->result();
+        $data['pendanaan'] = null;
+        $data['active'] = 'project';
+        $data['title'] = 'Project';
+        $data['subview'] = 'project/info';
+        $this->load->view('project/print_laporan', $data);
+    }
 }

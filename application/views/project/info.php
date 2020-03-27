@@ -51,7 +51,6 @@
                                     <label for="">Deskripsi</label>
                                     <p><?= $master->deskripsi ?></p>
                                 </div>
-
                             </div>
 
                             <hr>
@@ -119,7 +118,7 @@
                         </div>
                         <div class="card-footer">
                             <a href="<?= base_url('project') ?>" class="btn btn-danger btn-sm float-left">Back</a>
-                            <a href="#" class="btn btn-default btn-sm float-right"><i class="fas fa-fw fa-print"></i> Print</a>
+                            <a href="<?= base_url('project/print_project/') . $master->id ?>" class="btn btn-default btn-sm float-right"><i class="fas fa-fw fa-print"></i> Print</a>
                         </div>
                     </form>
                 </div>
