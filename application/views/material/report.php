@@ -75,6 +75,7 @@
                                         <th colspan="4"></th>
                                         <th colspan="3" class="text-center">IN</th>
                                         <th colspan="3" class="text-center">OUT</th>
+                                        <th colspan="2" class="text-center">OUT</th>
                                         <!-- <th colspan="2"></th> -->
                                     </tr>
                                     <tr class="text-center">
@@ -88,6 +89,8 @@
                                         <th>Quantity</th>
                                         <th>Harga</th>
                                         <th>Sub Total</th>
+                                        <th>Upah</th>
+                                        <th>Sub Upah</th>
                                         <!-- <th>Sisa Stock</th> -->
                                         <!-- <th>Action</th> -->
                                     </tr>
@@ -100,10 +103,12 @@
                                         $sub_total_in = 0;
                                         $sub_total_out = 0;
                                         $sub_total = 0;
+                                        $total_upah = 0;
                                         $total = 0;
                                         ?>
                                         <?php foreach ($kartu_stock as $key => $value) { ?>
                                             <?php $sub_total = $value->quantity * $value->harga ?>
+                                            <?php $total_upah += $value->quantity * $value->upah ?>
                                             <tr>
                                                 <td class="text-center"><?= $key + 1 ?></td>
                                                 <td><?= date('d F Y', strtotime($value->tanggal)) ?></td>
@@ -126,33 +131,46 @@
                                                     <td class="text-right"><?= number_format($value->harga, 0) ?></td>
                                                     <td class="text-right"><?= number_format($sub_total, 0) ?></td>
                                                 <?php } ?>
-                                                <!-- <td class="text-center"><?= $value->stockUpdate ?></td> -->
+                                                <td class="text-right"><?= number_format($value->upah, 0) ?></td>
+                                                <td class="text-right"><?= number_format($value->upah * $value->quantity, 0) ?></td>
                                             </tr>
                                         <?php } ?>
 
                                     <?php  } ?>
                                 </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th colspan="6" class="text-right">Total</th>
-                                        <th class="text-right">Rp.&nbsp;<?= number_format($sub_total_in, 0) ?> </th>
-                                        <th colspan="2"></th>
-                                        <th class="text-right">Rp.&nbsp;<?= number_format($sub_total_out, 0) ?> </th>
-                                        <!-- <th></th> -->
-                                    </tr>
-                                </tfoot>
+                                <!-- <tfoot> -->
+                                <tr>
+                                    <th colspan="6" class="text-right">Total</th>
+                                    <th class="text-right">Rp.&nbsp;<?= number_format($sub_total_in, 0) ?> </th>
+                                    <th colspan="2"></th>
+                                    <th class="text-right">Rp.&nbsp;<?= number_format($sub_total_out, 0) ?> </th>
+                                    <th></th>
+                                    <th class="text-right">Rp.&nbsp;<?= number_format($total_upah, 0) ?> </th>
+
+                                </tr>
+                                <tr>
+                                    <th class="text-right" colspan="10">Total Penjualan</th>
+                                    <th class="text-right">Rp.&nbsp;<?= number_format($sub_total_out, 0) ?> </th>
+                                </tr>
+                                <tr>
+                                    <th class="text-right" colspan="10">Total Pengandaan</th>
+                                    <th class="text-right">Rp.&nbsp;<?= number_format($sub_total_in, 0) ?></th>
+                                </tr>
+                                <tr>
+                                    <th class="text-right" colspan="10">Total Upah</th>
+                                    <th class="text-right">Rp.&nbsp;<?= number_format($total_upah, 0) ?> </th>
+                                </tr>
+                                <tr>
+                                    <th class="text-right" colspan="10">Margin</th>
+                                    <th class="text-right">Rp.&nbsp;<?= number_format($sub_total_out - $sub_total_in - $total_upah, 0) ?> </th>
+                                </tr>
                             </table>
                         </div>
                     </div>
-                    <!-- /.card-body -->
                 </div>
-                <!-- /.card -->
             </div>
-            <!-- /.col -->
         </div>
-        <!-- /.row -->
     </section>
-    <!-- /.content -->
 </div>
 
 <script>

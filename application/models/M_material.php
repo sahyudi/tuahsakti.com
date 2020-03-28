@@ -82,6 +82,7 @@ class M_material extends CI_Model
                                 A1.qty AS quantity,
                                 A1.satuan AS satuan,
                                 A1.harga_beli AS harga,
+                                A1.upah as upah,
                                 A1.stock_updated AS stockUpdate
                             ");
         $this->db->from("pengadaan_detail A1");
@@ -107,6 +108,7 @@ class M_material extends CI_Model
                                 A2.qty AS quantity,
                                 A2.satuan AS satuan,
                                 A2.harga_jual AS harga,
+                                A2.upah AS upah,
                                 A2.stock_updated AS stockUpdate
                             ");
         $this->db->from("penjualan_detail A2");

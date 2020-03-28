@@ -33,7 +33,7 @@ class M_proyek extends CI_Model
         $query_1 = $this->db->get_compiled_select();
 
 
-        $this->db->select('d2.tanggal as tanggal_detail, (0) as harga_beli, d2.keterangan AS nama_item, ("-") as satuan, (1) as qty, d2.total AS harga,("-") as ket_detail');
+        $this->db->select('d2.tanggal as tanggal_detail, (0) as harga_beli, d2.item AS nama_item, ("-") as satuan, (1) as qty, d2.total AS harga,d2.keterangan as ket_detail');
         $this->db->from($this->proyek . ' as a2');
         $this->db->join($this->proyek_dana . ' as d2', 'a2.id = d2.proyek_id', 'right');
         $this->db->where('a2.id', $id);
