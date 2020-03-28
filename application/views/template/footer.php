@@ -19,6 +19,10 @@
     function button_back() {
         window.history.go(-1);
     }
+
+    function confirm_delete() {
+        return confirm('Apakah anda yakin akan menghapu data tersebut ?');
+    }
 </script>
 </body>
 

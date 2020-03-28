@@ -90,6 +90,50 @@ class Project extends CI_Controller
         $this->load->view('template/main', $data);
     }
 
+    function delete_detail_dana($id)
+    {
+        $this->db->trans_begin();
+        $this->m_proyek->delete_detail_dana($id);
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"> Pendanaan proyek gagal dihapuskan !</div>');
+        } else {
+            $this->db->trans_commit();
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"> Pendanaan proyek berhasil dihapuskan !</div>');
+        }
+
+        // redirect('project/delete_detail_dana/')
+    }
+
+    function delete_dana_proyek($id)
+    {
+        $this->db->trans_begin();
+        $this->m_proyek->delete_dana_proyek($id);
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"> Pendanaan proyek gagal dihapuskan !</div>');
+        } else {
+            $this->db->trans_commit();
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"> Pendanaan proyek berhasil dihapuskan !</div>');
+        }
+
+        redirect('project/pendanaan');
+    }
+
+    function delete_proyek($id)
+    {
+        $this->db->trans_begin();
+        $this->m_proyek->delete_proyek($id);
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"> Proyek gagal dihapuskan !</div>');
+        } else {
+            $this->db->trans_commit();
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"> Proyek berhasil dihapuskan !</div>');
+        }
+        redirect('project');
+    }
+
     function create_project()
     {
         $data['vendor'] = $this->m_vendor->get_vendor()->result();

@@ -55,7 +55,7 @@
                                             <td class="text-center"><?= cek_status($value->status) ?></td>
                                             <td><?= $value->deskripsi ?></td>
                                             <td class="text-right">
-                                                <a href="<?= base_url('project/delete/') . $value->id ?>" onclick="return validation()" class="btn btn-danger btn-xs"><i class="fas fa-fw fa-trash"></i></a>
+                                                <a href="<?= base_url('project/delete_proyek/') . $value->id ?>" onclick="return confirm_delete()" class="btn btn-danger btn-xs"><i class="fas fa-fw fa-trash"></i></a>
                                                 <a href="<?= base_url('project/info_detail/') . $value->id ?>" class="btn btn-info btn-xs btn-edit"><i class="fas fa-fw fa-info"></i></a>
                                             </td>
                                         </tr>
@@ -76,12 +76,6 @@
     $(document).ready(function() {
         $("#table-penjualan").DataTable();
     });
-
-    function validation() {
-        return confirm('Apakah anda yakin akan mengahapus materia ??');
-        // confirm
-        // alert('test');
-    }
 
     function reset_form() {
         $('#form-material')[0].reset();

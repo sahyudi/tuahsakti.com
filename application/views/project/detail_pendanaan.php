@@ -67,6 +67,7 @@
                                             <th>Total</th>
                                             <th>Keterangan</th>
                                             <th>User Input</th>
+                                            <th>Aciton</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -79,16 +80,22 @@
                                             ?>
                                             <tr>
                                                 <td class="text-center"><?= $key + 1 ?></td>
-                                                <td><?= $value->tanggal ?></td>
+                                                <td><?= date('d F Y', strtotime($value->tanggal)) ?></td>
                                                 <td><?= $value->nama_item ?></td>
                                                 <td class="text-right"><?= number_format($value->total, 0) ?></td>
                                                 <td><?= $value->keterangan ?></td>
                                                 <td><?= get_user_name($value->created_user) ?></td>
+                                                <td>
+                                                    <a href="<?= base_url('project/delete_detail_dana/') . $value->detail_id ?>" class="btn btn-danger btn-xs" onclick="return confirm_delete()"><i class="fas fa-fw fa-trash-alt"></i></a>
+                                                </td>
                                             </tr>
                                         <?php } ?>
                                     </tbody>
                                     <tfoot>
-
+                                        <tr>
+                                            <th class="text-right" colspan="3">Total</th>
+                                            <th class="text-right">Rp. <?= number_format($sub_total, 0) ?></th>
+                                        </tr>
                                     </tfoot>
                                 </table>
                             </div>

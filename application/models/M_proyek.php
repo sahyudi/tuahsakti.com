@@ -57,11 +57,35 @@ class M_proyek extends CI_Model
 
     function get_detail_dana($id)
     {
-        $this->db->select('d2.tanggal, d2.item AS nama_item, d2.keterangan,d2.total, d2.created_user');
+        $this->db->select('d2.id as detail_id, d2.tanggal, d2.item AS nama_item, d2.keterangan,d2.total, d2.created_user');
         $this->db->from($this->proyek . ' as a2');
         $this->db->join($this->proyek_dana . ' as d2', 'a2.id = d2.proyek_id', 'right');
         $this->db->where('a2.id', $id);
         $data = $this->db->get();
         return $data;
+    }
+
+    function delete_detail_dana($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete($this->proyek_dana);
+    }
+
+    function delete_dana_proyek($id)
+    {
+        $this->db->where('proyek_id', $id);
+        $this->db->delete($this->proyek_dana);
+    }
+
+    function delete_detail_proyek($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete($this->proyek_detail);
+    }
+
+    function delete_proyek($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete($this->proyek);
     }
 }
