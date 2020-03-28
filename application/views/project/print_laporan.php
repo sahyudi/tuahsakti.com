@@ -30,7 +30,7 @@
                     </h2>
                 </div>
             </div>
-
+            <br><br><br>
             <div class="row invoice-info">
                 <div class="col-md-6 invoice-col">
                     Tanggal
@@ -108,14 +108,12 @@
             <div class="row">
                 <div class="col-6"></div>
                 <div class="col-6">
-                    <p class="lead">Payment :</p>
+                    <p class="lead">Total :</p>
                     <div class="table-responsive">
                         <table class="table">
                             <tr>
-                                <th colspan="7" class="text-right">Total</th>
-                                <th class="text-right">Rp.&nbsp;<?= number_format($sub_total_beli, 0) ?></th>
+                                <th colspan="8" class="text-right">Total</th>
                                 <th class="text-right">Rp.&nbsp;<?= number_format($sub_total, 0) ?></th>
-                                <th class="text-right">Rp.&nbsp;<?= number_format($sub_total - $sub_total_beli, 0) ?></th>
                             </tr>
                             <tr>
                                 <th colspan="8" class="text-right">Nilai Proyek</th>

@@ -69,6 +69,15 @@ class Project extends CI_Controller
         redirect('project/pendanaan');
     }
 
+    function detail_dana($id)
+    {
+        $data['detail'] = $this->m_vendor->get_vendor()->result();
+        $data['active'] = 'project';
+        $data['title'] = 'Project';
+        $data['subview'] = 'project/form';
+        $this->load->view('template/main', $data);
+    }
+
     function create_project()
     {
         $data['vendor'] = $this->m_vendor->get_vendor()->result();
@@ -85,7 +94,7 @@ class Project extends CI_Controller
         $data['pendanaan'] = null;
         $data['active'] = 'project';
         $data['title'] = 'Project';
-        $data['subview'] = 'project/info';
+        $data['subview'] = 'project/detail_project';
         $this->load->view('template/main', $data);
     }
 
@@ -181,7 +190,6 @@ class Project extends CI_Controller
         $data['pendanaan'] = null;
         $data['active'] = 'project';
         $data['title'] = 'Project';
-        $data['subview'] = 'project/info';
         $this->load->view('project/print_laporan', $data);
     }
 }
