@@ -97,3 +97,14 @@ function cek_pengeluaran_project($id_project)
     $data_dana = $CI->db->get('proyek_dana')->row();
     return ($data_dana->pengeluaran + $data_material->pengeluaran);
 }
+
+
+function get_user_name($id)
+{
+    $CI = get_instance();
+    $CI->db->select('name');
+    $CI->db->where('id', $id);
+    $data = $CI->db->get('users')->row();
+
+    return $data->name;
+}

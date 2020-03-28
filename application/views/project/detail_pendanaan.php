@@ -58,13 +58,15 @@
                             <hr>
                             <!-- <div class="table-responsive text-nowrap"> -->
                             <div class="table-responsive">
-                                <table id="table-info-1" class="table table-striped" style="width: 100%">
+                                <table id="table-info-1" class="table table-striped table-bordered" style="width: 100%">
                                     <thead>
                                         <tr class="text-center">
                                             <th>No</th>
+                                            <th>Tanggal</th>
                                             <th>Nama Item</th>
                                             <th>Total</th>
                                             <th>Keterangan</th>
+                                            <th>User Input</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -77,9 +79,11 @@
                                             ?>
                                             <tr>
                                                 <td class="text-center"><?= $key + 1 ?></td>
+                                                <td><?= $value->tanggal ?></td>
                                                 <td><?= $value->nama_item ?></td>
-                                                <td><?= $value->satuan ?></td>
+                                                <td class="text-right"><?= number_format($value->total, 0) ?></td>
                                                 <td><?= $value->keterangan ?></td>
+                                                <td><?= get_user_name($value->created_user) ?></td>
                                             </tr>
                                         <?php } ?>
                                     </tbody>
@@ -90,8 +94,7 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <a href="<?= base_url('project') ?>" class="btn btn-danger btn-sm float-left">Back</a>
-                            <a href="<?= base_url('project/print_project/') . $master->id ?>" class="btn btn-default btn-sm float-right"><i class="fas fa-fw fa-print"></i> Print</a>
+                            <a href="<?= base_url('project/pendanaan') ?>" class="btn btn-danger btn-sm float-left">Back</a>
                         </div>
                     </form>
                 </div>

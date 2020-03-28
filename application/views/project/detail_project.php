@@ -30,6 +30,8 @@
                             <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
                             <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
                         </div>
+                        <a href="<?= base_url('project/add_material') ?>" class="btn btn-primary btn-sm float-right"> Tambah Material</a>
+
                     </div>
                     <!-- /.card-header -->
                     <form action="<?= base_url('project/save_project') ?>" method="POST" enctype="multipart/form-data">
@@ -56,6 +58,7 @@
                             <hr>
                             <h5 class="text-center">List Item</h5>
                             <hr>
+
                             <!-- <div class="table-responsive text-nowrap"> -->
                             <div class="table-responsive">
                                 <table id="table-info-1" class="table table-striped" style="width: 100%">

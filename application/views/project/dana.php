@@ -34,9 +34,7 @@
                                 <thead>
                                     <tr class="text-center">
                                         <th>No</th>
-                                        <th>Tanggal</th>
                                         <th>No Proyek</th>
-                                        <th>Keterangan</th>
                                         <th>Total</th>
                                         <th>Action</th>
                                     </tr>
@@ -46,20 +44,18 @@
                                     <?php foreach ($pendanaan as $key => $value) { ?>
                                         <tr>
                                             <td class="text-center"><?= $key + 1 ?></td>
-                                            <td><?= $value->tanggal_detail ?></td>
                                             <td><?= $value->proyek_no . " - " . $value->nama_proyek ?></td>
-                                            <td><?= $value->ket_detail ?></td>
                                             <td class="text-right">Rp. <?= number_format($total += $value->total, 0) ?></td>
                                             <td class="text-right">
                                                 <a href="<?= base_url('project/deleteItem/') . $value->id ?>" onclick="return validation()" class="btn btn-xs btn-danger"><i class="fas fa-fw fa-trash"></i></a>
-                                                <a href="<?= base_url('project/detail_pendanaan/') . $value->id ?>" data-id="<?= $value->id ?>" class="btn btn-xs btn-info btn-edit"><i class="fas fa-fw fa-info"></i></a>
+                                                <a href="<?= base_url('project/detail_dana/') . $value->id ?>" data-id="<?= $value->id ?>" class="btn btn-xs btn-info btn-edit"><i class="fas fa-fw fa-info"></i></a>
                                             </td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th colspan="4" class="text-right">Total</th>
+                                        <th colspan="2" class="text-right">Total</th>
                                         <th class="text-right">Rp. <?= number_format($total, 0) ?></th>
                                         <th></th>
                                     </tr>

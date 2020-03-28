@@ -52,29 +52,41 @@ class Project extends CI_Controller
         $proyek = $this->input->post('proyek_id');
         $tanggal = $this->input->post('tanggal');
         $date = date('Y-m-d H:i:s');
+        $item = $this->input->post('item');
         $keterangan = $this->input->post('keterangan');
         $sub_total = $this->input->post('sub_total');
         for ($i = 0; $i < count($keterangan); $i++) {
             $data[] = [
                 'proyek_id' => $proyek,
                 'tanggal' => $tanggal,
-                'total' => $sub_total[$i],
+                'total' => str_replace(",", "", $sub_total[$i]),
+                'item' => $item[$i],
                 'keterangan' => $keterangan[$i],
                 'created_at' => $date,
                 'created_user' => $this->session->userdata('id')
             ];
         }
-
+        $this->db->trans_begin();
         $this->db->insert_batch('proyek_dana', $data);
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"> Pendanaan proyek gagal disimpan !</div>');
+        } else {
+            $this->db->trans_commit();
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"> Pendanaan proyek berhasil disimpan !</div>');
+        }
+
         redirect('project/pendanaan');
     }
 
     function detail_dana($id)
     {
-        $data['detail'] = $this->m_vendor->get_vendor()->result();
-        $data['active'] = 'project';
-        $data['title'] = 'Project';
-        $data['subview'] = 'project/form';
+        $data['master'] = $this->m_proyek->get_proyek($id)->row();
+        $data['detail'] = $this->m_proyek->get_detail_dana($id)->result();
+        // log_r($data['detail']);
+        $data['active'] = 'project/pendanaan';
+        $data['title'] = 'Detail Dana';
+        $data['subview'] = 'project/detail_pendanaan';
         $this->load->view('template/main', $data);
     }
 
