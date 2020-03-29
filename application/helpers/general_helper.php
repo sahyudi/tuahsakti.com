@@ -111,3 +111,16 @@ function get_user_name($id)
         return 'default';
     }
 }
+
+function get_material_name($id)
+{
+    $CI = get_instance();
+    $CI->db->select('nama');
+    $CI->db->where('id', $id);
+    $data = $CI->db->get('material')->row();
+    if ($data->name) {
+        return $data->nama;
+    } else {
+        return 'default';
+    }
+}

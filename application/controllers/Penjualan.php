@@ -156,10 +156,9 @@ class Penjualan extends CI_Controller
 
     function print_report($start_date, $end_date, $material)
     {
-        $start_date = $this->input->post('start_date');
-        $end_date = $this->input->post('end_date');
-        $material = $this->input->post('material');
-
+        $data['start_date'] = $start_date;
+        $data['end_date'] = $end_date;
+        $data['material_id'] = $material;
         $data['penjualan'] = $this->m_penjualan->get_report_penjualan($start_date, $end_date, $material)->result();
         $data['subview'] = 'penjualan/print_report';
         $this->load->view('penjualan/print_report', $data);

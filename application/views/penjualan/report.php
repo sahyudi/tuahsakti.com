@@ -65,7 +65,12 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Data Penjualan Material</h3>
-                        <a href="<?= base_url('penjualan/pritn_report/') . $start_date . '/' . $end_date . '/' . $material_id ?>" class="btn btn-default float-right"><i class="fas fa-fw fa-print"></i> Print</a>
+                        <?php
+                        $start_date = ($start_date) ? $start_date : 0;
+                        $end_date = ($end_date) ? $end_date : 0;
+                        $material_id = ($material_id) ? $material_id : 0;
+                        ?>
+                        <a href="<?= base_url('penjualan/print_report/') . $start_date . '/' . $end_date . '/' . $material_id ?>" class="btn btn-default float-right"><i class="fas fa-fw fa-print"></i> Print</a>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
