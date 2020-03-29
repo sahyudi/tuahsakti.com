@@ -13,6 +13,7 @@ class Vendor extends CI_Controller
 
     public function index()
     {
+        check_persmission_pages($this->session->userdata('group_id'), 'vendor');
         $data['active'] = 'vendor';
         $data['title'] = 'Vendor';
         $data['vendor'] = $this->db->get('vendor')->result();
@@ -22,6 +23,7 @@ class Vendor extends CI_Controller
 
     function add()
     {
+        check_persmission_pages($this->session->userdata('group_id'), 'vendor');
         $this->db->trans_begin();
 
         $data = [
@@ -48,6 +50,7 @@ class Vendor extends CI_Controller
 
     function delete($id)
     {
+        check_persmission_pages($this->session->userdata('group_id'), 'vendor');
         if ($id) {
             $this->db->trans_begin();
             $this->db->delete('vendor', ['id' => $id]);

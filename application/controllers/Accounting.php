@@ -17,6 +17,7 @@ class Accounting extends CI_Controller
 
     public function index()
     {
+        check_persmission_pages($this->session->userdata('group_id'), 'accounting');
         $data['material'] = $this->m_material->get_material()->result();
         $data['active'] = 'material';
         $data['title'] = 'Material';
@@ -26,6 +27,7 @@ class Accounting extends CI_Controller
 
     public function pengajuan()
     {
+        check_persmission_pages($this->session->userdata('group_id'), 'accounting/pengajuan');
         $data['pengajuan'] = $this->m_accounting->get_pengajuan()->result();
         $data['active'] = 'accounting/pengajuan';
         $data['title'] = 'Pengajuan';

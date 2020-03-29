@@ -19,6 +19,8 @@ class Project extends CI_Controller
 
     public function index()
     {
+        check_persmission_pages($this->session->userdata('group_id'), 'project');
+
         $data['proyek'] = $this->m_proyek->get_proyek()->result();
 
         // log_r($data['proyek']);
@@ -30,6 +32,7 @@ class Project extends CI_Controller
 
     function pendanaan()
     {
+        check_persmission_pages($this->session->userdata('group_id'), 'project/pendanaan');
         $data['pendanaan'] = $this->m_proyek->get_proyek_dana()->result();;
         $data['active'] = 'project/pendanaan';
         $data['title'] = 'Pendanaan';
@@ -39,6 +42,7 @@ class Project extends CI_Controller
 
     function form_pendanaan()
     {
+        check_persmission_pages($this->session->userdata('group_id'), 'project/pendanaan');
         $data['proyek'] = $this->m_proyek->get_proyek()->result();
         // log_r($data['proyek']);
         $data['active'] = 'project/pendanaan';
@@ -240,7 +244,7 @@ class Project extends CI_Controller
 
     function print_project($id)
     {
-
+        check_persmission_pages($this->session->userdata('group_id'), 'project');
         $data['master'] = $this->m_proyek->get_proyek($id)->row();
         $data['detail'] = $this->m_proyek->get_proyek_detail($id)->result();
         $data['pendanaan'] = null;

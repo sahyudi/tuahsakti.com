@@ -14,6 +14,8 @@ class Setting extends CI_Controller
 
     public function menu()
     {
+        check_persmission_pages($this->session->userdata('group_id'), 'setting/menu');
+
         $data['menu'] = $this->m_setting->get_menu()->result();
         $data['parent'] = $this->m_setting->get_parent_menu()->result();
 
@@ -53,6 +55,7 @@ class Setting extends CI_Controller
 
     function deleteMenu($id)
     {
+        check_persmission_pages($this->session->userdata('group_id'), 'setting/menu');
         if ($id) {
             $data = $this->db->delete('menus', ['id' => $id]);
             if ($data) {
@@ -68,6 +71,7 @@ class Setting extends CI_Controller
 
     function users()
     {
+        check_persmission_pages($this->session->userdata('group_id'), 'setting/users');
         $data['active'] = 'setting/users';
         $data['title'] = 'Users';
         $data['subview'] = 'setting/users';
@@ -77,6 +81,7 @@ class Setting extends CI_Controller
 
     function create_user()
     {
+        check_persmission_pages($this->session->userdata('group_id'), 'setting/users');
 
         $this->form_validation->set_rules('group', 'Group', 'required|trim');
         $this->form_validation->set_rules('name', 'Name', 'required|trim');
@@ -114,6 +119,8 @@ class Setting extends CI_Controller
 
     function delete_user($id)
     {
+        check_persmission_pages($this->session->userdata('group_id'), 'setting/users');
+
         if ($id) {
             $this->db->delete('users', ['id' => $id]);
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Berhasil delete user!</div>');
@@ -126,6 +133,8 @@ class Setting extends CI_Controller
 
     public function group()
     {
+        check_persmission_pages($this->session->userdata('group_id'), 'setting/group');
+
         $data['groups'] = $this->m_setting->get_group()->result();
 
         $data['active'] = 'setting/group';
@@ -142,6 +151,8 @@ class Setting extends CI_Controller
 
     function add_group()
     {
+        check_persmission_pages($this->session->userdata('group_id'), 'setting/group');
+
         $id = $this->input->post('id');
         $data['group_name'] = $this->input->post('group');
         if ($id) {
@@ -158,8 +169,23 @@ class Setting extends CI_Controller
         redirect('setting/group');
     }
 
+
+
+    public function privelage($id)
+    {
+        check_persmission_pages($this->session->userdata('group_id'), 'setting/group');
+
+        $data['menu'] = $this->m_setting->get_menu()->result();
+        $data['group_id'] = $id;
+        $data['active'] = 'setting/privelage';
+        $data['title'] = 'Menu';
+        $data['subview'] = 'setting/privelage';
+        $this->load->view('template/main', $data);
+    }
     function update_privelage()
     {
+        check_persmission_pages($this->session->userdata('group_id'), 'setting/group');
+
         $group_id = $this->input->post('group_id');
         $menu = $this->input->post('menu');
         $data_menu = [];
@@ -181,15 +207,5 @@ class Setting extends CI_Controller
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"> User role berhasil disimpan !</div>');
         }
         redirect('setting/group');
-    }
-
-    public function privelage($id)
-    {
-        $data['menu'] = $this->m_setting->get_menu()->result();
-        $data['group_id'] = $id;
-        $data['active'] = 'setting/privelage';
-        $data['title'] = 'Menu';
-        $data['subview'] = 'setting/privelage';
-        $this->load->view('template/main', $data);
     }
 }

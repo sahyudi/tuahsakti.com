@@ -25,19 +25,25 @@ function log_r($string = null, $var_dump = false)
     exit;
 }
 
-function check_persmission_pages($id_group, $menu_id)
+function check_persmission_pages($id_group, $link)
 {
     $CI = get_instance();
     $CI->db->select('*');
-    $CI->db->from('user_access_role');
-    $CI->db->where('group_id', $id_group);
-    $CI->db->where('menu_id', $menu_id);
+    $CI->db->from('user_access_role A');
+    $CI->db->join('menus B', 'A.menu_id = B.id');
+    $CI->db->where('A.group_id', $id_group);
+    $CI->db->where('B.link', $link);
     $data = $CI->db->get();
 
     if ($data->num_rows() > 0) {
         return true;
     } else {
-        redirect('home');
+        $CI->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"> Anda tidak memilik akses !</div>');
+        if ($CI->session->userdata('group_id') == 3) {
+            redirect('pos');
+        } else {
+            redirect('home');
+        }
     }
 }
 

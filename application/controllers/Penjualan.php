@@ -21,6 +21,7 @@ class Penjualan extends CI_Controller
 
     function index()
     {
+        check_persmission_pages($this->session->userdata('group_id'), 'penjualan');
         $data['penjualan'] = $this->m_penjualan->get_data()->result();
         $data['active'] = 'penjualan';
         $data['title'] = 'Penjualan';
@@ -30,8 +31,9 @@ class Penjualan extends CI_Controller
 
     function form()
     {
-        $data['material'] = $this->m_material->get_material_penjualan()->result();
+        check_persmission_pages($this->session->userdata('group_id'), 'penjualan');
 
+        $data['material'] = $this->m_material->get_material_penjualan()->result();
         $data['active'] = 'Penjualan';
         $data['title'] = 'Form';
         $data['subview'] = 'penjualan/form';
@@ -128,6 +130,8 @@ class Penjualan extends CI_Controller
 
     function report()
     {
+        check_persmission_pages($this->session->userdata('group_id'), 'penjualan/report');
+
         $this->form_validation->set_rules('start_date', 'Tanggal Mulai', 'trim|required');
         $this->form_validation->set_rules('end_date', 'Tanggal Akhir', 'trim|required');
         $this->form_validation->set_rules('material', 'Material', 'trim|required');
@@ -156,6 +160,7 @@ class Penjualan extends CI_Controller
 
     function print_report($start_date, $end_date, $material)
     {
+        check_persmission_pages($this->session->userdata('group_id'), 'penjualan/report');
         $data['start_date'] = $start_date;
         $data['end_date'] = $end_date;
         $data['material_id'] = $material;

@@ -21,6 +21,7 @@ class Pengadaan extends CI_Controller
 
     function index()
     {
+        check_persmission_pages($this->session->userdata('group_id'), 'pengadaan');
         $data['pengadaan'] = $this->m_pengadaan->get_data()->result();
         $data['active'] = 'pengadaan';
         $data['title'] = 'Pengadaan';
@@ -30,6 +31,7 @@ class Pengadaan extends CI_Controller
 
     function form()
     {
+        check_persmission_pages($this->session->userdata('group_id'), 'pengadaan');
         $data['material'] = $this->m_material->get_material()->result();
         $data['vendor'] = $this->db->get('vendor')->result();
         $data['momor_pengjuan'] = $this->m_accounting->get_nomor_pengajuan()->result();
@@ -134,6 +136,8 @@ class Pengadaan extends CI_Controller
 
     function report()
     {
+        check_persmission_pages($this->session->userdata('group_id'), 'pengadaan/report');
+
         $this->form_validation->set_rules('start_date', 'Tanggal Mulai', 'trim|required');
         $this->form_validation->set_rules('end_date', 'Tanggal Akhir', 'trim|required');
         $this->form_validation->set_rules('material', 'Material', 'trim|required');
@@ -162,6 +166,7 @@ class Pengadaan extends CI_Controller
 
     function print_report($start_date, $end_date, $material)
     {
+        check_persmission_pages($this->session->userdata('group_id'), 'pengadaan/report');
         $data['start_date'] = $start_date;
         $data['end_date'] = $end_date;
         $data['material_id'] = $material;

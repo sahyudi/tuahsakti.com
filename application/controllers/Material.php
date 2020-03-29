@@ -95,6 +95,7 @@ class Material extends CI_Controller
 
     function report_stock()
     {
+        check_persmission_pages($this->session->userdata('group_id'), 'material/report_stock');
         $this->form_validation->set_rules('start_date', 'Tanggal Mulai', 'trim|required');
         $this->form_validation->set_rules('end_date', 'Tanggal Akhir', 'trim|required');
         $this->form_validation->set_rules('material', 'Material', 'trim|required');
@@ -115,7 +116,7 @@ class Material extends CI_Controller
         $data['end_date'] = $end_date;
         $data['material_id'] = $material;
         $data['material'] = $this->m_material->get_material()->result();
-        $data['active'] = 'material/report';
+        $data['active'] = 'material/report_stock';
         $data['title'] = 'Report Material';
         $data['subview'] = 'material/report';
         $this->load->view('template/main', $data);
