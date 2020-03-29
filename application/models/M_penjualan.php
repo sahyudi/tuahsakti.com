@@ -22,7 +22,7 @@ class M_penjualan extends CI_Model
         return $data;
     }
 
-    public function get_report_penjualan($start_date = null, $end_date = null, $material = null)
+    function get_report_penjualan($start_date = null, $end_date = null, $material = null)
     {
         $this->db->select('a.transaksi_id, a.tanggal, a.keterangan, a.created_user, m.satuan, m.nama as item, d.upah, d.qty, d.harga_jual, d.satuan, d.id as detail_id');
         $this->db->join($this->penjualan_detail . ' as d', 'a.id = d.penjualan_id', 'left');
@@ -33,6 +33,7 @@ class M_penjualan extends CI_Model
         if ($material) {
             $this->db->where("d.material_id", $material);
         }
+        $this->db->order_by('a.tanggal', 'asc');
         $data = $this->db->get($this->penjualan . ' as a');
         return $data;
     }

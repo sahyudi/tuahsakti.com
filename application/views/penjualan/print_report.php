@@ -32,6 +32,9 @@
             </div>
             <br><br><br>
             <div class="row invoice-info">
+                <div class="col-md-12">
+                    <h2 class="text-center">Laporan Penjualan</h2><br>
+                </div>
                 <div class="col-md-6 invoice-col">
                     Tanggal
                     <address>

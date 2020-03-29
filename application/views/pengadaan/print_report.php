@@ -33,30 +33,24 @@
             <br><br><br>
             <div class="row invoice-info">
                 <div class="col-md-12">
-                    <h2 class="text-center">Laporan Material</h2><br>
+                    <h2 class="text-center">Laporan Pengadaan</h2><br>
                 </div>
                 <div class="col-md-6 invoice-col">
                     Tanggal
                     <address>
-                        <?= $master->tanggal ?>
+
+                        <?php if ($start_date) {
+                            echo $start_date . " - " . $end_date;
+                        } else {
+                            echo 'All';
+                        }
+                        ?>
                     </address>
                 </div>
                 <div class="col-md-6 invoice-col">
-                    Nomor
+                    Material
                     <address>
-                        <?= $master->proyek_no  ?>
-                    </address>
-                </div>
-                <div class="col-md-6 invoice-col">
-                    Nama
-                    <address>
-                        <?= $master->nama_proyek ?>
-                    </address>
-                </div>
-                <div class="col-md-6 invoice-col">
-                    Deskripsi
-                    <address>
-                        <?= $master->deskripsi ?>
+                        <?= ($material_id) ? get_material_name($material_id) : 'Seleruh Material'  ?>
                     </address>
                 </div>
             </div>
@@ -68,39 +62,40 @@
                             <tr>
                                 <th>No</th>
                                 <th>Tanggal</th>
-                                <th>Nama Item</th>
-                                <th>Satuan</th>
+                                <th>No Surat Jalan</th>
+                                <th>Material / Satuan</th>
                                 <th>Quantity</th>
                                 <th>Harga Beli</th>
-                                <th>Harga</th>
-                                <th>Sub Beli</th>
+                                <th>Upah</th>
                                 <th>Sub Total</th>
-                                <th>Margin Harga</th>
+                                <th>Sub Upah</th>
                                 <th>Keterangan</th>
+                                <th>User Input</th>
+                            </tr>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
                             $sub_total = 0;
-                            $sub_total_beli = 0;
+                            $sub_total_upah = 0;
                             ?>
-                            <?php foreach ($detail as $key => $value) { ?>
+                            <?php foreach ($pengadaan as $key => $value) { ?>
                                 <?php
-                                $sub_total += $value->qty * $value->harga;
-                                $sub_total_beli += $value->qty * $value->harga_beli;
+                                $sub_total += $value->harga_beli * $value->qty;
+                                $sub_total_upah += $value->upah * $value->qty;
                                 ?>
                                 <tr>
                                     <td class="text-center"><?= $key + 1 ?></td>
-                                    <td><?= date('d F Y', strtotime($value->tanggal_detail)) ?></td>
-                                    <td><?= $value->nama_item ?></td>
-                                    <td><?= $value->satuan ?></td>
-                                    <td class="text-center"><?= $value->qty ?></td>
+                                    <td><?= date('d F Y', strtotime($value->tanggal)) ?></td>
+                                    <td><?= $value->surat_jalan ?></td>
+                                    <td><?= $value->item . " (" . $value->satuan . ")" ?></td>
+                                    <td class="text-center"><?= number_format($value->qty, 0) ?></td>
                                     <td class="text-right"><?= number_format($value->harga_beli, 0) ?></td>
-                                    <td class="text-right"><?= number_format($value->harga, 0) ?></td>
-                                    <td class="text-right"><?= number_format($total_beli = $value->qty * $value->harga_beli, 0) ?></td>
-                                    <td class="text-right"><?= number_format($total = $value->qty * $value->harga, 0) ?></td>
-                                    <td class="text-right"><?= number_format($total - $total_beli, 0) ?></td>
-                                    <td><?= $value->ket_detail ?></td>
+                                    <td class="text-right"><?= number_format($value->upah, 0) ?></td>
+                                    <td class="text-right"><?= number_format($value->harga_beli * $value->qty, 0) ?></td>
+                                    <td class="text-right"><?= number_format($value->upah * $value->qty, 0) ?></td>
+                                    <td><?= $value->keterangan ?></td>
+                                    <td><?= get_user_name($value->created_user) ?></td>
                                 </tr>
                             <?php } ?>
                         </tbody>
@@ -115,16 +110,12 @@
                     <div class="table-responsive">
                         <table class="table">
                             <tr>
-                                <th colspan="8" class="text-right">Total</th>
+                                <th colspan="6" class="text-right">Total Pengadaan</th>
                                 <th class="text-right">Rp.&nbsp;<?= number_format($sub_total, 0) ?></th>
                             </tr>
                             <tr>
-                                <th colspan="8" class="text-right">Nilai Proyek</th>
-                                <th class="text-right">Rp.&nbsp;<?= number_format($master->anggaran, 0) ?></th>
-                            </tr>
-                            <tr>
-                                <th colspan="8" class="text-right">Margin Proyek</th>
-                                <th class="text-right">Rp.&nbsp;<?= number_format($master->anggaran - $sub_total, 0) ?></th>
+                                <th colspan="6" class="text-right">Total Upah</th>
+                                <th class="text-right">Rp.&nbsp;<?= number_format($sub_total_upah, 0) ?></th>
                             </tr>
                         </table>
                     </div>
@@ -140,7 +131,7 @@
         };
 
         function closePrintView() {
-            window.location.href = '<?= base_url('project') ?>';
+            window.location.href = '<?= base_url('penjualan') ?>';
         }
     </script>
 </body>
