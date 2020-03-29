@@ -125,4 +125,43 @@ class Penjualan extends CI_Controller
         }
         redirect('penjualan');
     }
+
+    function report()
+    {
+        $this->form_validation->set_rules('start_date', 'Tanggal Mulai', 'trim|required');
+        $this->form_validation->set_rules('end_date', 'Tanggal Akhir', 'trim|required');
+        $this->form_validation->set_rules('material', 'Material', 'trim|required');
+
+
+        if ($this->form_validation->run() == false) {
+            $start_date = null;
+            $end_date = null;
+            $material = null;
+            $data['penjualan'] = $this->m_penjualan->get_report_penjualan()->result();
+        } else {
+            $start_date = $this->input->post('start_date');
+            $end_date = $this->input->post('end_date');
+            $material = $this->input->post('material');
+            $data['penjualan'] = $this->m_penjualan->get_report_penjualan($start_date, $end_date, $material)->result();
+        }
+        $data['start_date'] = $start_date;
+        $data['end_date'] = $end_date;
+        $data['material_id'] = $material;
+        $data['material'] = $this->m_material->get_material()->result();
+        $data['active'] = 'penjualan/report';
+        $data['title'] = 'Report Penjualan';
+        $data['subview'] = 'penjualan/report';
+        $this->load->view('template/main', $data);
+    }
+
+    function print_report($start_date, $end_date, $material)
+    {
+        $start_date = $this->input->post('start_date');
+        $end_date = $this->input->post('end_date');
+        $material = $this->input->post('material');
+
+        $data['penjualan'] = $this->m_penjualan->get_report_penjualan($start_date, $end_date, $material)->result();
+        $data['subview'] = 'penjualan/print_report';
+        $this->load->view('penjualan/print_report', $data);
+    }
 }

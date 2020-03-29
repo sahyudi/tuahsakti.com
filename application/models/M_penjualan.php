@@ -15,9 +15,24 @@ class M_penjualan extends CI_Model
 
     public function get_data()
     {
-        $this->db->select('a.*, m.satuan, m.nama as item, d.*, d.id as detail_id');
+        $this->db->select('a.transaksi_id, a.tanggal, a.keterangan, a.created_user, m.satuan, m.nama as item, d.upah, d.qty, d.harga_jual, d.satuan, d.id as detail_id');
         $this->db->join($this->penjualan_detail . ' as d', 'a.id = d.penjualan_id', 'left');
         $this->db->join($this->material . ' as m', 'm.id = d.material_id', 'left');
+        $data = $this->db->get($this->penjualan . ' as a');
+        return $data;
+    }
+
+    public function get_report_penjualan($start_date = null, $end_date = null, $material = null)
+    {
+        $this->db->select('a.transaksi_id, a.tanggal, a.keterangan, a.created_user, m.satuan, m.nama as item, d.upah, d.qty, d.harga_jual, d.satuan, d.id as detail_id');
+        $this->db->join($this->penjualan_detail . ' as d', 'a.id = d.penjualan_id', 'left');
+        $this->db->join($this->material . ' as m', 'm.id = d.material_id', 'left');
+        if ($start_date) {
+            $this->db->where("a.tanggal BETWEEN '{$start_date}' AND '{$end_date}'");
+        }
+        if ($material) {
+            $this->db->where("d.material_id", $material);
+        }
         $data = $this->db->get($this->penjualan . ' as a');
         return $data;
     }

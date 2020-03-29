@@ -105,6 +105,9 @@ function get_user_name($id)
     $CI->db->select('name');
     $CI->db->where('id', $id);
     $data = $CI->db->get('users')->row();
-
-    return $data->name;
+    if ($data->name) {
+        return $data->name;
+    } else {
+        return 'default';
+    }
 }

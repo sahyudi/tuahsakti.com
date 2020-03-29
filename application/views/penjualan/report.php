@@ -24,8 +24,48 @@
                 <?= $this->session->flashdata('message'); ?>
                 <div class="card">
                     <div class="card-header">
+                        <h5 class="card-title">Form Pencarian Data</h5>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <form action="<?= base_url('penjualan/report') ?>" method="post" enctype="multipart/form-data" id="fom-kartu-stock">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="form-group col-md-6 float-right">
+                                    <label for="">Tanggal Mulai</label>
+                                    <input type="date" class="form-control" name="start_date" id="start_date" style="background-color: white;">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="">Tanggal Selesai</label>
+                                    <input type="date" class="form-control" name="end_date" id="end_date" placeholder="Tujuan">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="">Material</label>
+                                    <select name="material" id="material" class="form-control select2">
+                                        <option value="0">All</option>
+                                        <?php foreach ($material as $key => $value) { ?>
+                                            <option value="<?= $value->id ?>"><?= $value->nama ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="<?= base_url('material') ?>" class="btn btn-danger float-left btn-sm"> Back</a>
+                            <button type="submit" class="btn btn-primary float-right btn-sm"><i class="fas fa-fw fa-search"></i> Search</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
                         <h3 class="card-title">Data Penjualan Material</h3>
-                        <a href="<?= base_url('penjualan/form') ?>" class="btn btn-primary float-right"><i class="fas fa-fw fa-plus"></i> Add Penjualan</a>
+                        <a href="<?= base_url('penjualan/pritn_report/') . $start_date . '/' . $end_date . '/' . $material_id ?>" class="btn btn-default float-right"><i class="fas fa-fw fa-print"></i> Print</a>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -43,7 +83,6 @@
                                         <th>Sub Upah</th>
                                         <th>Keterangan</th>
                                         <th>User Input</th>
-                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -68,9 +107,6 @@
                                             <td class="text-right"><?= number_format($value->upah * $value->qty, 0) ?></td>
                                             <td><?= $value->keterangan ?></td>
                                             <td><?= get_user_name($value->created_user) ?></td>
-                                            <td>
-                                                <a href="<?= base_url('penjualan/delete_detail/') . $value->detail_id ?>" onclick="return validation()" class="btn btn-danger btn-xs"><i class="fas fa-fw fa-trash"></i></a>
-                                            </td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>
@@ -79,7 +115,7 @@
                                         <th colspan="7" class="text-right">Total</th>
                                         <th class="text-right">Rp.&nbsp;<?= number_format($sub_total, 0) ?></th>
                                         <th class="text-right">Rp.&nbsp;<?= number_format($sub_total_upah, 0) ?></th>
-                                        <th colspan="2"></th>
+                                        <th colspan="3"></th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -99,7 +135,7 @@
     });
 
     function validation() {
-        return confirm('Apakah anda yakin akan mengahapus materia ??');
+        return confirm('Apakah anda yakin akan mengahapus material ??');
         // confirm
         // alert('test');
     }
