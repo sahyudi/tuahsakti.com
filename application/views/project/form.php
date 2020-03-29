@@ -93,13 +93,13 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="">Vendor</label>
+                                    <!-- <label for="">Vendor</label>
                                     <select name="vendor" id="vendor" class="form-control form-control-sm select2">
                                         <option value=""></option>
                                         <?php foreach ($vendor as $key => $value) { ?>
                                             <option value="<?= $value->id ?>"><?= $value->nama ?></option>
                                         <?php } ?>
-                                    </select>
+                                    </select> -->
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -109,6 +109,10 @@
                                     <div class="form-group">
                                         <label for="">Kredit</label>
                                         <input type="text" name="kredit" id="kredit" class="form-control form-control-sm text-right" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''" readonly>
+                                    </div>
+                                    <div class="form-group" id="ket_kredit" style="display: none;">
+                                        <label for="">Keterangan</label>
+                                        <textarea name="ket_hutang" id="ket_hutang" class="form-control form-control-smss"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -210,6 +214,11 @@
         const grand_total = parseInt(tunai) - total;
         console.log(grand_total);
         $('#kredit').val(grand_total);
+        if (grand_total < 0) {
+            $('#ket_kredit').css('display', 'block');
+        } else {
+            $('#ket_kredit').css('display', 'none');
+        }
         // $('#tunai').val(addCommas(tunai));
     }
 

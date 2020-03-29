@@ -7,6 +7,8 @@ class M_proyek extends CI_Model
     public $proyek_detail = 'proyek_detail';
     public $proyek_dana = 'proyek_dana';
     public $material = 'material';
+    public $hutang_project = 'hutang_project';
+    public $hutang_detail = 'hutang_project_detail';
 
     function __construct()
     {
@@ -87,5 +89,28 @@ class M_proyek extends CI_Model
     {
         $this->db->where('id', $id);
         $this->db->delete($this->proyek);
+    }
+
+    function get_hutang($id = null)
+    {
+        $this->db->select('B.nama_proyek, B.proyek_no, A.*, A.updated_at as tanggal');
+        if ($id) {
+            $this->db->where('A.id', $id);
+        }
+        $this->db->join($this->proyek . ' B', 'A.proyek_id = B.id');
+        $data = $this->db->get($this->hutang_project . ' A');
+        return $data;
+    }
+
+    function get_hutang_detail($id)
+    {
+
+        $this->db->select('B.*, A.saldo, A.updated_at as tanggal');
+        if ($id) {
+            $this->db->where('A.id', $id);
+        }
+        $this->db->join($this->hutang_detail . ' B', 'A.id = B.saldo_id');
+        $data = $this->db->get($this->hutang_project . ' A');
+        return $data;
     }
 }

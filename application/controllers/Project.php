@@ -206,7 +206,6 @@ class Project extends CI_Controller
                 'tanggal' => $tanggal,
                 'proyek_id' => $proyek_id,
                 'material_id' => $item[$i],
-                'vendor' => $vendor,
                 'qty' => $quantity,
                 'harga_beli' => str_replace(",", "", $harga_beli[$i]),
                 'harga' => str_replace(",", "", $harga[$i]),
@@ -220,14 +219,14 @@ class Project extends CI_Controller
 
         if ($kredit != 0) {
             $saldo_hutang = [
-                'no_nota' => $no_proyek,
                 'proyek_id' => $proyek_id,
-                'vendor_id' => $vendor,
                 'saldo' => abs(str_replace(",", "", $kredit)),
+                'keterangan' => $this->input->post('ket_hutang'),
                 'updated_at' => $date,
                 'created_user' => $user
             ];
-            $this->db->insert('hutang', $saldo_hutang);
+            $this->db->insert('hutang_project', $saldo_hutang);
+            // $hutang_id = $this->db->insert_id();
         }
 
         $this->db->insert_batch($this->proyek_detail, $detail);
@@ -251,5 +250,27 @@ class Project extends CI_Controller
         $data['active'] = 'project';
         $data['title'] = 'Project';
         $this->load->view('project/print_laporan', $data);
+    }
+
+    function hutang()
+    {
+        // check_persmission_pages($this->session->userdata('group_id'), 'project/hutang_project');
+
+        $data['hutang'] = $this->m_proyek->get_hutang()->result();
+        $data['active'] = 'project/hutang';
+        $data['title'] = 'Info';
+        $data['subview'] = 'project/list_hutang';
+        $this->load->view('template/main', $data);
+    }
+
+    function info_detail_hutang($id)
+    {
+        $data['master'] = $this->m_proyek->get_hutang($id)->row();
+        $data['detail'] = $this->m_proyek->get_hutang_detail($id)->result();
+        // log_r($data['detail']);
+        $data['active'] = 'project/hutang';
+        $data['title'] = 'Info Detail';
+        $data['subview'] = 'project/detail_hutang';
+        $this->load->view('template/main', $data);
     }
 }
