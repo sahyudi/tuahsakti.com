@@ -4,12 +4,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Penjualan Material</h1>
+                    <h1 class="m-0 text-dark">Pengadaan Material</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="<?= base_url('home') ?>">Home</a></li>
-                        <li class="breadcrumb-item active">Penjualan</li>
+                        <li class="breadcrumb-item active">Pengadaan</li>
                     </ol>
                 </div>
             </div>
@@ -64,7 +64,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Data Penjualan Material</h3>
+                        <h3 class="card-title">Report Pengadaan Material</h3>
                         <?php
                         $start_date = ($start_date) ? $start_date : 0;
                         $end_date = ($end_date) ? $end_date : 0;

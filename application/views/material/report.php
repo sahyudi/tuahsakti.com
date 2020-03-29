@@ -65,8 +65,14 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Data Repot Stock Material</h3>
+                        <?php
+                        $start_date = ($start_date) ? $start_date : 0;
+                        $end_date = ($end_date) ? $end_date : 0;
+                        $material_id = ($material_id) ? $material_id : 0;
+                        ?>
+                        <a href="<?= base_url('material/print_report/') . $start_date . '/' . $end_date . '/' . $material_id ?>" class="btn btn-default float-right"><i class="fas fa-fw fa-print"></i> Print</a>
                     </div>
-                    <!-- /.card-header -->
+
                     <div class="card-body">
                         <div class="table-responsive">
                             <table id="example1" class="table table-bordered table-striped">
@@ -75,8 +81,7 @@
                                         <th colspan="4"></th>
                                         <th colspan="3" class="text-center">IN</th>
                                         <th colspan="3" class="text-center">OUT</th>
-                                        <th colspan="2" class="text-center">OUT</th>
-                                        <!-- <th colspan="2"></th> -->
+                                        <th colspan="2" class="text-center">UPAH</th>
                                     </tr>
                                     <tr class="text-center">
                                         <th>No</th>
@@ -91,14 +96,10 @@
                                         <th>Sub Total</th>
                                         <th>Upah</th>
                                         <th>Sub Upah</th>
-                                        <!-- <th>Sisa Stock</th> -->
-                                        <!-- <th>Action</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php if ($kartu_stock) { ?>
-
-
                                         <?php
                                         $sub_total_in = 0;
                                         $sub_total_out = 0;

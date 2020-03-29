@@ -131,7 +131,7 @@
         };
 
         function closePrintView() {
-            window.location.href = '<?= base_url('penjualan') ?>';
+            window.location.href = '<?= base_url('pengadaan') ?>';
         }
     </script>
 </body>
