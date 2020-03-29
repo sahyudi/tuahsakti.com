@@ -5,6 +5,11 @@ class Project extends CI_Controller
 {
     public $proyek = 'proyek';
     public $proyek_detail = 'proyek_detail';
+    public $proyek_dana = 'proyek_dana';
+    public $hutang_project = 'hutang_project';
+    public $hutang_project_detail = 'hutang_project_detail';
+
+
     public function __construct()
     {
         parent::__construct();
@@ -127,7 +132,9 @@ class Project extends CI_Controller
     function delete_proyek($id)
     {
         $this->db->trans_begin();
-        $this->m_proyek->delete_proyek($id);
+        $this->m_proyek->delete($this->proyek, ['id' => $id]);
+        $this->m_proyek->delete($this->proyek_detail, ['proyek_id' => $id]);
+        $this->m_proyek->delete($this->proyek_dana, ['proyek_id' => $id]);
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"> Proyek gagal dihapuskan !</div>');
@@ -254,8 +261,7 @@ class Project extends CI_Controller
 
     function hutang()
     {
-        // check_persmission_pages($this->session->userdata('group_id'), 'project/hutang_project');
-
+        check_persmission_pages($this->session->userdata('group_id'), 'project/hutang');
         $data['hutang'] = $this->m_proyek->get_hutang()->result();
         $data['active'] = 'project/hutang';
         $data['title'] = 'Info';
@@ -267,10 +273,48 @@ class Project extends CI_Controller
     {
         $data['master'] = $this->m_proyek->get_hutang($id)->row();
         $data['detail'] = $this->m_proyek->get_hutang_detail($id)->result();
-        // log_r($data['detail']);
         $data['active'] = 'project/hutang';
         $data['title'] = 'Info Detail';
         $data['subview'] = 'project/detail_hutang';
         $this->load->view('template/main', $data);
+    }
+
+    function pembayaran_hutang()
+    {
+        $date = date('Y-m-d H:i:s');
+        $id = $this->input->post('id');
+        $saldo = $this->input->post('saldo');
+        $debit = $this->input->post('debit');
+        $sisa = $this->input->post('sisa');
+        $keterangan = $this->input->post('keterangan');
+
+        $master = [
+            'saldo' => str_replace(",", "", $sisa),
+            'updated_at' => $date,
+        ];
+
+        $data = [
+            'saldo_id' => $id,
+            'kredit' => 0,
+            'debit' => str_replace(",", "", $debit),
+            'saldo_updated' => str_replace(",", "", $sisa),
+            'ket_detail' => $keterangan,
+            'update_at' => $date
+        ];
+
+        $this->db->trans_begin();
+
+        $this->db->update($this->hutang_project, $master, ['id' => $id]);
+        $this->db->insert($this->hutang_project_detail, $data);
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Pembayaran gagal disimpan !</div>');
+        } else {
+            $this->db->trans_commit();
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Pembayaran berhasil disimpan !</div>');
+        }
+
+        redirect('project/info_detail_hutang/' . $id);
     }
 }

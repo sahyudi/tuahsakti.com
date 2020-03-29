@@ -200,9 +200,9 @@
         } else {
             return_harga = 0;
         }
-        $('#qty-' + id).val(addCommas(qty));
-        $('#harga-' + id).val(addCommas(return_harga));
-        $('#harga_beli-' + id).val(addCommas(harga_beli));
+        // $('#qty-' + id).val(addCommas(qty));
+        // $('#harga-' + id).val(addCommas(return_harga));
+        // $('#harga_beli-' + id).val(addCommas(harga_beli));
         hitungtotal();
     }
 
@@ -254,13 +254,13 @@
                                         ${data.nama} (${data.satuan})
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control form-control-sm form-harga_beli text-right" name="harga_beli[]" id="harga_beli-${rangeId}" onchange="hitung_sub_total(${rangeId})" onkeyup="hitung_sub_total(${rangeId})" value="${addCommas(data.harga_beli)}" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'Rp. ', 'placeholder': ''">
+                                        <input type="text" class="form-control form-control-sm form-harga_beli text-right" name="harga_beli[]" id="harga_beli-${rangeId}" onchange="hitung_sub_total(${rangeId})" onkeyup="hitung_sub_total(${rangeId})" value="${addCommas(data.harga_beli)}" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control form-control-sm form-harga text-right" name="harga[]" id="harga-${rangeId}" onchange="hitung_sub_total(${rangeId})" onkeyup="hitung_sub_total(${rangeId})" value="0" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'Rp. ', 'placeholder': ''">
+                                        <input type="text" class="form-control form-control-sm form-harga text-right" name="harga[]" id="harga-${rangeId}" onchange="hitung_sub_total(${rangeId})" onkeyup="hitung_sub_total(${rangeId})" value="0" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control form-control-sm form-qty text-right" name="qty[]" id="qty-${rangeId}"  onchange="hitung_sub_total(${rangeId})" onkeyup="hitung_sub_total(${rangeId})" value="1" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'Rp. ', 'placeholder': ''">
+                                        <input type="text" class="form-control form-control-sm form-qty text-right" name="qty[]" id="qty-${rangeId}"  onchange="hitung_sub_total(${rangeId})" onkeyup="hitung_sub_total(${rangeId})" value="1" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
                                     </td>
                                     <td>
                                         <input type="text" class="form-control form-control-sm form-sub_total text-right" name="sub_total[]" id="sub_total-${rangeId}" value="0" readonly>
@@ -278,6 +278,7 @@
                 $('#jumlah-baris').val(parseInt(rangeId) + parseInt(1));
                 get_item();
                 hitung_sub_total(rangeId);
+                $(":input").inputmask();
             }
         });
 

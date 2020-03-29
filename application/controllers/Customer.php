@@ -54,13 +54,13 @@ class Customer extends CI_Controller
         check_persmission_pages($this->session->userdata('group_id'), 'customer');
         if ($id) {
             $this->db->trans_begin();
-            $this->db->delete('vendor', ['id' => $id]);
+            $this->db->delete($this->customer, ['id' => $id]);
             if ($this->db->trans_status() === FALSE) {
                 $this->db->trans_rollback();
             } else {
                 $this->db->trans_commit();
             }
-            redirect('vendor');
+            redirect('customer');
         }
     }
 

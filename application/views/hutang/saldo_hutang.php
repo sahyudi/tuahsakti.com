@@ -81,25 +81,21 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Material Form</h4>
+                <h4 class="modal-title">Form Pembayaran</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?= base_url('material/add') ?>" id="form-material" method="post" enctype="multipart/form-data">
+            <form action="<?= base_url('project/pembayaran_hutang') ?>" id="form-material" method="post" enctype="multipart/form-data">
                 <input type="hidden" id="id" name="id">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Nama</label>
-                        <input type="text" name="nama" id="nama" class="form-control" placeholder="Nama material">
+                        <label for="exampleInputPassword1">Debit</label>
+                        <input type="text" name="debit" id="debit" class="form-control" placeholder="Debit">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Satuan</label>
-                        <input type="text" name="satuan" id="satuan" class="form-control" placeholder="Harag jual">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Harga Jual</label>
-                        <input type="number" name="harga_jual" id="harga_jual" class="form-control" placeholder="Harga Jual">
+                        <label for="exampleInputPassword1">Saldo</label>
+                        <input type="number" name="saldo" id="saldo" class="form-control" placeholder="Harga Jual">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Keterangan</label>
@@ -108,7 +104,7 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-fw fa-money"></i> Save changes</button>
                 </div>
             </form>
         </div>
