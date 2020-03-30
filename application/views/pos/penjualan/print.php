@@ -70,7 +70,6 @@
                                 <th>Sub Total</th>
                                 <th>Sub Upah</th>
                                 <th>Keterangan</th>
-                                <th>User Input</th>
                             </tr>
                             </tr>
                         </thead>
@@ -95,7 +94,6 @@
                                     <td class="text-right"><?= number_format($value->harga_jual * $value->qty, 0) ?></td>
                                     <td class="text-right"><?= number_format($value->upah * $value->qty, 0) ?></td>
                                     <td><?= $value->keterangan ?></td>
-                                    <td><?= get_user_name($value->created_user) ?></td>
                                 </tr>
                             <?php } ?>
                         </tbody>
@@ -131,7 +129,7 @@
         };
 
         function closePrintView() {
-            window.location.href = '<?= base_url('penjualan') ?>';
+            window.location.href = '<?= base_url('pos/report_penjualan') ?>';
         }
     </script>
 </body>

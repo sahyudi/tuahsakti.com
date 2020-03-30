@@ -100,10 +100,56 @@ class Pos extends CI_Controller
 
     function penjualan()
     {
+        $date = date('Y-m-d');
+        $start_date = $date;
+        $end_date = $date;
+        $material = 0;
+
         $data['active'] = 'Penjualan';
-        $data['penjualan'] = $this->m_penjualan->get_data()->result();
+        $data['penjualan'] = $this->m_penjualan->get_report_penjualan($start_date, $end_date, $material)->result();
+        // $data['penjualan'] = $this->m_penjualan->get_data()->result();
         $data['subview'] = 'pos/penjualan/penjualan';
         $this->load->view('pos/template/main', $data);
+    }
+
+    function report_penjualan()
+    {
+        // check_persmission_pages($this->session->userdata('group_id'), 'penjualan/report');
+
+        $this->form_validation->set_rules('start_date', 'Tanggal Mulai', 'trim|required');
+        $this->form_validation->set_rules('end_date', 'Tanggal Akhir', 'trim|required');
+        $this->form_validation->set_rules('material', 'Material', 'trim|required');
+
+        $date = date('Y-m-d');
+
+        if ($this->form_validation->run() == false) {
+            $start_date = $date;
+            $end_date = $date;
+            $material = 0;
+        } else {
+            $start_date = $this->input->post('start_date');
+            $end_date = $this->input->post('end_date');
+            $material = $this->input->post('material');
+        }
+        $data['penjualan'] = $this->m_penjualan->get_report_penjualan($start_date, $end_date, $material)->result();
+        $data['start_date'] = $start_date;
+        $data['end_date'] = $end_date;
+        $data['material_id'] = $material;
+        $data['material'] = $this->m_material->get_material()->result();
+        $data['active'] = 'Penjualan';
+        $data['subview'] = 'pos/penjualan/report';
+        $this->load->view('pos/template/main', $data);
+    }
+
+    function print_penjualan($start_date, $end_date, $material)
+    {
+        // check_persmission_pages($this->session->userdata('group_id'), 'penjualan/report');
+        $data['start_date'] = $start_date;
+        $data['end_date'] = $end_date;
+        $data['material_id'] = $material;
+        $data['penjualan'] = $this->m_penjualan->get_report_penjualan($start_date, $end_date, $material)->result();
+        // $data['subview'] = 'pos/penjualan/print';
+        $this->load->view('pos/penjualan/print', $data);
     }
 
     function get_data_stock()
@@ -336,6 +382,11 @@ class Pos extends CI_Controller
         redirect('pos/pengadaan');
     }
 
+    function get_project()
+    {
+        $data = $this->db->get_where('proyek', ['status' => 0])->result();
+        echo json_encode($data);
+    }
 
     function get_customer()
     {

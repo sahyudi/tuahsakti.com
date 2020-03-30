@@ -121,7 +121,7 @@
                 <!-- Notifications Dropdown Menu -->
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="fas fa-fw fa-cog"></i>
+                        <i class="fas fa-fw  fa-user-cog"></i> <?= $this->session->userdata('name'); ?>
                         <!-- <span class="badge badge-warning navbar-badge">15</span> -->
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">

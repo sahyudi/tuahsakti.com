@@ -71,7 +71,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     ];
                     $menu[] = [
                         'title' => 'Penjualan',
-                        'link' => 'pos/penjualan'
+                        'link' => 'pos/report_penjualan'
                     ];
                     $menu[] = [
                         'title' => 'Item Master',
@@ -92,7 +92,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
                     <li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#">
-                            <i class="mr-3 fas fa-fw fa-user-cog"> </i>
+                            <i class="mr-3 fas fa-fw fa-user-cog"> </i> <?= $this->session->userdata('name') ?>
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
 

@@ -74,7 +74,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="table-penjualan" class="table table-bordered table-striped">
+                            <table id="table-penjualan-2" class="table table-bordered table-striped">
                                 <thead>
                                     <tr class="text-center">
                                         <th>No</th>
@@ -110,7 +110,7 @@
                                             <td class="text-right"><?= number_format($value->upah, 0) ?></td>
                                             <td class="text-right"><?= number_format($value->harga_jual * $value->qty, 0) ?></td>
                                             <td class="text-right"><?= number_format($value->upah * $value->qty, 0) ?></td>
-                                            <td><?= $value->keterangan ?></td>
+                                            <td><?= $value->ket_detail ?></td>
                                             <td><?= get_user_name($value->created_user) ?></td>
                                         </tr>
                                     <?php } ?>
@@ -120,7 +120,7 @@
                                         <th colspan="7" class="text-right">Total</th>
                                         <th class="text-right">Rp.&nbsp;<?= number_format($sub_total, 0) ?></th>
                                         <th class="text-right">Rp.&nbsp;<?= number_format($sub_total_upah, 0) ?></th>
-                                        <th colspan="3"></th>
+                                        <th colspan="2"></th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -136,13 +136,11 @@
 
 <script>
     $(document).ready(function() {
-        $("#table-penjualan").DataTable();
+        $("#table-penjualan-2").DataTable();
     });
 
     function validation() {
         return confirm('Apakah anda yakin akan mengahapus material ??');
-        // confirm
-        // alert('test');
     }
 
     function reset_form() {
@@ -151,7 +149,6 @@
 
     $('.btn-edit').click(function() {
         const id = $(this).data('id');
-        // alert(id);
         $.ajax({
             url: "<?= base_url() . 'material/get_data/'; ?>" + id,
             async: false,

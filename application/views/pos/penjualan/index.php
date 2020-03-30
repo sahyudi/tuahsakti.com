@@ -209,6 +209,7 @@
     $(document).ready(function() {
         get_item();
         get_customer();
+        get_project();
         $(":input").inputmask();
     });
 
@@ -289,9 +290,28 @@
                 var item = '<option value=""></option>';
 
                 $.each(data, function(i, val) {
-                    item += `<option value="${val.id}">${val.id} - ${val.nama}</option>`;
+                    item += `<option value="${val.id}">${val.nama}</option>`;
                 });
                 $('#customer_kredit').append(item);
+                $('.select2').select2();
+            }
+        });
+    }
+
+    function get_project() {
+        $.ajax({
+            url: "<?= base_url('pos/get_project'); ?>",
+            type: 'POST',
+            dataType: 'json',
+            success: function(data) {
+                $('#project').empty();
+                $('.select2').select2('destroy');
+                var item = '<option value=""></option>';
+                console.log(data);
+                $.each(data, function(i, val) {
+                    item += `<option value="${val.id}">${val.nama_proyek}</option>`;
+                });
+                $('#project').append(item);
                 $('.select2').select2();
             }
         });

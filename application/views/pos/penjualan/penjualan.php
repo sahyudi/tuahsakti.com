@@ -5,10 +5,11 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Data Penjualan Material</h3>
+                    <!-- <a href="<?= base_url('pos') ?>" class="btn btn-primary btn-sm float-right ml-3"><i class="fas fa-fw fa-search"></i> Report</a> -->
                     <a href="<?= base_url('pos') ?>" class="btn btn-primary btn-sm float-right"><i class="fas fa-fw fa-plus"></i> Add Penjualan</a>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
+                    <div class="table-responsive ">
                         <table id="table-penjualan" class="table table-bordered table-striped">
                             <thead>
                                 <tr class="text-center">
@@ -44,7 +45,7 @@
                                         <td class="text-right"><?= number_format($value->upah, 0) ?></td>
                                         <td class="text-right"><?= number_format($value->harga_jual * $value->qty, 0) ?></td>
                                         <td class="text-right"><?= number_format($value->upah * $value->qty) ?></td>
-                                        <td><?= $value->keterangan ?></td>
+                                        <td><?= $value->ket_detail ?></td>
                                         <!-- <td class="text-right">
                                             <a href="<?= base_url('pengadaan/delete/') . $value->id ?>" onclick="return validation()"><i class="fas fa-fw fa-trash"></i></a>
                                             <a href="#" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-material" class="btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
