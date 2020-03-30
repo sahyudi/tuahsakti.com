@@ -32,7 +32,7 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="">No Pendanaan</label>
-                                <div class="form-control"><?= $detail[0]->no_pendanaan ?></div>
+                                <div class="form-control"><?= $detail[0]->surat_jalan ?></div>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="">Tanggal</label>
@@ -49,6 +49,7 @@
                                     <th>No</th>
                                     <th>Item</th>
                                     <th>Total</th>
+                                    <th>Ket Item</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -57,8 +58,9 @@
                                 <?php foreach ($detail as $key => $value) { ?>
                                     <tr>
                                         <td class="text-center"><?= $key + 1 ?></td>
-                                        <td><?= $value->nama_item ?></td>
+                                        <td><?= $value->item ?></td>
                                         <td class="text-right">Rp. <?= number_format($total += $value->total, 0) ?></td>
+                                        <td><?= $value->ket_detail ?></td>
                                         <td class="text-right">
                                             <a href="<?= base_url('accounting/delete_saldo_hutang/') . $value->id ?>" onclick="return validation()" class="btn btn-xs btn-danger"><i class="fas fa-fw fa-trash"></i></a>
                                             <a href="<?= base_url('accounting/pembayaran/') . $value->id ?>" class="btn btn-xs btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
@@ -74,6 +76,9 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="card-footer">
+                        <a href="<?= base_url('accounting/pengajuan') ?>" class="btn btn-danger btn-sm float-left">Back</a>
                     </div>
                     <!-- /.card-body -->
                 </div>

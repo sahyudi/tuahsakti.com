@@ -140,7 +140,6 @@
 
         $('[name="item[]"]').each(function(i, value) {
             item_select[i] = $(value).val();
-            // console.log(value);
         });
         if (item_select.length < 1) {
             alert('Silakan pilih item terlebih dahulu');

@@ -36,9 +36,10 @@
                                 <tr class="text-center">
                                     <th>No</th>
                                     <th>Tanggal</th>
-                                    <th>No Pendanaan</th>
+                                    <th>No Surat Jalan</th>
                                     <th>Keterangan</th>
                                     <th>Total</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -48,20 +49,20 @@
                                     <tr>
                                         <td class="text-center"><?= $key + 1 ?></td>
                                         <td><?= $value->tanggal ?></td>
-                                        <td><?= $value->no_pendanaan ?></td>
+                                        <td><?= $value->surat_jalan ?></td>
                                         <td><?= $value->keterangan ?></td>
+                                        <td class="text-center"><?= ($value->status == 1) ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Non Active</span>' ?></td>
                                         <td class="text-right">Rp. <?= number_format($total += $value->total, 0) ?></td>
                                         <td class="text-right">
-                                            <a href="<?= base_url('accounting/deleteItem/') . $value->id ?>" onclick="return validation()" class="btn btn-xs btn-danger"><i class="fas fa-fw fa-trash"></i></a>
+                                            <a href="<?= base_url('accounting/delete_penganjuan/') . $value->id ?>" onclick="return validation()" class="btn btn-xs btn-danger"><i class="fas fa-fw fa-trash"></i></a>
                                             <a href="<?= base_url('accounting/detail_pendanaan/') . $value->id ?>" data-id="<?= $value->id ?>" class="btn btn-xs btn-info btn-edit"><i class="fas fa-fw fa-info"></i></a>
-                                            <!-- <a href="<?= base_url('accounting/deleteItem/') . $value->id ?>" data-id="<?= $value->id ?>" data-toggle="modal" data-target="#modal-item" class="btn btn-xs btn-info btn-edit"><i class="fas fa-fw fa-info"></i></a> -->
                                         </td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="4" class="text-right text-bold">Total</td>
+                                    <td colspan="5" class="text-right text-bold">Total</td>
                                     <td class="text-right">Rp. <?= number_format($total, 0) ?></td>
                                 </tr>
                             </tfoot>

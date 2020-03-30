@@ -26,10 +26,6 @@
                     <div class="card-header">
                         <h3 class="card-title">Detail Pendanaan Project</h3>
                         <a href="#" class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#modal-pembayaran"><i class="fas fa-fw fa-file-invoice-dollar"></i> Bayar</a>
-                        <!-- <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
-                            <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
-                        </div> -->
                     </div>
 
                     <div class="card-body">
@@ -98,7 +94,7 @@
                 </button>
             </div>
             <form action="<?= base_url('project/pembayaran_hutang') ?>" id="form-material" method="post" enctype="multipart/form-data">
-                <input type="text" id="id" name="id" value="<?= $master->id ?>">
+                <input type="hidden" id="id" name="id" value="<?= $master->id ?>">
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="exampleInputPassword1">Saldo</label>

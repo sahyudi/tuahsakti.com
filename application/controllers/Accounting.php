@@ -56,19 +56,23 @@ class Accounting extends CI_Controller
     {
         $this->db->trans_begin();
 
+        $date = date('Y-m-d H:i:s');
 
         $nomor = $this->input->post('nomor');
         $tanggal = $this->input->post('tanggal');
         $keterangan = $this->input->post('keterangan');
+
+        $ket_detail = $this->input->post('ket_detail');
         $item = $this->input->post('item');
         $sub_total = $this->input->post('sub_total');
 
         $master = [
             'tanggal' => $tanggal,
-            'no_pendanaan' => $nomor,
+            'surat_jalan' => $nomor,
             'keterangan' => $keterangan,
-            'gudang_id' => 1,
-            'created_user' => $this->session->userdata('id')
+            'status' => 1,
+            'created_user' => $user = $this->session->userdata('id'),
+            'created_at' => $date
         ];
 
         $this->db->insert('pendanaan', $master);
@@ -77,13 +81,30 @@ class Accounting extends CI_Controller
         for ($i = 0; $i < count($item); $i++) {
             $data[] = [
                 'pendanaan_id' => $id,
-                'item_id' => $item[$i],
-                'total' => $sub_total[$i]
+                'keterangan' => $ket_detail[$i],
+                'item' => $item[$i],
+                'total' => replace_angka($sub_total[$i]),
+                'created_user' => $user,
+                'created_at' => $date
             ];
         }
 
 
         $this->db->insert_batch('pendanaan_detail', $data);
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
+        }
+
+        redirect('accounting/pengajuan');
+    }
+
+    function delete_penganjuan($id)
+    {
+        $this->db->trans_begin();
+        $this->db->delete('pendanaan', ['id' => $id]);
+        $this->db->delete('pendanaan_detail', ['pendanaan_id' => $id]);
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
         } else {

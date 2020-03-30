@@ -130,3 +130,8 @@ function get_material_name($id)
         return 'default';
     }
 }
+
+function replace_angka($angka)
+{
+    return str_replace(",", "", $angka);
+}

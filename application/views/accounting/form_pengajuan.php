@@ -33,7 +33,7 @@
                             <div class="row">
                                 <div class="form-group col-md-6 float-right">
                                     <label for="">Nomor</label>
-                                    <input type="text" class="form-control" name="nomor" id="nomor" value="PD-<?= time() ?>" style="background-color: white;" readonly>
+                                    <input type="text" class="form-control" name="nomor" id="nomor" value="" style="background-color: white;">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="">Tanggal</label>
@@ -50,8 +50,9 @@
                                     <table class="table" id="table-item">
                                         <thead>
                                             <tr class="text-center text-bold">
-                                                <th width="40%">Item</th>
-                                                <th width="30%">Total</th>
+                                                <th>Item</th>
+                                                <th width="20%">Total</th>
+                                                <th>Keterangan</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
@@ -59,21 +60,25 @@
                                         <tbody>
                                             <tr class="material" id="material-0">
                                                 <td>
-                                                    <select name="item[]" id="item-0" onchange="getItem(this,0)" class="form-control form-item select2" style="width: 100%">
-                                                        <option value=""></option>
-                                                        <?php foreach ($item as $key => $value) { ?>
-                                                            <option value="<?= $value->id ?>"><?= $value->nama ?></option>
-                                                        <?php } ?>
-                                                    </select>
+                                                    <input type="text" class="form-control form-control-sm form-item" id="item-0" name="item[]">
                                                 </td>
                                                 <td>
-                                                    <input type="text" class="form-control form-sub_total text-right" onkeyup="hitung_total()" name="sub_total[]" id="sub_total-0">
+                                                    <input type="text" class="form-control form-control-sm form-sub_total text-right" onkeyup="hitung_total()" name="sub_total[]" id="sub_total-0" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
+                                                </td>
+                                                <td>
+                                                    <textarea name="ket_detail" id="ket_detail" class="form-control form-control-sm form-ket_detail"></textarea>
                                                 </td>
                                                 <td class="for-button">
                                                     <button class="btn btn-info btn-sm" onclick="addItem()" type="button"><i class="fas fa-fw fa-plus"></i></button>
                                                 </td>
                                             </tr>
                                         </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th class="text-right">Total</th>
+                                                <th class="text-right" id="total"></th>
+                                            </tr>
+                                        </tfoot>
                                     </table>
                                 </div>
                             </div>
@@ -96,6 +101,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $("#example1").DataTable();
+        $(":input").inputmask();
     });
 
     function validation() {
@@ -104,6 +110,15 @@
 
     function reset_form() {
         $('#form-item')[0].reset();
+    }
+
+    function hitung_total() {
+        var total = 0;
+        $('[name="sub_total[]"]').each(function(i, value) {
+            total = parseInt(total) + parseInt($(value).val().replace(/\,/g, ''));
+        });
+
+        $('#total').html(`Rp. ${addCommas_general(total)}`);
     }
 
     $('.btn-edit').click(function() {
@@ -123,8 +138,8 @@
     });
 
     function hapus(params) {
-        console.log(params)
         $('#material-' + params).remove('');
+        hitung_total()
     }
 
     function addItem() {
@@ -136,19 +151,21 @@
         item.attr('id', id);
         $('#' + id + ' .form-item').attr({
             'id': 'item-' + rangeId,
-            'onchange': "getItem(this," + rangeId + ")"
-        });
+        }).val('');
+        $('#' + id + ' .form-ket_detail').attr({
+            'id': 'ket_detail-' + rangeId,
+        }).val('');
         $('#' + id + ' .form-sub_total').attr({
             'id': 'sub_total-' + rangeId,
-            'onkeyup': 'hitung_total(' + rangeId + ')'
+            'onkeyup': 'hitung_total()'
         }).val(0);
         $('#' + id + ' button').remove();
 
-        var btn = '<button type="button" onclick="hapus(' + rangeId + ')" class="btn btn-danger"><i class="fa fa-minus"></i></button>';
+        var btn = '<button type="button" onclick="hapus(' + rangeId + ')" class="btn btn-danger btn-sm"><i class="fa fa-minus"></i></button>';
         $('#' + id + ' .for-button').append(btn);
         $('#jumlah-baris').val(parseInt(parseInt(rangeId) + 1));
         $('.select2').select2();
-
+        $(":input").inputmask();
     }
 </script>
 <!-- /.content-wrapper -->
