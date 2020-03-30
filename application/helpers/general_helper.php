@@ -135,3 +135,31 @@ function replace_angka($angka)
 {
     return str_replace(",", "", $angka);
 }
+
+
+
+function get_proyek_no($id)
+{
+    $CI = get_instance();
+    $CI->db->select('proyek_no');
+    $CI->db->where('id', $id);
+    $data = $CI->db->get('proyek')->row();
+    if ($data->proyek_no) {
+        return $data->proyek_no;
+    } else {
+        return 'default';
+    }
+}
+
+function get_customer_name($id)
+{
+    $CI = get_instance();
+    $CI->db->select('nama');
+    $CI->db->where('id', $id);
+    $data = $CI->db->get('customer')->row();
+    if ($data->nama) {
+        return $data->nama;
+    } else {
+        return 'default';
+    }
+}

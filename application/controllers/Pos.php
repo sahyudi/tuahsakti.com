@@ -17,6 +17,7 @@ class Pos extends CI_Controller
         if (!$this->session->userdata('email')) {
             redirect('auth');
         }
+        // check_persmission_pages($this->session->userdata('group_id'), 'pos');
         $this->load->model('m_pengadaan');
         $this->load->model('m_penjualan');
         $this->load->model('m_material');
@@ -29,7 +30,6 @@ class Pos extends CI_Controller
     {
         // check_persmission_pages($this->session->userdata('group_id'), 'pos');
         $data['active'] = 'Home';
-        $data['material'] = $this->m_material->get_material()->result();
         $data['subview'] = 'pos/penjualan/index';
         $this->load->view('pos/template/main', $data);
     }
@@ -148,22 +148,58 @@ class Pos extends CI_Controller
         $nota = 'TR' . time();
         $tanggal = date('Y-m-d');
         $ket = $this->input->post('keterangan');
-        // $lebih_uang = $this->input->post('lebih-uang');
-        // $tunai = $this->input->post('tunai');
+        $lebih_uang = $this->input->post('lebih-uang');
+        $tunai = $this->input->post('tunai');
 
+        // status pemeblian
+        $tipe_customer = $this->input->post('status');
 
-        $upah = $this->input->post('upah');
+        // status pemabayaran
+        $status_pembayaran = $this->input->post('status_pembayaran');
+
+        //
+        $project = $this->input->post('project');
+        if ($status_pembayaran == 'kredit') {
+            $customer = $this->input->post('customer_kredit');
+            $data_kredit = [
+                'no_nota' => $nota,
+                'customer_id' => $customer,
+                'saldo' => abs(replace_angka($lebih_uang)),
+                'updated_at' => $date,
+                'created_user' => $this->session->userdata('id')
+            ];
+
+            // log_r($data_kredit);
+            $this->db->insert('piutang', $data_kredit);
+        } else {
+            $customer = $this->input->post('customer_cash');
+        }
+        // detail item
+
         $item = $this->input->post('item');
         $qty = $this->input->post('qty');
         $harga_jual = $this->input->post('harga_jual');
 
+        // log_r($status_pembayaran);
+        $ket_project = null;
+        if ($tipe_customer == 'default') {
+            $data_pengadaan['project_no'] = 0;
+            $ket_detail = 'Penjualan nomor ' . $nota;
+        } else {
+            $data_pengadaan['project_no'] = get_proyek_no($project);
+            $ket_detail = "Penjualan nomor " . $nota . " untuk project no " . get_proyek_no($project);
+        }
         $data_pengadaan = [
+            'customer_name' => ($status_pembayaran == 'kredit') ? get_customer_name($customer) : $customer,
+            'tipe_pembayaran' => $status_pembayaran,
+            'tipe_customer' => $tipe_customer,
             'transaksi_id' => $nota,
             'tanggal' => $tanggal,
             'keterangan' => $ket,
             'created_at' => $date,
             'created_user' => $user = $this->session->userdata('id')
         ];
+
 
         $this->db->insert($this->penjualan, $data_pengadaan);
         $penjualan_id = $this->db->insert_id();
@@ -178,16 +214,16 @@ class Pos extends CI_Controller
                 'penjualan_id' => $penjualan_id,
                 'material_id' => $item[$i],
                 'qty' => $quantity,
-                'harga_jual' => str_replace(",", "", $harga_jual[$i]),
+                'harga_jual' => replace_angka($harga_jual[$i]),
                 'satuan' => $material->satuan,
                 'upah' => $material->upah_darat,
-                // 'upah' => str_replace(",", "", $upah[$i]),
-                'ket_detail' => 'Penjualan nomor ' . $nota,
+                'ket_detail' => $ket_detail,
                 'stock_updated' => $material->stock - $quantity,
                 'created_at' => $date,
                 'created_user' => $user = $this->session->userdata('id')
             ];
         }
+        // log_r($detail);
 
         $this->db->insert_batch('penjualan_detail', $detail);
 
@@ -298,6 +334,38 @@ class Pos extends CI_Controller
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"> Pengadaan dengan surat jalan ' . $surat_jalan . ' berhasil disimpan !</div>');
         }
         redirect('pos/pengadaan');
+    }
+
+
+    function get_customer()
+    {
+        $data = $this->db->get('customer')->result();
+        echo json_encode($data);
+    }
+
+    function simpan_customer()
+    {
+        $this->db->trans_begin();
+
+        $data = [
+            'nama' => $this->input->post('nama'),
+            'no_telp' => $this->input->post('no_telp'),
+            'alamat' => $this->input->post('alamat'),
+            'is_active' => ($this->input->post('is_active')) ? $this->input->post('is_active') : 0,
+        ];
+        if ($this->input->post('id')) {
+            $this->db->update('customer', $data, ['id' => $this->input->post('id')]);
+        } else {
+            $this->db->insert('customer', $data);
+        }
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
+        }
+
+        echo json_encode(1);
     }
 
     function update_character()

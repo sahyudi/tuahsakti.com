@@ -13,6 +13,7 @@ class Home extends CI_Controller
 
     public function index()
     {
+        check_persmission_pages($this->session->userdata('group_id'), 'home');
         $data['active'] = 'home';
         $data['title'] = 'Home';
         $data['subview'] = 'home/index';
