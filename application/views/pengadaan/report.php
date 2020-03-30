@@ -82,7 +82,7 @@
                                         <th>Transaksi ID</th>
                                         <th>Material / Satuan</th>
                                         <th>Quantity</th>
-                                        <th>Harga Jual</th>
+                                        <th>Harga Beli</th>
                                         <th>Upah</th>
                                         <th>Sub Total</th>
                                         <th>Sub Upah</th>

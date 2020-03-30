@@ -74,6 +74,16 @@
                     </div>
 
                     <div class="card-body">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="">Tanggal</label>
+                                <p><?= date('d F Y', strtotime($start_date)) . " - " . date('d F Y', strtotime($end_date)) ?></p>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="">Material</label>
+                                <p> <?= ($material_id) ? get_material_name($material_id) : 'Seleruh Material'  ?></p>
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <table id="example1" class="table table-bordered table-striped">
                                 <thead>

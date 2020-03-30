@@ -51,9 +51,21 @@
                     $end_date = ($end_date) ? $end_date : 0;
                     $material_id = ($material_id) ? $material_id : 0;
                     ?>
-                    <a href="<?= base_url('pos/print_penjualan/') . $start_date . '/' . $end_date . '/' . $material_id ?>" class="btn btn-default float-right"><i class="fas fa-fw fa-print"></i> Print</a>
+
+                    <a href="<?= base_url('pos/print_penjualan/') . $start_date . '/' . $end_date . '/' . $material_id ?>" class="btn btn-default btn-sm float-right"><i class="fas fa-fw fa-print"></i> Print</a>
+                    <a href="<?= base_url('pos') ?>" class="btn btn-primary btn-sm float-right mr-3"><i class="fas fa-fw fa-plus"></i> Add Penjualan</a>
                 </div>
                 <div class="card-body">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="">Tanggal</label>
+                            <p><?= date('d F Y', strtotime($start_date)) . " - " . date('d F Y', strtotime($end_date)) ?></p>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="">Material</label>
+                            <p> <?= ($material_id) ? get_material_name($material_id) : 'Seleruh Material'  ?></p>
+                        </div>
+                    </div>
                     <div class="table-responsive">
                         <table id="table-penjualan-2" class="table table-bordered table-striped">
                             <thead>

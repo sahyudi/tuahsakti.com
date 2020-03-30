@@ -65,18 +65,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         'title' => 'Home',
                         'link' => 'pos'
                     ];
+
+                    $menu[] = [
+                        'title' => 'Item Master',
+                        'link' => 'pos/item_master'
+                    ];
+
                     $menu[] = [
                         'title' => 'Pengadaan',
-                        'link' => 'pos/pengadaan'
+                        'link' => 'pos/report_pengadaan'
                     ];
                     $menu[] = [
                         'title' => 'Penjualan',
                         'link' => 'pos/report_penjualan'
                     ];
+
                     $menu[] = [
-                        'title' => 'Item Master',
-                        'link' => 'pos/item_master'
+                        'title' => 'Report',
+                        'link' => 'pos/report_master'
                     ];
+
                     ?>
                     <!-- Left navbar links -->
                     <ul class="navbar-nav">

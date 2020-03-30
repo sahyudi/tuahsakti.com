@@ -56,7 +56,7 @@
             </div>
 
             <div class="row">
-                <div class="col-12 table-responsive">
+                <div class="col-12 text-nowrap">
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -70,7 +70,6 @@
                                 <th>Sub Total</th>
                                 <th>Sub Upah</th>
                                 <th>Keterangan</th>
-                                <th>User Input</th>
                             </tr>
                             </tr>
                         </thead>
@@ -95,7 +94,6 @@
                                     <td class="text-right"><?= number_format($value->harga_beli * $value->qty, 0) ?></td>
                                     <td class="text-right"><?= number_format($value->upah * $value->qty, 0) ?></td>
                                     <td><?= $value->keterangan ?></td>
-                                    <td><?= get_user_name($value->created_user) ?></td>
                                 </tr>
                             <?php } ?>
                         </tbody>
@@ -109,10 +107,6 @@
                     <p class="lead">Total :</p>
                     <div class="table-responsive">
                         <table class="table">
-                            <tr>
-                                <th colspan="6" class="text-right">Total Pengadaan</th>
-                                <th class="text-right">Rp.&nbsp;<?= number_format($sub_total, 0) ?></th>
-                            </tr>
                             <tr>
                                 <th colspan="6" class="text-right">Total Upah</th>
                                 <th class="text-right">Rp.&nbsp;<?= number_format($sub_total_upah, 0) ?></th>
@@ -131,7 +125,7 @@
         };
 
         function closePrintView() {
-            window.location.href = '<?= base_url('pengadaan') ?>';
+            window.location.href = '<?= base_url('pos/report_pengadaan') ?>';
         }
     </script>
 </body>

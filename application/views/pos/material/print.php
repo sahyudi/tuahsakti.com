@@ -56,7 +56,7 @@
             </div>
 
             <div class="row">
-                <div class="col-12 text-nowrap">
+                <div class="col-12 table-reponsive text-nowrap">
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -169,7 +169,7 @@
         };
 
         function closePrintView() {
-            window.location.href = '<?= base_url('material/report_stock') ?>';
+            window.location.href = '<?= base_url('pos/report_master') ?>';
         }
     </script>
 </body>
