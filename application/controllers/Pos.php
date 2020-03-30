@@ -55,13 +55,22 @@ class Pos extends CI_Controller
         $this->db->trans_begin();
 
         $id = $this->input->post('id');
+        $harga_beli = $this->input->post('harga_beli');
+        $harga_jual = $this->input->post('harga_jual');
+        $keterangan = $this->input->post('keterangan');
+        $upah_laut = $this->input->post('upah_laut');
+        $upah_darat = $this->input->post('upah_darat');
+
+        $id = $this->input->post('id');
         $data = [
             'nama' => $this->input->post('nama'),
             'satuan' => $this->input->post('satuan'),
-            'harga_jual' => $this->input->post('harga_jual'),
-            'keterangan' => $this->input->post('keterangan'),
-            'upah_laut' => $this->input->post('upah_laut'),
-            'upah_darat' => $this->input->post('upah_darat'),
+            'harga_beli' => replace_angka($harga_beli),
+            'harga_jual' => replace_angka($harga_jual),
+            'keterangan' => replace_angka($keterangan),
+            'upah_laut' => replace_angka($upah_laut),
+            'upah_darat' => replace_angka($upah_darat),
+            'is_active' => 1
         ];
 
         if ($id) {
@@ -215,17 +224,25 @@ class Pos extends CI_Controller
 
     function tambah_pengadaan()
     {
+        $data['surat_jalan'] = $this->db->get_where('pendanaan', ['status' => 1])->result();
         $data['material'] = $this->m_material->get_material()->result();
         $data['active'] = 'pengadaan';
         $data['subview'] = 'pos/pengadaan/form_pengadaan';
         $this->load->view('pos/template/main', $data);
     }
 
+    function get_item_pengadaan($id)
+    {
+        if ($id) {
+            $data = $this->m_material->get_material($id)->row();
+            echo json_encode($data);
+        }
+    }
+
     function simpan_pengadaan()
     {
         $this->db->trans_begin();
 
-        // data pengadaan
         $date = date('Y-m-d H:i:s');
         $tanggal = $this->input->post('tanggal');
         $nota = 'PE' . time();
@@ -261,8 +278,8 @@ class Pos extends CI_Controller
             $detail[] = [
                 'pengadaan_id' => $pengadaan_id,
                 'material_id' => $item[$i],
-                'qty' => str_replace(",", "", $quantity),
-                'harga_beli' => ($material->harga_beli) ? $material->harga_beli : 0,
+                'qty' => replace_angka($quantity),
+                'harga_beli' => $material->harga_beli,
                 'satuan' => $material->satuan,
                 'upah' => $material->upah_laut,
                 'ket_detail' => 'Pengadaan nomor ' . $nota,

@@ -32,8 +32,9 @@ class Pengadaan extends CI_Controller
     function form()
     {
         check_persmission_pages($this->session->userdata('group_id'), 'pengadaan');
+        $data['surat_jalan'] = $this->db->get_where('pendanaan', ['status' => 1])->result();
         $data['material'] = $this->m_material->get_material()->result();
-        $data['vendor'] = $this->db->get('vendor')->result();
+        // $data['vendor'] = $this->db->get('vendor')->result();
         $data['momor_pengjuan'] = $this->m_accounting->get_nomor_pengajuan()->result();
         $data['active'] = 'pengadaan';
         $data['title'] = 'Form';

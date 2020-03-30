@@ -54,8 +54,11 @@
                                         <td class="text-center"><?= ($value->status == 1) ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Non Active</span>' ?></td>
                                         <td class="text-right">Rp. <?= number_format($total += $value->total, 0) ?></td>
                                         <td class="text-right">
-                                            <a href="<?= base_url('accounting/delete_penganjuan/') . $value->id ?>" onclick="return validation()" class="btn btn-xs btn-danger"><i class="fas fa-fw fa-trash"></i></a>
-                                            <a href="<?= base_url('accounting/detail_pendanaan/') . $value->id ?>" data-id="<?= $value->id ?>" class="btn btn-xs btn-info btn-edit"><i class="fas fa-fw fa-info"></i></a>
+                                            <?php if ($value->status == 1) { ?>
+                                                <a href="<?= base_url('accounting/non_aktif/') . $value->id ?>" class="btn btn-warning btn-xs" onclick="return confirm_" title="Non activekan"><i class="fas fa-fw fa-ban"></i></a>
+                                            <?php } ?>
+                                            <a href="<?= base_url('accounting/delete_penganjuan/') . $value->id ?>" onclick="return validation()" class="btn btn-xs btn-danger" title="Hapus data"><i class="fas fa-fw fa-trash"></i></a>
+                                            <a href="<?= base_url('accounting/detail_pendanaan/') . $value->id ?>" data-id="<?= $value->id ?>" class="btn btn-xs btn-info btn-edit" title="Detail pendanaan"><i class="fas fa-fw fa-info"></i></a>
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -64,6 +67,7 @@
                                 <tr>
                                     <td colspan="5" class="text-right text-bold">Total</td>
                                     <td class="text-right">Rp. <?= number_format($total, 0) ?></td>
+                                    <td></td>
                                 </tr>
                             </tfoot>
                         </table>

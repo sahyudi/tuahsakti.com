@@ -21,7 +21,7 @@
         <div class="row">
             <div class="col-12">
                 <!-- /.card -->
-
+                <?= $this->session->flashdata('message'); ?>
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Data Stock Material</h3>
@@ -34,7 +34,7 @@
                                 <thead>
                                     <tr class="text-center">
                                         <th>No</th>
-                                        <th>Material / Satuan</th>
+                                        <th>Material</th>
                                         <th>Satuan</th>
                                         <th>Quantity</th>
                                         <th>Harga Beli</th>
@@ -48,8 +48,8 @@
                                     <?php foreach ($material as $key => $value) { ?>
                                         <tr>
                                             <td class="text-center"><?= $key + 1 ?></td>
-                                            <td><?= $value->nama . " (" . $value->satuan . ")" ?></td>
-                                            <td><?= $value->satuan ?></td>
+                                            <td><?= $value->nama  ?></td>
+                                            <td><?= mb_strtoupper($value->satuan) ?></td>
                                             <td class="text-center"><?= number_format($value->stock, 0) ?></td>
                                             <td class="text-right"><?= number_format($value->harga_beli, 0) ?></td>
                                             <td class="text-right"><?= number_format($value->harga_jual, 0) ?></td>
@@ -96,7 +96,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="exampleInputPassword1">Satuan</label>
-                            <input type="text" name="satuan" id="satuan" class="form-control form-control-sm" placeholder="Harag jual">
+                            <input type="text" name="satuan" id="satuan" class="form-control form-control-sm" placeholder="Satuan">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="exampleInputPassword1">Keterangan</label>
@@ -104,19 +104,19 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="exampleInputPassword1">Harga Beli</label>
-                            <input type="text" name="harga_beli" id="harga_beli" class="form-control form-control-sm text-right" placeholder="Harga Jual">
+                            <input type="text" name="harga_beli" id="harga_beli" class="form-control form-control-sm text-right" placeholder="Harga Jual" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="exampleInputPassword1">Harga Jual</label>
-                            <input type="text" name="harga_jual" id="harga_jual" class="form-control form-control-sm text-right" placeholder="Harga Jual">
+                            <input type="text" name="harga_jual" id="harga_jual" class="form-control form-control-sm text-right" placeholder="Harga Jual" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="exampleInputPassword1">Upah Laut</label>
-                            <input type="number" name="upah_laut" id="upah_laut" class="form-control form-control-sm text-right" placeholder="Upah Laut">
+                            <input type="text" name="upah_laut" id="upah_laut" class="form-control form-control-sm text-right" placeholder="Upah Laut" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="exampleInputPassword1">Upah Darat</label>
-                            <input type="number" name="upah_darat" id="upah_darat" class="form-control form-control-sm text-right" placeholder="Upah Darat">
+                            <input type="text" name="upah_darat" id="upah_darat" class="form-control form-control-sm text-right" placeholder="Upah Darat" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
                         </div>
 
                     </div>
@@ -134,6 +134,7 @@
 <script>
     $(document).ready(function() {
         $("#example1").DataTable({});
+        $(":input").inputmask();
     });
 
     function validation() {

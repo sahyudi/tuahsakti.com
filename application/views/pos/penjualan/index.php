@@ -26,12 +26,24 @@
                                         <textarea name="keterangan" id="keterangan" class="form-control form-control-sm" rows="1"></textarea>
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label for="">Status </label>
-                                        <div class="form-group">
-                                            <input type="radio" name="keterangan" id="keterangan1" value="1" checked> Toko
-                                            <input type="radio" name="keterangan" id="keterangan2" value="2"> Project
+                                        <label for="">Status Penjualan</label> <br>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="status" id="inlineRadio1" value="default" checked>
+                                            <label class="form-check-label" for="inlineRadio1">Default</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="status" id="inlineRadio2" value="project">
+                                            <label class="form-check-label" for="inlineRadio2">Project</label>
                                         </div>
                                     </div>
+                                    <div class="form-group col-md-4" id="div-project" style="display: none;">
+                                        <label for="">Project</label>
+                                        <select name="project" id="projec" class="form-control form-control-sm select2">
+                                            <option value=""></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
                                     <div class="form-group col-md-6">
                                         <label for="">Item List</label>
                                         <select name="item-select" id="item-select" onchange="addItem()" class="form-control form-control-sm select2" onchange="addItem()">
@@ -73,11 +85,11 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">Bayar</label>
-                                    <input type="text" name="tunai" id="tunai" class="form-control form-control-sm text-right" onkeyup="hitung_tunai()" value="0">
+                                    <input type="text" name="tunai" id="tunai" class="form-control form-control-sm text-right" onkeyup="hitung_tunai()" value="0" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
                                 </div>
                                 <div class="form-group">
                                     <label for="">Kredit</label>
-                                    <input type="text" name="lebih-uang" id="lebih-uang" class="form-control form-control-sm text-right" value="0" readonly>
+                                    <input type="text" name="lebih-uang" id="lebih-uang" class="form-control form-control-sm text-right" value="0" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''" readonly>
                                 </div>
                             </div>
                         </div>
@@ -104,7 +116,7 @@
             </div>
             <div class="modal-body">
                 <div class="table-responsive">
-                    <table id="example1" class="table table-bordered table-striped" width="100%">
+                    <table id="table-stock" class="table table-bordered table-striped" width="100%">
                         <thead>
                             <tr class="text-center">
                                 <th>Material</th>
@@ -129,9 +141,22 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        // $('#table-belanja').dataTable();
         get_item();
-        // get_stock()
+        $(":input").inputmask();
+    });
+
+    $('input[type="radio"][name="status"]').change(function() {
+        // if (this.value == 'allot') {
+        //     alert("Allot Thai Gayo Bhai");
+        // } else if (this.value == 'transfer') {
+        const value = $(this).val();
+        // alert();
+        if (value == 'project') {
+            $('#div-project').css('display', 'block');
+        } else {
+            $('#div-project').css('display', 'none');
+        }
+        // }
     });
 
     function cek_item_input() {
@@ -185,6 +210,7 @@
             var qty = 1;
         } else if (qty_awal > stock) {
             var qty = stock;
+            $('#qty-' + id).val(qty);
         } else {
             var qty = qty_awal;
         }
@@ -211,24 +237,16 @@
         const total = parseInt($('#total').html().replace(/\,/g, ''));
         const tunai = $('#tunai').val().replace(/\,/g, '');
 
-        $('#lebih-uang').val(addCommas(parseInt(tunai) - total));
-        $('#tunai').val(addCommas(tunai));
+        $('#lebih-uang').val(parseInt(tunai) - parseInt(total));
+        $('#tunai').val(tunai);
     }
 
     function hitungtotal() {
-        const rangeId = $('#jumlah-baris').val();
-        var sumHarga = 0;
-
-        for (let index = 1; index < parseInt(rangeId); index++) {
-            if ($('#sub_total-' + index).length != 0) {
-                var SubTotal = $('#sub_total-' + index).val();
-                // var SubUpah = $('#sub_upah-' + index).val();
-                if (SubTotal == null || SubTotal == '') {
-                    SubTotal = 0;
-                }
-                sumHarga += parseInt(SubTotal.replace(/\,/g, ''));
-            }
-        }
+        let sumHarga = 0;
+        // const item_select = [];
+        $('[name="sub_total[]"]').each(function(i, value) {
+            sumHarga = parseInt(sumHarga) + parseInt($(value).val().replace(/\,/g, ''));
+        });
         $('#total').html(addCommas(sumHarga));
     }
 
@@ -240,6 +258,7 @@
             type: "post",
             dataType: 'JSON',
             success: function(data) {
+                console.log(data);
                 $('#remove-null').remove();
                 let item = `
                             <tr class="material" id="material-${rangeId}">
@@ -251,7 +270,7 @@
                                     <input type="text" class="form-control form-control-sm form-stock text-right" name="stock[]" id="stock-${rangeId}" value="${addCommas(data.stock)}" readonly>
                                 </td>
                                 <td>
-                                    <input type="number" class="form-control form-control-sm form-qty text-right" name="qty[]" id="qty-${rangeId}" onchange="hitung_sub_total(${rangeId})" onkeyup="hitung_sub_total(${rangeId})" value="1">
+                                    <input type="text" class="form-control form-control-sm form-qty text-right" name="qty[]" id="qty-${rangeId}" onchange="hitung_sub_total(${rangeId})" onkeyup="hitung_sub_total(${rangeId})" value="1" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
                                 </td>
                                 <td>
                                     <input type="text" class="form-control form-control-sm form-harga_jual text-right" name="harga_jual[]" id="harga_jual-${rangeId}" value="${addCommas(data.harga_jual)}" readonly>
@@ -265,17 +284,12 @@
                                 </td>
                             </tr>
                             `;
-                // <td>
-                //    <input type="text" name="upah[]" id="upah-${rangeId}" class="form-control form-control-sm text-right" value="${addCommas(data.upah_darat)}" readonly>
-                // </td>
-                // <td>
-                //    <input type="text" class="form-control form-control-sm form-sub_upah text-right" name="sub_upah[]" id="sub_upah-${rangeId}" value="0" readonly>
-                // </td>
                 $('#table-belanja tbody').append(item);
                 $('#item-select').val('');
                 $('#jumlah-baris').val(parseInt(rangeId) + parseInt(1));
                 get_item();
                 hitung_sub_total(rangeId);
+                $(":input").inputmask();
             }
         });
 
@@ -291,6 +305,7 @@
             $('#table-belanja tbody').append(nul);
         }
         get_item();
+        hitungtotal();
     }
 
     function handleAjaxError(xhr, textStatus, error) {
@@ -306,8 +321,8 @@
         if (oTable) {
             oTable.fnDestroy();
         }
-        $('#example1').dataTable().fnDestroy();
-        var oTable = $('#example1').dataTable({
+        $('#table-stock').dataTable().fnDestroy();
+        var oTable = $('#table-stock').dataTable({
             "bProcessing": true,
             "bServerSide": true,
             'searching': true,

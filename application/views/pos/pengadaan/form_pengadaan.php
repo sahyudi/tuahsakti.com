@@ -28,7 +28,14 @@
                                 <textarea name="keterangan" id="keterangan" class="form-control form-control-sm" rows="1"></textarea>
                             </div>
                         </div>
-
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="">Item List</label>
+                                <select name="item-select" id="item-select" onchange="addItem()" class="form-control form-control-sm select2" onchange="addItem()">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
                         <hr>
                         <h5>List Item</h5>
                         <div class="row">
@@ -42,21 +49,8 @@
                                 </thead>
                                 <tbody>
                                     <input type="hidden" id="jumlah-baris" value="1">
-                                    <tr class="material" id="material-0">
-                                        <td>
-                                            <select onchange="getItem(this,0)" class="form-control form-control-sm select2 form-item" id="item-0" name="item[]">
-                                                <option value=""></option>
-                                                <?php foreach ($material as $key => $value) { ?>
-                                                    <option value="<?= $value->id ?>"><?= $value->nama . " / " . $value->satuan ?></option>
-                                                <?php } ?>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control form-control-sm form-qty text-right" name="qty[]" id="qty-0" onkeyup="hitung_sub_total(0)" value="0">
-                                        </td>
-                                        <td class="for-button">
-                                            <button type="button" class="btn btn-info btn-sm btn-add" onclick="addItem()"><i class="fa fa-plus"></i></button>
-                                        </td>
+                                    <tr id="remove-null">
+                                        <td colspan="6" class="text-center">Item Belum dipilih</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -81,82 +75,83 @@
             'placeholder': 'Select one',
             theme: 'boostrap4',
         });
+        get_item();
+        $(":input").inputmask();
     });
 
     function addItem() {
-        $('.select2').select2('destroy');
-        const rangeId = $('#jumlah-baris').val()
-        const item = $('#material-0').first().clone();
-        $('#table-material tbody').append(item);
-        const id = 'material-' + rangeId;
-        item.attr('id', id);
-        $('#' + id + ' .form-item').attr({
-            'id': 'item-' + rangeId,
-            'onchange': "getItem(this," + rangeId + ")"
+        var id = $('#item-select').val();
+        const rangeId = $('#jumlah-baris').val();
+        $.ajax({
+            url: "<?= base_url('pos/get_item_pengadaan/') ?>" + id,
+            type: "post",
+            dataType: 'JSON',
+            success: function(data) {
+                $('#remove-null').remove();
+                let item = `
+                            <tr class="material" id="material-${rangeId}">
+                                <td>
+                                    <input type="hidden" class="form-control form-control-sm form-item" id="item-${rangeId}" name="item[]" value="${id}">
+                                    ${data.nama} / ${data.satuan}
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control form-control-sm form-qty text-right" name="qty[]" id="qty-${rangeId}" value="1" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
+                                </td>                                
+                                <td class="for-button">
+                                    <button href="#" onclick="hapus(${rangeId})" class="btn btn-sm btn-danger"><i class="fa fa-minus"></i></button>
+                                </td>
+                            </tr>
+                            `;
+                $('#table-material tbody').append(item);
+                $('#item-select').val('');
+                $('#jumlah-baris').val(parseInt(rangeId) + parseInt(1));
+                get_item();
+                $(":input").inputmask();
+            }
         });
-        $('#' + id + ' .form-qty').attr({
-            'id': 'qty-' + rangeId,
-            'onkeyup': 'hitung_sub_total(' + rangeId + ')'
-        }).val(0);
-        $('#' + id + ' button').remove();
 
-        var btn = '<button href="#" onclick="hapus(' + rangeId + ')" class="btn btn-danger btn-sm"><i class="fa fa-minus"></i></button>';
-        $('#' + id + ' .for-button').append(btn);
-        $('#jumlah-baris').val(parseInt(parseInt(rangeId) + 1));
-        //$(".select2").select2("destroy").select2();
-        $(".select2").select2();
+
+    }
+
+    function get_item() {
+        const item_select = [];
+        $('[name="item[]"]').each(function(i, value) {
+            item_select[i] = $(value).val();
+        });
+
+        $.ajax({
+            url: "<?= base_url('pos/get_item_list'); ?>",
+            type: 'POST',
+            data: {
+                id: item_select
+            },
+            dataType: 'json',
+            success: function(data) {
+                $('#item-select').empty();
+                $('.select2').select2('destroy');
+                var item = '<option value=""></option>';
+
+                $.each(data, function(i, val) {
+                    item += `<option value="${val.id}">${val.nama}</option>`;
+                });
+                $('#item-select').append(item);
+                $('.select2').select2();
+            }
+        });
     }
 
     function hapus(params) {
         var id = 'material-' + params;
         $('#' + id).remove('');
+        if ($('.material').length < 1) {
+            $('#remove-null').remove();
+            const nul = `<tr id="remove-null"><td colspan="8" class="text-center">Item Belum dipilih</td></tr>`;
+            $('#table-belanja tbody').append(nul);
+        }
+        get_item();
     }
 
 
-    function hitung_sub_total(id) {
-        var sisaStock = 0;
-        const qty = parseInt($('#qty-' + id).val().replace(/\,/g, ''));
-        const harga = parseInt($('#harga_beli-' + id).val().replace(/\,/g, ''));
-
-        sisaStock = qty * harga;
-        if (sisaStock > 0) {
-            $('#sub_total-' + id).val(addCommas(sisaStock));
-        } else {
-            $('#sub_total-' + id).val(0);
-        }
-        if (qty > 0) {
-            return_qty = qty;
-        } else {
-            return_qty = 0;
-        }
-        if (harga > 0) {
-            return_harga = harga;
-        } else {
-            return_harga = 0;
-        }
-        $('#qty-' + id).val(addCommas(return_qty));
-        $('#harga_beli-' + id).val(addCommas(return_harga));
-        hitungtotal();
-    }
-
-    function hitungtotal() {
-        const rangeId = $('#jumlah-baris').val();
-        var sumHarga = 0;
-
-        for (let index = 0; index < parseInt(rangeId); index++) {
-            if ($('#sub_total-' + index).length != 0) {
-                var SubTotal = $('#sub_total-' + index).val();
-                if (SubTotal == null || SubTotal == '') {
-                    SubTotal = 0;
-                }
-                sumHarga += parseInt(SubTotal.replace(/\,/g, ''));
-            }
-        }
-        $('#total').html(addCommas(sumHarga));
-        const kredit = sumHarga - $('#tunai').val().replace(/\,/g, '');
-        $('#kredit').val(addCommas(kredit))
-        // console.log(sumHarga);
-    }
 
     function getItem(id, urutan) {
         //     $.ajax({
