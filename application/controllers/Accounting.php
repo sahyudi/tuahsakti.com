@@ -179,4 +179,63 @@ class Accounting extends CI_Controller
         $data['subview'] = 'hutang/detail';
         $this->load->view('template/main', $data);
     }
+
+    function piutang()
+    {
+        $data['piutang'] = $this->m_accounting->get_piutang()->result();
+        // log_r($data['piutang']);
+        $data['active'] = 'accounting/piutang';
+        $data['title'] = 'Piutang';
+        $data['subview'] = 'piutang/saldo';
+        $this->load->view('template/main', $data);
+    }
+
+    function detail_piutang($id)
+    {
+        $data['active'] = 'accounting/piutang';
+        $data['title'] = 'Detail Piutang';
+        $data['master'] = $this->m_accounting->get_piutang($id)->row();
+        $data['detail'] = $this->m_accounting->get_detail_piutang($id)->result();
+        $data['subview'] = 'piutang/detail';
+        $this->load->view('template/main', $data);
+    }
+
+    function bayar_piutang()
+    {
+        $date = date('Y-m-d H:i:s');
+        $id = $this->input->post('id');
+        $saldo = $this->input->post('saldo');
+        $kredit = $this->input->post('kredit');
+        $sisa = $this->input->post('sisa');
+        $keterangan = $this->input->post('keterangan');
+
+        $master = [
+            'saldo' => replace_angka($sisa),
+            'updated_at' => $date,
+        ];
+
+        $data = [
+            'saldo_id' => $id,
+            'debit' => 0,
+            'kredit' => replace_angka($kredit),
+            'saldo_updated' => replace_angka($sisa),
+            'ket_detail' => $keterangan,
+            'update_at' => $date
+        ];
+
+        $this->db->trans_begin();
+
+        $this->db->update('piutang', $master, ['id' => $id]);
+        $this->db->insert('piutang_detail', $data);
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Pembayaran gagal disimpan !</div>');
+        } else {
+            $this->db->trans_commit();
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Pembayaran berhasil disimpan !</div>');
+        }
+
+        redirect('accounting/detail_piutang/' . $id);
+    }
 }

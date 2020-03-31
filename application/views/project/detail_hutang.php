@@ -107,7 +107,7 @@
 
                     <div class="form-group">
                         <label for="exampleInputPassword1">Sisa</label>
-                        <input type="text" name="sisa" id="sisa" class="form-control" placeholder="Harga Jual" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''" readonly>
+                        <input type="text" name="sisa" id="sisa" class="form-control" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''" readonly>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Keterangan</label>

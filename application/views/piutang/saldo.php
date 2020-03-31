@@ -5,12 +5,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Saldo Hutang</h1>
+                    <h1 class="m-0 text-dark">Daftar Piutang</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="<?= base_url('home') ?>">Home</a></li>
-                        <li class="breadcrumb-item active">Saldo Hutang</li>
+                        <li class="breadcrumb-item active">Daftar Piutang</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -26,7 +26,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">List Saldo Hutang</h3>
+                        <h3 class="card-title">List Daftar Piutang</h3>
                         <a href="#" class="btn btn-primary float-right btn-sm" data-toggle="modal" onclick="reset_form()" data-target="#modal-material"><i class="fas fa-fw fa-plus"></i> Add Hutang</a>
                     </div>
                     <!-- /.card-header -->
@@ -36,22 +36,22 @@
                                 <tr class="text-center">
                                     <th>No</th>
                                     <th>No Nota</th>
-                                    <th>Vendor</th>
+                                    <th>Customer</th>
                                     <th>Saldo Hutang</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php $total = 0; ?>
-                                <?php foreach ($saldo_hutang as $key => $value) { ?>
+                                <?php foreach ($piutang as $key => $value) { ?>
                                     <tr>
                                         <td class="text-center"><?= $key + 1 ?></td>
                                         <td><?= $value->no_nota ?></td>
-                                        <td><?= $value->nama_vendor ?></td>
+                                        <td><?= $value->nama ?></td>
                                         <td class="text-right">Rp. <?= number_format($value->saldo, 0) ?></td>
                                         <td class="text-right">
-                                            <a href="<?= base_url('accounting/delete_saldo_hutang/') . $value->id ?>" title="Hapus Hutang" onclick="return validation()" class="btn btn-xs btn-danger"><i class="fas fa-fw fa-trash"></i></a>
-                                            <a href="<?= base_url('accounting/pembayaran/') . $value->id ?>" class="btn btn-xs btn-success btn-edit" title="Lihat Detail"><i class="fas fa-fw fa-info"></i></a>
+                                            <a href="<?= base_url('accounting/delete_piutang/') . $value->id ?>" title="Hapus Hutang" onclick="return validation()" class="btn btn-xs btn-danger"><i class="fas fa-fw fa-trash"></i></a>
+                                            <a href="<?= base_url('accounting/detail_piutang/') . $value->id ?>" class="btn btn-xs btn-success btn-edit" title="Lihat Detail"><i class="fas fa-fw fa-info"></i></a>
                                         </td>
                                     </tr>
                                     <?php $total += $value->saldo ?>

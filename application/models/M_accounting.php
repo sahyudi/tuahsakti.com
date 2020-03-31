@@ -68,4 +68,27 @@ class M_accounting extends CI_Model
         $data = $this->db->get('hutang A');
         return $data;
     }
+
+    function get_piutang($id = null)
+    {
+        $this->db->select('A.*, B.nama');
+        $this->db->join('customer B', 'A.customer_id = B.id');
+        if ($id) {
+            $this->db->where('A.id', $id);
+        }
+        $data = $this->db->get('piutang A');
+        return $data;
+    }
+
+    function get_detail_piutang($id)
+    {
+        $this->db->select('A.no_nota, B.nama, C.*');
+        $this->db->join('customer B', 'A.customer_id = B.id');
+        $this->db->join('piutang_detail C', 'A.id = C.saldo_id');
+        if ($id) {
+            $this->db->where('A.id', $id);
+        }
+        $data = $this->db->get('piutang A');
+        return $data;
+    }
 }
