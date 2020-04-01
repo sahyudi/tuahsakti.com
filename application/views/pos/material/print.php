@@ -56,7 +56,7 @@
             </div>
 
             <div class="row">
-                <div class="col-12 table-reponsive text-nowrap">
+                <div class="col-12 table-reponsive">
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -68,8 +68,9 @@
                             <tr class="text-center">
                                 <th>No</th>
                                 <th>Tanggal</th>
-                                <th>Keterangan</th>
                                 <th>Material (Satuan)</th>
+                                <th>Nama</th>
+                                <th>Keterangan</th>
                                 <th>Quantity</th>
                                 <th>Harga</th>
                                 <th>Sub Total</th>

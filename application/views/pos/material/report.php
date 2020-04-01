@@ -76,6 +76,7 @@
                                 <tr class="text-center">
                                     <th>No</th>
                                     <th>Tanggal</th>
+                                    <th>Nama</th>
                                     <th>Keterangan</th>
                                     <th>Material (Satuan)</th>
                                     <th>Quantity</th>
@@ -89,20 +90,22 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php
+                                $sub_total_in = 0;
+                                $sub_total_out = 0;
+                                $sub_total = 0;
+                                $total_upah = 0;
+                                $total = 0;
+                                ?>
                                 <?php if ($kartu_stock) { ?>
-                                    <?php
-                                    $sub_total_in = 0;
-                                    $sub_total_out = 0;
-                                    $sub_total = 0;
-                                    $total_upah = 0;
-                                    $total = 0;
-                                    ?>
+
                                     <?php foreach ($kartu_stock as $key => $value) { ?>
                                         <?php $sub_total = $value->quantity * $value->harga ?>
                                         <?php $total_upah += $value->quantity * $value->upah ?>
                                         <tr>
                                             <td class="text-center"><?= $key + 1 ?></td>
                                             <td><?= date('d F Y', strtotime($value->tanggal)) ?></td>
+                                            <td><?= $value->nama ?></td>
                                             <td><?= $value->ket ?></td>
                                             <td><?= $value->material . " (" . $value->satuan  ?>)</td>
                                             <?php if ($value->tipe == 'in') { ?>

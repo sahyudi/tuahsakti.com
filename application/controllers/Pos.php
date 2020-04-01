@@ -232,9 +232,10 @@ class Pos extends CI_Controller
             $data_pengadaan['project_no'] = 0;
             $ket_detail = 'Penjualan nomor ' . $nota;
         } else {
-            $data_pengadaan['project_no'] = get_proyek_no($project);
+            $data_pengadaan['project_no'] = $project;
             $ket_detail = "Penjualan nomor " . $nota . " untuk project no " . get_proyek_no($project);
         }
+
         $data_pengadaan = [
             'customer_name' => ($status_pembayaran == 'kredit') ? get_customer_name($customer) : $customer,
             'tipe_pembayaran' => $status_pembayaran,
@@ -482,7 +483,7 @@ class Pos extends CI_Controller
 
     function report_master()
     {
-        check_persmission_pages($this->session->userdata('group_id'), 'material/report_stock');
+        // check_persmission_pages($this->session->userdata('group_id'), 'material/report_stock');
         $this->form_validation->set_rules('start_date', 'Tanggal Mulai', 'trim|required');
         $this->form_validation->set_rules('end_date', 'Tanggal Akhir', 'trim|required');
         $this->form_validation->set_rules('material', 'Material', 'trim|required');
@@ -498,6 +499,7 @@ class Pos extends CI_Controller
             $material = $this->input->post('material');
         }
         $data['kartu_stock'] = $this->m_material->get_report_stock($start_date, $end_date, $material)->result();
+        // log_r($data['kartu_stock']);
         $data['start_date'] = $start_date;
         $data['end_date'] = $end_date;
         $data['material_id'] = $material;

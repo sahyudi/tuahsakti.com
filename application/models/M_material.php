@@ -77,6 +77,7 @@ class M_material extends CI_Model
     {
         $this->db->select(" ('in')AS tipe,
                                 B1.tanggal AS tanggal,
+                                ('Pengadaan') AS nama,
                                 A1.ket_detail AS ket,
                                 C1.nama AS material,
                                 A1.qty AS quantity,
@@ -103,6 +104,7 @@ class M_material extends CI_Model
 
         $this->db->select(" ('out')AS tipe,
                                 B2.tanggal AS tanggal,
+                                B2.customer_name AS nama,
                                 A2.ket_detail AS ket,
                                 C2.nama AS material,
                                 A2.qty AS quantity,

@@ -34,6 +34,7 @@
                                     <tr class="text-center">
                                         <th>No</th>
                                         <th>Tanggal</th>
+                                        <th>Nama</th>
                                         <th>Transaksi ID</th>
                                         <th>Material / Satuan</th>
                                         <th>Quantity</th>
@@ -59,6 +60,7 @@
                                         <tr>
                                             <td class="text-center"><?= $key + 1 ?></td>
                                             <td><?= date('d F Y', strtotime($value->tanggal)) ?></td>
+                                            <td><?= $value->nama ?></td>
                                             <td><?= $value->transaksi_id ?></td>
                                             <td><?= $value->item . " (" . $value->satuan . ")" ?></td>
                                             <td class="text-center"><?= number_format($value->qty, 0) ?></td>
