@@ -59,8 +59,8 @@
                             <h5 class="text-center">List Item</h5>
                             <hr>
 
-                            <div class="table-responsive text-nowrap">
-                                <!-- <div class="table-responsive"> -->
+                            <!-- <div class="table-responsive text-nowrap"> -->
+                            <div class="table-responsive">
                                 <table id="table-info-1" class="table table-striped" style="width: 100%">
                                     <thead>
                                         <tr class="text-center">

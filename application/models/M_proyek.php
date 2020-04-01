@@ -10,6 +10,9 @@ class M_proyek extends CI_Model
     public $hutang_project = 'hutang_project';
     public $hutang_detail = 'hutang_project_detail';
 
+    public $penjualan = 'penjualan';
+    public $penjualan_detail = 'penjualan_detail';
+
     function __construct()
     {
         parent::__construct();
@@ -40,7 +43,16 @@ class M_proyek extends CI_Model
         $this->db->join($this->proyek_dana . ' as d2', 'a2.id = d2.proyek_id', 'right');
         $this->db->where('a2.id', $id);
         $query_2 = $this->db->get_compiled_select();
-        $final_query = $this->db->query($query_1 . ' UNION ' . $query_2);
+
+        $this->db->select('a3.tanggal as tanggal_detail, (0) as harga_beli, m3.nama as nama_item, d3.satuan, d3.qty, d3.harga_jual as harga, d3.ket_detail');
+        $this->db->from($this->penjualan . ' as a3');
+        $this->db->join($this->penjualan_detail . ' as d3', 'a3.id = d3.penjualan_id', 'left');
+        $this->db->join($this->material . ' as m3', 'm3.id = d3.material_id', 'left');
+        $this->db->where('a3.project_no', $id);
+        $query_3 = $this->db->get_compiled_select();
+
+        // log_r($query_3);
+        $final_query = $this->db->query($query_1 . ' UNION ' . $query_2 . ' UNION ' . $query_3);
 
         return $final_query;
     }

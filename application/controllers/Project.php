@@ -158,6 +158,7 @@ class Project extends CI_Controller
     {
         $data['master'] = $this->m_proyek->get_proyek($id)->row();
         $data['detail'] = $this->m_proyek->get_proyek_detail($id)->result();
+        // log_r($data['detail']);
         $data['pendanaan'] = null;
         $data['active'] = 'project';
         $data['title'] = 'Project';
