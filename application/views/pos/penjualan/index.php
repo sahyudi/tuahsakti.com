@@ -208,9 +208,11 @@
 <script type="text/javascript">
     $(document).ready(function() {
         get_item();
-        get_customer();
         get_project();
         $(":input").inputmask();
+        setTimeout(function() {
+            get_customer();
+        }, 1000)
     });
 
     $('input[type="radio"][name="status"]').change(function() {
@@ -385,6 +387,9 @@
             sumHarga = parseInt(sumHarga) + parseInt($(value).val().replace(/\,/g, ''));
         });
         $('#total').html(addCommas(sumHarga));
+        // setTimeout(function() {
+        hitung_tunai();
+        // }, 1000);
     }
 
     function addItem() {
