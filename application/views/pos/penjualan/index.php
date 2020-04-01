@@ -370,8 +370,11 @@
     function hitung_tunai() {
         const total = parseInt($('#total').html().replace(/\,/g, ''));
         const tunai = $('#tunai').val().replace(/\,/g, '');
-
-        $('#lebih-uang').val(parseInt(tunai) - parseInt(total));
+        const selisih = parseInt(tunai) - parseInt(total);
+        console.log(tunai);
+        console.log(total);
+        console.log(selisih);
+        $('#lebih-uang').val(selisih);
         $('#tunai').val(tunai);
     }
 
@@ -422,6 +425,9 @@
                 $('#item-select').val('');
                 $('#jumlah-baris').val(parseInt(rangeId) + parseInt(1));
                 get_item();
+                setTimeout(function() {
+                    hitung_tunai();
+                }, 1000);
                 hitung_sub_total(rangeId);
                 $(":input").inputmask();
             }

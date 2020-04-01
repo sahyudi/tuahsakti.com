@@ -178,7 +178,6 @@ class Pos extends CI_Controller
         $id = $this->input->post('id');
         $this->db->select('A.*, B.stock');
         $this->db->join('stock B', 'A.id = B.material_id');
-        // $this->db->where('B.stock >=', 1);
         if ($id) {
             $this->db->where_not_in('A.id', $id);
         }
