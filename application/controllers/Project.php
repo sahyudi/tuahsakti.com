@@ -175,6 +175,7 @@ class Project extends CI_Controller
         $tanggal = $this->input->post('tanggal');
         $no_proyek = 'PRO' . time();
         $nama = $this->input->post('nama');
+        $status_project = $this->input->post('status_project');
         $deksripsi = $this->input->post('deksripsi');
         $anggaran = $this->input->post('anggaran');
         $vendor = $this->input->post('vendor');
@@ -196,6 +197,7 @@ class Project extends CI_Controller
             'deskripsi' => $deksripsi,
             'proyek_no' => $no_proyek,
             'status' => 0,
+            'jenis' => $status_project,
             'tanggal' => $tanggal,
             'created_at' => $date,
             'created_user' => $user = $this->session->userdata('id')

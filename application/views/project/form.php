@@ -51,7 +51,18 @@
                                     <label for="">Deskripsi</label>
                                     <textarea name="deksripsi" id="deksripsi" class="form-control form-control-sm" rows="2"></textarea>
                                 </div>
-
+                                <div class="form-group col-md-6">
+                                    <label for="">Status Project</label> <br>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="status_project" id="inlineRadio1" value="1" checked>
+                                        <label class="form-check-label" for="inlineRadio1">Internal</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="status_project" id="inlineRadio2" value="2">
+                                        <label class="form-check-label" for="inlineRadio2">External</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6"></div>
                                 <div class="form-group col-md-6">
                                     <label for="">Item List</label>
                                     <select name="item-select" id="item-select" onchange="addItem()" class="form-control form-control-sm select2">

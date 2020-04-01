@@ -423,7 +423,7 @@ class Pos extends CI_Controller
 
     function get_project()
     {
-        $data = $this->db->get_where('proyek', ['status' => 0])->result();
+        $data = $this->db->get_where('proyek', ['status' => 0, 'jenis' => 1])->result();
         echo json_encode($data);
     }
 

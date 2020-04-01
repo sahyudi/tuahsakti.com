@@ -35,6 +35,7 @@
                                         <th>No</th>
                                         <th>Project No</th>
                                         <th>Nama</th>
+                                        <th>Jenis Proyek</th>
                                         <th>Anggaran</th>
                                         <th>Pengeluaran</th>
                                         <th>Status</th>
@@ -50,6 +51,7 @@
                                             <td class="text-center"><?= $key + 1 ?></td>
                                             <td><?= $value->proyek_no ?></td>
                                             <td><?= $value->nama_proyek ?></td>
+                                            <td class="text-center"><?= ($value->jenis == 1) ? '<span class="badge badge-success">Internal</span>' : '<span class="badge badge-primary">External</span>' ?></td>
                                             <td class="text-right"><?= number_format($value->anggaran, 0) ?></td>
                                             <td class="text-right"><?= number_format($detail_pengeluaran, 0) ?></td>
                                             <td class="text-center"><?= cek_status($value->status) ?></td>
