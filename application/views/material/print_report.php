@@ -56,7 +56,7 @@
             </div>
 
             <div class="row">
-                <div class="col-12 text-nowrap">
+                <div class="col-12 table-responsive">
                     <table class="table table-striped">
                         <thead>
                             <tr>

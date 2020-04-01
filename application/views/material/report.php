@@ -88,7 +88,7 @@
                             <table id="example1" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th colspan="4"></th>
+                                        <th colspan="5"></th>
                                         <th colspan="3" class="text-center">IN</th>
                                         <th colspan="3" class="text-center">OUT</th>
                                         <th colspan="2" class="text-center">UPAH</th>
@@ -153,7 +153,7 @@
                                 </tbody>
                                 <!-- <tfoot> -->
                                 <tr>
-                                    <th colspan="6" class="text-right">Total</th>
+                                    <th colspan="7" class="text-right">Total</th>
                                     <th class="text-right">Rp.&nbsp;<?= number_format($sub_total_in, 0) ?> </th>
                                     <th colspan="2"></th>
                                     <th class="text-right">Rp.&nbsp;<?= number_format($sub_total_out, 0) ?> </th>

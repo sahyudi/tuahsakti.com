@@ -129,7 +129,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th colspan="7" class="text-right">Total</th>
+                                        <th colspan="8" class="text-right">Total</th>
                                         <th class="text-right">Rp.&nbsp;<?= number_format($sub_total, 0) ?></th>
                                         <th class="text-right">Rp.&nbsp;<?= number_format($sub_total_upah, 0) ?></th>
                                         <th colspan="2"></th>
