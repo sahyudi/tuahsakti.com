@@ -320,4 +320,75 @@ class Project extends CI_Controller
 
         redirect('project/info_detail_hutang/' . $id);
     }
+
+    function add_item_project($id)
+    {
+        $data['master'] = $this->m_proyek->get_proyek($id)->row();
+        $data['detail'] = $this->m_proyek->get_proyek_detail($id)->result();
+        $data['active'] = 'project';
+        $data['title'] = 'Project';
+        $data['subview'] = 'project/form_add';
+        $this->load->view('template/main', $data);
+    }
+
+    function save_item_project()
+    {
+        $this->db->trans_begin();
+
+        // data proyek
+        $date = date('Y-m-d H:i:s');
+        $tanggal = date('Y-m-d');
+        $proyek_id = $this->input->post('id');
+        // detail item
+        $item = $this->input->post('item');
+        $qty = $this->input->post('qty');
+        $harga_beli = $this->input->post('harga_beli');
+        $harga = $this->input->post('harga');
+        $ket_item = $this->input->post('ket_item');
+
+
+        $detail = [];
+        for ($i = 0; $i < count($item); $i++) {
+            $quantity =  str_replace(",", "", $qty[$i]);
+            $material = $this->m_material->get_material($item[$i])->row();
+
+            $detail[] = [
+                'tanggal' => $tanggal,
+                'proyek_id' => $proyek_id,
+                'material_id' => $item[$i],
+                'qty' => $quantity,
+                'harga_beli' => str_replace(",", "", $harga_beli[$i]),
+                'harga' => str_replace(",", "", $harga[$i]),
+                'satuan' => $material->satuan,
+                'ket_detail' => $ket_item[$i],
+                'created_at' => $date,
+                'created_user' => $this->session->userdata('id')
+            ];
+        }
+        // log_r($detail);
+
+        // if ($kredit != 0) {
+        //     $saldo_hutang = [
+        //         'proyek_id' => $proyek_id,
+        //         'saldo' => abs(str_replace(",", "", $kredit)),
+        //         'keterangan' => $this->input->post('ket_hutang'),
+        //         'updated_at' => $date,
+        //         'created_user' => $user
+        //     ];
+        //     $this->db->insert('hutang_project', $saldo_hutang);
+        //     // $hutang_id = $this->db->insert_id();
+        // }
+        // log_r($detail);
+
+        $this->db->insert_batch($this->proyek_detail, $detail);
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"> Material gagal disimpan !</div>');
+        } else {
+            $this->db->trans_commit();
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"> Material berhasil disimpan !</div>');
+        }
+        redirect('project/info_detail/' . $proyek_id);
+    }
 }

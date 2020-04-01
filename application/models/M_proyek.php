@@ -105,7 +105,7 @@ class M_proyek extends CI_Model
 
     function get_hutang($id = null)
     {
-        $this->db->select('B.nama_proyek, B.proyek_no, A.*, A.updated_at as tanggal');
+        $this->db->select('B.nama_proyek, B.proyek_no, A.*, A.updated_at as tanggal,B.id as id_project');
         if ($id) {
             $this->db->where('A.id', $id);
         }

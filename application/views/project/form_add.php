@@ -4,12 +4,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Form Project</h1>
+                    <h1 class="m-0 text-dark">Form Material Projec</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="<?= base_url('home') ?>">Home</a></li>
-                        <li class="breadcrumb-item active">Project</li>
+                        <li class="breadcrumb-item active">Penjualan</li>
                     </ol>
                 </div>
             </div>
@@ -24,7 +24,7 @@
                 <!-- SELECT2 EXAMPLE -->
                 <div class="card card-default">
                     <div class="card-header">
-                        <h3 class="card-title">Form Project</h3>
+                        <h3 class="card-title">Form Material Projec</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
@@ -32,45 +32,32 @@
                         </div>
                     </div>
                     <!-- /.card-header -->
-                    <form action="<?= base_url('project/save_project') ?>" method="POST" enctype="multipart/form-data">
+                    <form action="<?= base_url('project/save_item_project') ?>" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="id" id="id" value="<?= $master->id ?>">
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="">Tanggal</label>
-                                    <input type="date" name="tanggal" id="tanggal" class="form-control form-control-sm" placeholder="No nota" value="<?= date('Y-m-d') ?>">
+                                    <p><?= $master->tanggal ?></p>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="">Name</label>
-                                    <input type="text" name="nama" id="nama" class="form-control form-control-sm" placeholder="Nama Proyek">
+                                    <label for="">Nomor - Nama Proyek</label>
+                                    <p><?= $master->proyek_no . " - " . $master->nama_proyek ?></p>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="">Anggaran (Rp.)</label>
-                                    <input type="text" class="form-control form-control-sm text-right" id="anggaran" name="anggaran" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''" placeholder="Rp">
+                                    <p>Rp. <?= number_format($master->anggaran, 0) ?></p>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="">Deskripsi</label>
-                                    <textarea name="deksripsi" id="deksripsi" class="form-control form-control-sm" rows="2"></textarea>
+                                    <p><?= $master->deskripsi ?></p>
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <label for="">Status Project</label> <br>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="status_project" id="inlineRadio1" value="1" checked>
-                                        <label class="form-check-label" for="inlineRadio1">Internal</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="status_project" id="inlineRadio2" value="2">
-                                        <label class="form-check-label" for="inlineRadio2">External</label>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6"></div>
                                 <div class="form-group col-md-6">
                                     <label for="">Item List</label>
                                     <select name="item-select" id="item-select" onchange="addItem()" class="form-control form-control-sm select2">
                                         <option value=""></option>
                                     </select>
                                 </div>
-
-
                             </div>
 
                             <hr>

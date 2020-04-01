@@ -30,7 +30,7 @@
                             <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
                             <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
                         </div>
-                        <a href="<?= base_url('project/add_material') ?>" class="btn btn-primary btn-sm float-right"> Tambah Material</a>
+                        <a href="<?= base_url('project/add_item_project/') . $master->id ?>" class="btn btn-primary btn-sm float-right"> Tambah Material</a>
 
                     </div>
                     <!-- /.card-header -->
