@@ -36,7 +36,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="">Tanggal</label>
+                                    <label for="">Tanggal Mulai</label>
                                     <input type="date" name="tanggal" id="tanggal" class="form-control form-control-sm" placeholder="No nota" value="<?= date('Y-m-d') ?>">
                                 </div>
                                 <div class="form-group col-md-6">
@@ -64,7 +64,9 @@
                                 </div>
                                 <div class="form-group col-md-6"></div>
                                 <div class="form-group col-md-6">
-                                    <label for="">Item List</label>
+                                    <label for="">Item List &nbsp;&nbsp;&nbsp;
+                                        <a href="#" data-toggle="modal" title="Tambah Material Baru" data-target="#modal-material" class="btn btn-primary btn-xs"><i class="fas fa-fw fa-plus"></i></a>
+                                    </label>
                                     <select name="item-select" id="item-select" onchange="addItem()" class="form-control form-control-sm select2">
                                         <option value=""></option>
                                     </select>
@@ -137,7 +139,60 @@
             </div>
         </div>
     </section>
-    <!-- end main content -->
+</div>
+
+<div class="modal fade" id="modal-material">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Material Form</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="#" id="form-material" method="post" enctype="multipart/form-data">
+                <input type="hidden" id="id" name="id">
+                <div class="modal-body">
+                    <div class="row">
+
+                        <div class="form-group col-md-6">
+                            <label for="exampleInputEmail1">Nama</label>
+                            <input type="text" name="nama" id="nama" class="form-control form-control-sm" placeholder="Nama material">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="exampleInputPassword1">Satuan</label>
+                            <input type="text" name="satuan" id="satuan" class="form-control form-control-sm" placeholder="Satuan">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="exampleInputPassword1">Keterangan</label>
+                            <textarea name="keterangan" id="keterangan" class="form-control form-control-sm" cols="3" placeholder="Keterangan"></textarea>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="exampleInputPassword1">Harga Beli</label>
+                            <input type="text" name="harga_beli" id="harga_beli" class="form-control form-control-sm text-right" placeholder="Harga Jual" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="exampleInputPassword1">Harga Jual</label>
+                            <input type="text" name="harga_jual" id="harga_jual" class="form-control form-control-sm text-right" placeholder="Harga Jual" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="exampleInputPassword1">Upah Laut</label>
+                            <input type="text" name="upah_laut" id="upah_laut" class="form-control form-control-sm text-right" placeholder="Upah Laut" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="exampleInputPassword1">Upah Darat</label>
+                            <input type="text" name="upah_darat" id="upah_darat" class="form-control form-control-sm text-right" placeholder="Upah Darat" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="simpan_material()">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">
@@ -145,6 +200,20 @@
         get_item();
         $(":input").inputmask();
     });
+
+    function simpan_material() {
+        $.ajax({
+            url: "<?= base_url('project/simpan_material'); ?>",
+            type: 'POST',
+            data: $('#form-material').serialize(),
+            dataType: 'json',
+            success: function(data) {
+                get_item();
+                $('#modal-material').modal('hide');
+                $('#form-material')[0].reset();
+            }
+        });
+    }
 
     function cek_item_input() {
         const item_select = [];
@@ -252,7 +321,7 @@
         var id = $('#item-select').val();
         const rangeId = $('#jumlah-baris').val();
         $.ajax({
-            url: "<?= base_url('penjualan/get_item/') ?>" + id,
+            url: "<?= base_url('project/get_item/') ?>" + id,
             type: "post",
             dataType: 'JSON',
             success: function(data) {
@@ -267,7 +336,7 @@
                                         <input type="text" class="form-control form-control-sm form-harga_beli text-right" name="harga_beli[]" id="harga_beli-${rangeId}" onchange="hitung_sub_total(${rangeId})" onkeyup="hitung_sub_total(${rangeId})" value="${addCommas(data.harga_beli)}" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control form-control-sm form-harga text-right" name="harga[]" id="harga-${rangeId}" onchange="hitung_sub_total(${rangeId})" onkeyup="hitung_sub_total(${rangeId})" value="0" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
+                                        <input type="text" class="form-control form-control-sm form-harga text-right" name="harga[]" id="harga-${rangeId}" onchange="hitung_sub_total(${rangeId})" onkeyup="hitung_sub_total(${rangeId})" value="${data.harga_jual}" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
                                     </td>
                                     <td>
                                         <input type="text" class="form-control form-control-sm form-qty text-right" name="qty[]" id="qty-${rangeId}"  onchange="hitung_sub_total(${rangeId})" onkeyup="hitung_sub_total(${rangeId})" value="1" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">

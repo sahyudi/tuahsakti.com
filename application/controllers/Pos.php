@@ -29,7 +29,7 @@ class Pos extends CI_Controller
     function index()
     {
         // check_persmission_pages($this->session->userdata('group_id'), 'pos');
-        $data['active'] = 'Home';
+        $data['active'] = 'Pos';
         $data['subview'] = 'pos/penjualan/index';
         $this->load->view('pos/template/main', $data);
     }

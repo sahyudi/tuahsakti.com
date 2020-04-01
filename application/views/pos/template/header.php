@@ -60,9 +60,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse order-3" id="navbarCollapse">
+                    <?php if (check_permision_menu($this->session->userdata('group_id'), 'home')) { ?>
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a href="<?= base_url('home') ?>" class="nav-link">Home</a>
+                            </li>
+                        </ul>
+                    <?php } ?>
                     <?php
                     $menu[] = [
-                        'title' => 'Home',
+                        'title' => 'Pos',
                         'link' => 'pos'
                     ];
 

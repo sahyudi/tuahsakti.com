@@ -236,6 +236,10 @@
         }
     });
 
+    $('#project').change(function() {
+        $('#customer_cash').val($('#project option:selected').html());
+    });
+
     function cek_item_input() {
         const item_select = [];
 
