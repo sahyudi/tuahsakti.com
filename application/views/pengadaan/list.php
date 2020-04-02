@@ -59,8 +59,8 @@
                                         ?>
                                         <tr>
                                             <td class="text-center"><?= $key + 1 ?></td>
-                                            <td><?= date('d F Y', strtotime($value->tanggal)) ?></td>
                                             <td><?= $value->surat_jalan ?></td>
+                                            <td><?= date('d F Y', strtotime($value->tanggal)) ?></td>
                                             <td><?= $value->no_nota ?></td>
                                             <td><?= $value->vendor ?></td>
                                             <td><?= $value->nama . " (" . $value->satuan . ")" ?></td>
@@ -82,7 +82,7 @@
                                         <th colspan="9" class="text-right">Total</th>
                                         <th class="text-right">Rp.&nbsp;<?= number_format($sub_total, 0) ?></th>
                                         <th class="text-right">Rp.&nbsp;<?= number_format($sub_total_upah, 0) ?></th>
-                                        <th></th>
+                                        <th colspan="2"></th>
                                     </tr>
                                 </tfoot>
                             </table>

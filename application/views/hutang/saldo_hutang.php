@@ -35,6 +35,7 @@
                             <thead>
                                 <tr class="text-center">
                                     <th>No</th>
+                                    <th>Tanggal</th>
                                     <th>No Nota</th>
                                     <th>Vendor</th>
                                     <th>Saldo Hutang</th>
@@ -46,6 +47,7 @@
                                 <?php foreach ($saldo_hutang as $key => $value) { ?>
                                     <tr>
                                         <td class="text-center"><?= $key + 1 ?></td>
+                                        <td><?= $value->tanggal ?></td>
                                         <td><?= $value->no_nota ?></td>
                                         <td><?= $value->nama_vendor ?></td>
                                         <td class="text-right">Rp. <?= number_format($value->saldo, 0) ?></td>

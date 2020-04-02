@@ -34,7 +34,7 @@ class Pengadaan extends CI_Controller
         check_persmission_pages($this->session->userdata('group_id'), 'pengadaan');
         $data['surat_jalan'] = $this->db->get_where('pendanaan', ['status' => 1])->result();
         $data['material'] = $this->m_material->get_material()->result();
-        // $data['vendor'] = $this->db->get('vendor')->result();
+        $data['vendor'] = $this->db->get('vendor')->result();
         $data['momor_pengjuan'] = $this->m_accounting->get_nomor_pengajuan()->result();
         $data['active'] = 'pengadaan';
         $data['title'] = 'Form';
@@ -70,7 +70,7 @@ class Pengadaan extends CI_Controller
             'created_at' => $date,
             'created_user' => $user = $this->session->userdata('id')
         ];
-
+        // log_r($data_pengadaan);
         $this->db->insert($this->pengadaan, $data_pengadaan);
         $pengadaan_id = $this->db->insert_id();
 
@@ -85,7 +85,7 @@ class Pengadaan extends CI_Controller
                 'qty' => $quantity,
                 'harga_beli' => $material->harga_beli,
                 'satuan' => $material->satuan,
-                'upah' => ($upah[$i]) ? $upah[$i] : 0,
+                'upah' => ($upah[$i]) ? replace_angka($upah[$i]) : $material->upah_laut,
                 'ket_detail' => 'Pengadaan nomor ' . $nota,
                 'stock_updated' => $quantity + $material->stock,
                 'created_at' => $date
@@ -97,7 +97,7 @@ class Pengadaan extends CI_Controller
             $saldo_hutang = [
                 'no_nota' => $nota,
                 'vendor_id' => $vendor,
-                'saldo' => $saldo = str_replace(",", "", $kredit),
+                'saldo' => replace_angka($kredit),
                 'updated_at' => $date,
                 'created_user' => $user
             ];

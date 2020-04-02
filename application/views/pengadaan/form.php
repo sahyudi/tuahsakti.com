@@ -35,19 +35,15 @@
                     <form action="<?= base_url('pengadaan/save') ?>" method="POST" enctype="multipart/form-data">
                         <div class="card-body">
                             <div class="row">
-                                <!-- <div class="col-md-6"> -->
-                                <!-- <div class="form-group col-md-6">
-                                    <label for="">No Nota</label>
-                                    <input type="text" name="no_nota" id="no_nota" class="form-control form-control-sm" value="PE<?= time() ?>" placeholder="No nota" readonly style="background-color: white;">
-                                </div> -->
                                 <div class="form-group col-md-6">
                                     <label>Surat Jalan</label>
-                                    <select class="form-control form-control-sm select2" style="width:100%;" name="surat_jalan" id="surat_jalan">
+                                    <input type="text" name="surat_jalan" id="surat_jalan" class="form-control form-control-sms">
+                                    <!-- <select class="form-control form-control-sm select2" style="width:100%;" name="surat_jalan" id="surat_jalan">
                                         <option value=""></option>
                                         <?php foreach ($momor_pengjuan as $key => $value) { ?>
                                             <option value="<?= $value->no_pendanaan ?>"><?= $value->no_pendanaan ?></option>
                                         <?php } ?>
-                                    </select>
+                                    </select> -->
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="">Tanggal</label>
@@ -55,7 +51,7 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>Vendor</label>
-                                    <select class="form-control form-control-sm" name="vendor" id="vendor">
+                                    <select class="form-control form-control-sm select2" name="vendor" id="vendor">
                                         <option value=""></option>
                                         <?php foreach ($vendor as $key => $value) { ?>
                                             <option value="<?= $value->id ?>"><?= $value->nama ?></option>
@@ -65,6 +61,14 @@
                                 <div class="form-group col-md-6">
                                     <label for="">Keterangan</label>
                                     <textarea name="keterangan" id="keterangan" class="form-control form-control-sm" rows="1"></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="">Item List</label>
+                                    <select name="item-select" id="item-select" onchange="addItem()" class="form-control form-control-sm select2" onchange="addItem()">
+                                        <option value=""></option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -86,32 +90,7 @@
                                     <tbody>
                                         <input type="hidden" id="jumlah-baris" value="1">
                                         <tr class="material" id="material-0">
-                                            <td>
-                                                <select onchange="getItem(this,0)" class="form-control form-control-sm select2 form-item" id="item-0" name="item[]">
-                                                    <option value=""></option>
-                                                    <?php foreach ($material as $key => $value) { ?>
-                                                        <option value="<?= $value->id ?>"><?= $value->nama . " / " . $value->satuan ?></option>
-                                                    <?php } ?>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control form-control-sm form-qty text-right" name="qty[]" id="qty-0" onkeyup="hitung_sub_total(0)" value="0">
-                                            </td>
-                                            <td>
-                                                <input type=" text" class="form-control form-control-sm form-harga_beli text-right" name="harga_beli[]" id="harga_beli-0" onkeyup="hitung_sub_total(0)" value="0">
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control form-control-sm form-sub_total text-right" name="sub_total[]" id="sub_total-0" value="0" readonly>
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control form-control-sm form-upah text-right" name="upah[]" id="upah-0" value="0" onkeyup="hitung_upah()">
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control form-control-sm form-sub_upah text-right" name="sub_upah[]" id="sub_upah-0" value="0" readonly>
-                                            </td>
-                                            <td class="for-button">
-                                                <button type="button" class="btn btn-info btn-sm btn-add" onclick="addItem()"><i class="fa fa-plus"></i></button>
-                                            </td>
+
                                         </tr>
                                     </tbody>
                                     <tfoot>
@@ -154,44 +133,87 @@
             'placeholder': 'Select one',
             theme: 'boostrap4',
         });
+        $(":input").inputmask();
+        get_item()
     });
 
     function addItem() {
-        $('.select2').select2('destroy');
-        const rangeId = $('#jumlah-baris').val()
-        const item = $('#material-0').first().clone();
-        $('#table-material tbody').append(item);
-        const id = 'material-' + rangeId;
-        item.attr('id', id);
-        $('#' + id + ' .form-item').attr({
-            'id': 'item-' + rangeId,
-            'onchange': "getItem(this," + rangeId + ")"
-        });
-        $('#' + id + ' .form-upah').attr({
-            'id': 'upah-' + rangeId
-        }).val(0);
-        $('#' + id + ' .form-sub_upah').attr({
-            'id': 'sub_upah-' + rangeId
-        }).val(0);
-        $('#' + id + ' .form-qty').attr({
-            'id': 'qty-' + rangeId,
-            'onkeyup': 'hitung_sub_total(' + rangeId + ')'
-        }).val(0);
-        $('#' + id + ' .form-harga_beli').attr({
-            'id': 'harga_beli-' + rangeId,
-            'onkeyup': 'hitung_sub_total(' + rangeId + ')'
-        }).val(0);
-        $('#' + id + ' .form-sub_total').attr({
-            'id': 'sub_total-' + rangeId
-        }).val(0);
-        $('#' + id + ' button').remove();
+        var id = $('#item-select').val();
+        const rangeId = $('#jumlah-baris').val();
+        $.ajax({
+            url: "<?= base_url('pos/get_item_pengadaan/') ?>" + id,
+            type: "post",
+            dataType: 'JSON',
+            success: function(data) {
+                $('#remove-null').remove();
+                let item = `
+                            <tr class="material" id="material-${rangeId}">
+                                <td>
+                                     <input type="hidden" class="form-control form-control-sm form-item" id="item-${rangeId}" name="item[]" value="${id}">
+                                    ${data.nama} / ${data.satuan}       
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control form-control-sm form-qty text-right" name="qty[]" id="qty-${rangeId}" onkeyup="hitung_sub_total(${rangeId})" value="1" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
+                                </td>
+                                <td>
+                                    <input type=" text" class="form-control form-control-sm form-harga_beli text-right" name="harga_beli[]" id="harga_beli-${rangeId}" onkeyup="hitung_sub_total(${rangeId})" value="${data.harga_beli}" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control form-control-sm form-sub_total text-right" name="sub_total[]" id="sub_total-${rangeId}" readonly data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control form-control-sm form-upah text-right" name="upah[]" id="upah-${rangeId}" value="${data.upah_laut}" onkeyup="hitung_upah()" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control form-control-sm form-sub_upah text-right" name="sub_upah[]" id="sub_upah-${rangeId}" value="0" readonly data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
+                                </td>
+                                <td class="for-button">
+                                    <button type="button" class="btn btn-info btn-sm btn-add" onclick="addItem()"><i class="fa fa-plus"></i></button>
+                                </td>
+                            </tr>
+                            `;
+                $('#table-material tbody').append(item);
+                $('#item-select').val('');
+                $('#jumlah-baris').val(parseInt(rangeId) + parseInt(1));
+                get_item();
+                $(":input").inputmask();
+                setTimeout(function() {
+                    hitung_sub_total(rangeId)
 
-        var btn = '<button href="#" onclick="hapus(' + rangeId + ')" class="btn btn-danger"><i class="fa fa-minus"></i></button>';
-        $('#' + id + ' .for-button').append(btn);
-        $('#jumlah-baris').val(parseInt(parseInt(rangeId) + 1));
-        //$(".select2").select2("destroy").select2();
-        $(".select2").select2();
+                }, 1000);
+            }
+        });
+
+
     }
+
+    function get_item() {
+        const item_select = [];
+        $('[name="item[]"]').each(function(i, value) {
+            item_select[i] = $(value).val();
+        });
+
+        $.ajax({
+            url: "<?= base_url('pos/get_item_list'); ?>",
+            type: 'POST',
+            data: {
+                id: item_select
+            },
+            dataType: 'json',
+            success: function(data) {
+                $('#item-select').empty();
+                $('.select2').select2('destroy');
+                var item = '<option value=""></option>';
+
+                $.each(data, function(i, val) {
+                    item += `<option value="${val.id}">${val.nama}</option>`;
+                });
+                $('#item-select').append(item);
+                $('.select2').select2();
+            }
+        });
+    }
+
 
     function hapus(params) {
         var id = 'material-' + params;
@@ -201,10 +223,14 @@
 
     function hitung_sub_total(id) {
         var sisaStock = 0;
+        var upah_sub = 0;
         const qty = parseInt($('#qty-' + id).val().replace(/\,/g, ''));
         const harga = parseInt($('#harga_beli-' + id).val().replace(/\,/g, ''));
 
+        const upah = parseInt($('#upah-' + id).val().replace(/\,/g, ''));
+
         sisaStock = qty * harga;
+        upah_sub = qty * upah;
         if (sisaStock > 0) {
             $('#sub_total-' + id).val(addCommas(sisaStock));
         } else {
@@ -221,6 +247,7 @@
             return_harga = 0;
         }
         $('#qty-' + id).val(addCommas(return_qty));
+        $('#sub_upah-' + id).val(upah_sub);
         $('#harga_beli-' + id).val(addCommas(return_harga));
         hitungtotal();
     }
