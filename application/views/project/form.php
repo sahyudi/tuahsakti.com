@@ -106,13 +106,6 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <!-- <label for="">Vendor</label>
-                                    <select name="vendor" id="vendor" class="form-control form-control-sm select2">
-                                        <option value=""></option>
-                                        <?php foreach ($vendor as $key => $value) { ?>
-                                            <option value="<?= $value->id ?>"><?= $value->nama ?></option>
-                                        <?php } ?>
-                                    </select> -->
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -150,7 +143,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="#" id="form-material" method="post" enctype="multipart/form-data">
+            <form id="form-material" method="post" enctype="multipart/form-data">
                 <input type="hidden" id="id" name="id">
                 <div class="modal-body">
                     <div class="row">
@@ -188,7 +181,7 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary btn-sm" onclick="simpan_material()">Save changes</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Save changes</button>
                 </div>
             </form>
         </div>
@@ -197,23 +190,103 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
+        $.validator.setDefaults({
+            submitHandler: function() {
+                $.ajax({
+                    url: "<?= base_url('project/simpan_material'); ?>",
+                    type: 'POST',
+                    data: $('#form-material').serialize(),
+                    dataType: 'json',
+                    success: function(data) {
+                        get_item();
+                        $('#modal-material').modal('hide');
+                        $('#form-material')[0].reset();
+                    }
+                });
+            }
+        });
+        $('#form-material').validate({
+            rules: {
+                nama: {
+                    required: true
+                },
+                satuan: {
+                    required: true
+                },
+                harga_beli: {
+                    required: true
+                },
+                harga_jual: {
+                    required: true
+                },
+                upah_laut: {
+                    required: true
+                },
+                upah_darat: {
+                    required: true
+                },
+            },
+            messages: {
+                nama: {
+                    required: "Please enter a nama.."
+                },
+                satuan: {
+                    required: "Please enter a satuan.."
+                },
+                harga_beli: {
+                    required: "Please enter a harga jual"
+                },
+                harga_beli: {
+                    required: "Please enter a harga beli"
+                },
+                upah_laut: {
+                    required: "Please enter a upah laut"
+                },
+                upah_darat: {
+                    required: "Please enter a upah darat"
+                },
+            },
+            errorElement: 'span',
+            errorPlacement: function(error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function(element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function(element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+    });
+    $(document).ready(function() {
         get_item();
         $(":input").inputmask();
     });
 
-    function simpan_material() {
-        $.ajax({
-            url: "<?= base_url('project/simpan_material'); ?>",
-            type: 'POST',
-            data: $('#form-material').serialize(),
-            dataType: 'json',
-            success: function(data) {
-                get_item();
-                $('#modal-material').modal('hide');
-                $('#form-material')[0].reset();
-            }
-        });
-    }
+    // $("form-material").on("submit", function(e) {
+    //     e.preventDefault();
+    //     if ($(this).validate(options)) {
+
+    //     }
+    // })
+    // function simpan_material() {
+    //     if ($('#form-material').valid()) {
+    //         return false
+    //     } else {
+    //         $.ajax({
+    //             url: "<?= base_url('project/simpan_material'); ?>",
+    //             type: 'POST',
+    //             data: $('#form-material').serialize(),
+    //             dataType: 'json',
+    //             success: function(data) {
+    //                 get_item();
+    //                 $('#modal-material').modal('hide');
+    //                 $('#form-material')[0].reset();
+    //             }
+    //         });
+    //     }
+    // }
 
     function cek_item_input() {
         const item_select = [];
