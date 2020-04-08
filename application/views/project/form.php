@@ -32,7 +32,7 @@
                         </div>
                     </div>
                     <!-- /.card-header -->
-                    <form action="<?= base_url('project/save_project') ?>" method="POST" enctype="multipart/form-data">
+                    <form action="<?= base_url('project/save_project') ?>" id="form-project" method="POST" enctype="multipart/form-data">
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-6">
@@ -124,8 +124,8 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <a href="<?= base_url('project') ?>" class="btn btn-danger float-left">Back</a>
-                            <button type="submit" class="btn btn-primary float-right">Submit</button>
+                            <a href="<?= base_url('project') ?>" class="btn btn-danger btn-sm float-left">Back</a>
+                            <button type="submit" class="btn btn-primary btn-sm float-right">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -192,6 +192,7 @@
     $(document).ready(function() {
         $.validator.setDefaults({
             submitHandler: function() {
+                this
                 $.ajax({
                     url: "<?= base_url('project/simpan_material'); ?>",
                     type: 'POST',
@@ -233,7 +234,7 @@
                 satuan: {
                     required: "Please enter a satuan.."
                 },
-                harga_beli: {
+                harga_jual: {
                     required: "Please enter a harga jual"
                 },
                 harga_beli: {
@@ -264,12 +265,6 @@
         $(":input").inputmask();
     });
 
-    // $("form-material").on("submit", function(e) {
-    //     e.preventDefault();
-    //     if ($(this).validate(options)) {
-
-    //     }
-    // })
     // function simpan_material() {
     //     if ($('#form-material').valid()) {
     //         return false
