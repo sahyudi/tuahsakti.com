@@ -133,6 +133,66 @@
 </div>
 <script>
     $(document).ready(function() {
+        $.validator.setDefaults({
+            submitHandler: function() {
+                alert("Form successful submitted!");
+            }
+        });
+        $('#form-material').validate({
+            rules: {
+                nama: {
+                    required: true
+                },
+                satuan: {
+                    required: true
+                },
+                harga_beli: {
+                    required: true
+                },
+                harga_jual: {
+                    required: true
+                },
+                upah_laut: {
+                    required: true
+                },
+                upah_darat: {
+                    required: true
+                },
+            },
+            messages: {
+                nama: {
+                    required: "Please enter a nama.."
+                },
+                satuan: {
+                    required: "Please enter a satuan.."
+                },
+                harga_beli: {
+                    required: "Please enter a harga jual"
+                },
+                harga_beli: {
+                    required: "Please enter a harga beli"
+                },
+                upah_laut: {
+                    required: "Please enter a upah laut"
+                },
+                upah_darat: {
+                    required: "Please enter a upah darat"
+                },
+            },
+            errorElement: 'span',
+            errorPlacement: function(error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function(element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function(element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+    });
+    $(document).ready(function() {
         $("#example1").DataTable({});
         $(":input").inputmask();
     });
