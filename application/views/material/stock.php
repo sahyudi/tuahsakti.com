@@ -133,11 +133,6 @@
 </div>
 <script>
     $(document).ready(function() {
-        $.validator.setDefaults({
-            submitHandler: function() {
-                alert("Form successful submitted!");
-            }
-        });
         $('#form-material').validate({
             rules: {
                 nama: {
