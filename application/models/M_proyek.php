@@ -49,11 +49,13 @@ class M_proyek extends CI_Model
         $this->db->join($this->penjualan_detail . ' as d3', 'a3.id = d3.penjualan_id', 'left');
         $this->db->join($this->material . ' as m3', 'm3.id = d3.material_id', 'left');
         $this->db->where('a3.project_no', $id);
+
         $query_3 = $this->db->get_compiled_select();
 
+        // $this->db->order_by('d1.tanggal, d2.tanggal, a3.tanggal', 'ASC');
         // log_r($query_3);
         $final_query = $this->db->query($query_1 . ' UNION ' . $query_2 . ' UNION ' . $query_3);
-
+        // log_r($final_query->result());
         return $final_query;
     }
 

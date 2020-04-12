@@ -265,24 +265,6 @@
         $(":input").inputmask();
     });
 
-    // function simpan_material() {
-    //     if ($('#form-material').valid()) {
-    //         return false
-    //     } else {
-    //         $.ajax({
-    //             url: "<?= base_url('project/simpan_material'); ?>",
-    //             type: 'POST',
-    //             data: $('#form-material').serialize(),
-    //             dataType: 'json',
-    //             success: function(data) {
-    //                 get_item();
-    //                 $('#modal-material').modal('hide');
-    //                 $('#form-material')[0].reset();
-    //             }
-    //         });
-    //     }
-    // }
-
     function cek_item_input() {
         const item_select = [];
 

@@ -65,7 +65,7 @@
                                     <thead>
                                         <tr class="text-center">
                                             <th>No</th>
-                                            <th>Tanggal</th>
+                                            <!-- <th>Tanggal</th> -->
                                             <th>Nama Item</th>
                                             <th>Satuan</th>
                                             <th>Quantity</th>
@@ -89,7 +89,7 @@
                                             ?>
                                             <tr>
                                                 <td class="text-center"><?= $key + 1 ?></td>
-                                                <td><?= date('d F Y', strtotime($value->tanggal_detail)) ?></td>
+                                                <!-- <td><?= date('d F Y', strtotime($value->tanggal_detail)) ?></td> -->
                                                 <td><?= $value->nama_item ?></td>
                                                 <td><?= $value->satuan ?></td>
                                                 <td class="text-center"><?= $value->qty ?></td>

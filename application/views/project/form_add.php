@@ -239,7 +239,7 @@
         var id = $('#item-select').val();
         const rangeId = $('#jumlah-baris').val();
         $.ajax({
-            url: "<?= base_url('penjualan/get_item/') ?>" + id,
+            url: "<?= base_url('project/get_item/') ?>" + id,
             type: "post",
             dataType: 'JSON',
             success: function(data) {
