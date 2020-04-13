@@ -140,9 +140,9 @@ class Project extends CI_Controller
     function delete_proyek($id)
     {
         $this->db->trans_begin();
-        $this->m_proyek->delete($this->proyek, ['id' => $id]);
-        $this->m_proyek->delete($this->proyek_detail, ['proyek_id' => $id]);
-        $this->m_proyek->delete($this->proyek_dana, ['proyek_id' => $id]);
+        $this->db->delete($this->proyek, ['id' => $id]);
+        $this->db->delete($this->proyek_detail, ['proyek_id' => $id]);
+        $this->db->delete($this->proyek_dana, ['proyek_id' => $id]);
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"> Proyek gagal dihapuskan !</div>');
