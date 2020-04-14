@@ -102,7 +102,7 @@
                                             </tr>
                                         <?php } ?>
                                         <tr>
-                                            <th colspan="7" class="text-right">Total</th>
+                                            <th colspan="6" class="text-right">Total</th>
                                             <th class="text-right">Rp.&nbsp;<?= number_format($sub_total_beli, 0) ?></th>
                                             <th class="text-right">Rp.&nbsp;<?= number_format($sub_total, 0) ?></th>
                                             <th class="text-right">Rp.&nbsp;<?= number_format($sub_total - $sub_total_beli, 0) ?></th>
