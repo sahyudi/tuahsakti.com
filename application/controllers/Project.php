@@ -174,6 +174,79 @@ class Project extends CI_Controller
         $this->load->view('template/main', $data);
     }
 
+    function edit_project($id)
+    {
+        $data['master'] = $this->m_proyek->get_proyek($id)->row();
+        // $data['detail'] = $this->m_proyek->get_proyek_detail($id)->result();
+        $data['detail'] = $this->m_proyek->get_material_project($id)->result();
+        // log_r($data['detail']);
+        $data['active'] = 'project';
+        $data['title'] = 'Project';
+        $data['subview'] = 'project/edit_project';
+        $this->load->view('template/main', $data);
+    }
+
+    function update_material()
+    {
+        $project_id = $this->input->post('project_id');
+        $id = $this->input->post('id');
+        $qty = $this->input->post('qty');
+        $material = $this->input->post('nama');
+        $harga_beli = $this->input->post('harga_beli');
+        $harga = $this->input->post('harga');
+        $satuan = $this->input->post('satuan');
+        $keterangan = $this->input->post('keterangan');
+
+        $detail = [
+            'qty' => $qty,
+            'material_id' => $material,
+            'qty' => $qty,
+            'harga_beli' => str_replace(",", "", $harga_beli),
+            'harga' => str_replace(",", "", $harga),
+            'satuan' => $satuan,
+            'ket_detail' => $keterangan,
+        ];
+
+        $this->db->trans_begin();
+        $this->db->update($this->proyek_detail, $detail, ['id' => $id]);
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"> Material project gagal diperbarui !</div>');
+        } else {
+            $this->db->trans_commit();
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"> Material project berhasil disimpan !</div>');
+        }
+        redirect('project/edit_project/' . $project_id);
+    }
+
+    function delete_material($id, $project_id)
+    {
+        if ($id) {
+            $this->db->delete($this->proyek_detail, ['id' => $id]);
+        }
+
+        redirect('project/edit_project/' . $project_id);
+    }
+
+    function get_material_project()
+    {
+        $data['detail'] = $this->m_proyek->get_material_project()->result();
+        // log_r($data['detail']);
+        $data['active'] = 'project/get_material_project';
+        $data['title'] = 'Edit Project';
+        $data['subview'] = 'project/list_material';
+        $this->load->view('template/main', $data);
+    }
+
+    function get_material_edit($id)
+    {
+        if ($id) {
+            $data = $this->db->get_where($this->proyek_detail, ['id' => $id]);
+            echo json_encode($data->row());
+        }
+    }
+
     function save_project()
     {
         $this->db->trans_begin();
@@ -338,6 +411,8 @@ class Project extends CI_Controller
         $data['subview'] = 'project/form_add';
         $this->load->view('template/main', $data);
     }
+
+
 
     function save_item_project()
     {

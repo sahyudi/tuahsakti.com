@@ -52,11 +52,18 @@ class M_proyek extends CI_Model
 
         $query_3 = $this->db->get_compiled_select();
 
-        // $this->db->order_by('d1.tanggal, d2.tanggal, a3.tanggal', 'ASC');
-        // log_r($query_3);
         $final_query = $this->db->query($query_1 . ' UNION ' . $query_2 . ' UNION ' . $query_3);
-        // log_r($final_query->result());
         return $final_query;
+    }
+
+    function get_material_project($id)
+    {
+        $this->db->select('a.nama_proyek, b.nama as material, d.satuan, d.harga_beli, d.harga, d.id as id_detail, d.ket_detail as ket_detail, d.qty, d.tanggal as tanggal_detail');
+        $this->db->join($this->proyek_detail . ' as d', 'a.id = d.proyek_id', 'left');
+        $this->db->join($this->material . ' as b', 'd.material_id = b.id');
+        $this->db->where('d.proyek_id', $id);
+        $data = $this->db->get($this->proyek . ' as a');
+        return $data;
     }
 
     public function get_proyek_dana($id = null)

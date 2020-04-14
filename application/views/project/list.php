@@ -57,8 +57,9 @@
                                             <td class="text-center"><?= cek_status($value->status) ?></td>
                                             <td><?= $value->deskripsi ?></td>
                                             <td class="text-right">
+                                                <a href="<?= base_url('project/edit_project/') . $value->id ?>" class="btn btn-xs btn-success btn-edit" title="Edit Data"><i class="fas fa-fw fa-pencil-alt"></i></a>
                                                 <a href="<?= base_url('project/delete_proyek/') . $value->id ?>" onclick="return confirm_delete()" class="btn btn-danger btn-xs"><i class="fas fa-fw fa-trash"></i></a>
-                                                <a href="<?= base_url('project/info_detail/') . $value->id ?>" class="btn btn-info btn-xs btn-edit"><i class="fas fa-fw fa-info"></i></a>
+                                                <a href="<?= base_url('project/info_detail/') . $value->id ?>" class="btn btn-info btn-xs"><i class="fas fa-fw fa-info"></i></a>
                                             </td>
                                         </tr>
                                     <?php } ?>

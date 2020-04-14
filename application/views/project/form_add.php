@@ -53,7 +53,9 @@
                                     <p><?= $master->deskripsi ?></p>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="">Item List</label>
+                                    <label for="">Item List&nbsp;&nbsp;&nbsp;
+                                        <a href="#" data-toggle="modal" title="Tambah Material Baru" data-target="#modal-material" class="btn btn-primary btn-xs"><i class="fas fa-fw fa-plus"></i></a>
+                                    </label>
                                     <select name="item-select" id="item-select" onchange="addItem()" class="form-control form-control-sm select2">
                                         <option value=""></option>
                                     </select>
@@ -126,11 +128,133 @@
     </section>
     <!-- end main content -->
 </div>
+<div class="modal fade" id="modal-material">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Material Form</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="form-material" method="post" enctype="multipart/form-data">
+                <input type="hidden" id="id" name="id">
+                <div class="modal-body">
+                    <div class="row">
 
+                        <div class="form-group col-md-6">
+                            <label for="exampleInputEmail1">Nama</label>
+                            <input type="text" name="nama" id="nama" class="form-control form-control-sm" placeholder="Nama material">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="exampleInputPassword1">Satuan</label>
+                            <input type="text" name="satuan" id="satuan" class="form-control form-control-sm" placeholder="Satuan">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="exampleInputPassword1">Keterangan</label>
+                            <textarea name="keterangan" id="keterangan" class="form-control form-control-sm" cols="3" placeholder="Keterangan"></textarea>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="exampleInputPassword1">Harga Beli</label>
+                            <input type="text" name="harga_beli" id="harga_beli" class="form-control form-control-sm text-right" placeholder="Harga Jual" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="exampleInputPassword1">Harga Jual</label>
+                            <input type="text" name="harga_jual" id="harga_jual" class="form-control form-control-sm text-right" placeholder="Harga Jual" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="exampleInputPassword1">Upah Laut</label>
+                            <input type="text" name="upah_laut" id="upah_laut" class="form-control form-control-sm text-right" placeholder="Upah Laut" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="exampleInputPassword1">Upah Darat</label>
+                            <input type="text" name="upah_darat" id="upah_darat" class="form-control form-control-sm text-right" placeholder="Upah Darat" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
     $(document).ready(function() {
         get_item();
         $(":input").inputmask();
+
+        $.validator.setDefaults({
+            submitHandler: function() {
+                this
+                $.ajax({
+                    url: "<?= base_url('project/simpan_material'); ?>",
+                    type: 'POST',
+                    data: $('#form-material').serialize(),
+                    dataType: 'json',
+                    success: function(data) {
+                        get_item();
+                        $('#modal-material').modal('hide');
+                        $('#form-material')[0].reset();
+                    }
+                });
+            }
+        });
+        $('#form-material').validate({
+            rules: {
+                nama: {
+                    required: true
+                },
+                satuan: {
+                    required: true
+                },
+                harga_beli: {
+                    required: true
+                },
+                harga_jual: {
+                    required: true
+                },
+                upah_laut: {
+                    required: true
+                },
+                upah_darat: {
+                    required: true
+                },
+            },
+            messages: {
+                nama: {
+                    required: "Please enter a nama.."
+                },
+                satuan: {
+                    required: "Please enter a satuan.."
+                },
+                harga_jual: {
+                    required: "Please enter a harga jual"
+                },
+                harga_beli: {
+                    required: "Please enter a harga beli"
+                },
+                upah_laut: {
+                    required: "Please enter a upah laut"
+                },
+                upah_darat: {
+                    required: "Please enter a upah darat"
+                },
+            },
+            errorElement: 'span',
+            errorPlacement: function(error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function(element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function(element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
     });
 
     function cek_item_input() {
