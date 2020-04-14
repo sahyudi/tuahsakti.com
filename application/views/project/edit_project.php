@@ -89,7 +89,7 @@
                                                 <td class="text-center"><?= $key + 1 ?></td>
                                                 <td><?= $value->material ?></td>
                                                 <td><?= $value->satuan ?></td>
-                                                <td class="text-center"><?= $value->qty ?></td>
+                                                <td class="text-center"><?= number_format($value->qty, 0) ?></td>
                                                 <td class="text-right"><?= number_format($value->harga_beli, 0) ?></td>
                                                 <td class="text-right"><?= number_format($value->harga, 0) ?></td>
                                                 <td class="text-right"><?= number_format($total_beli = $value->qty * $value->harga_beli, 0) ?></td>
