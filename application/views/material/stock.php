@@ -30,7 +30,7 @@
                     <!-- /.card-header -->
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="example1" class="table table-bordered table-striped">
+                            <table id="example1" class="table table-sm table-bordered table-striped">
                                 <thead>
                                     <tr class="text-center">
                                         <th>No</th>
@@ -50,7 +50,7 @@
                                             <td class="text-center"><?= $key + 1 ?></td>
                                             <td><?= $value->nama  ?></td>
                                             <td><?= mb_strtoupper($value->satuan) ?></td>
-                                            <td class="text-center"><?= number_format($value->stock, 0) ?></td>
+                                            <td class="text-center"><?= number_format(get_stock($value->id), 0) ?></td>
                                             <td class="text-right"><?= number_format($value->harga_beli, 0) ?></td>
                                             <td class="text-right"><?= number_format($value->harga_jual, 0) ?></td>
                                             <td class="text-right"><?= number_format($value->upah_darat, 0) ?></td>

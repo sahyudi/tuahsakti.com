@@ -53,13 +53,14 @@
                                 </div>
                                 <h5 class="text-center">Daftar Belanjaan</h5>
                                 <div class="table-responsive">
-                                    <table id="table-belanja" class="table table-bordered table-striped">
+                                    <table id="table-belanja" class="table table-sm table-bordered table-striped">
                                         <thead>
                                             <tr class="text-center">
                                                 <th style="width: 25%;">Item / Satuan</th>
                                                 <th>Stock</th>
                                                 <th>Quantity</th>
                                                 <th>Harga</th>
+                                                <th>Diskon</th>
                                                 <th>Sub Total</th>
                                                 <!-- <th>Upah / Satuan</th>
                                                     <th>Sub Upah</th> -->
@@ -69,15 +70,10 @@
                                         <tbody>
                                             <input type="hidden" id="jumlah-baris" value="1">
                                             <tr id="remove-null">
-                                                <td colspan="6" class="text-center">Item Belum dipilih</td>
+                                                <td colspan="7" class="text-center">Item Belum dipilih</td>
                                             </tr>
                                         </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <td colspan="4" class="text-right">TOTAL</td>
-                                                <td class="text-right">Rp. <span id="total"></span></td>
-                                            </tr>
-                                        </tfoot>
+
                                     </table>
                                 </div>
                             </div>
@@ -106,6 +102,18 @@
                                     <div class="form-group" id="customer-cash" style="display: block;">
                                         <label for="">Pelanggan</label>
                                         <input type="text" name="customer_cash" id="customer_cash" class="form-control form-control-sm">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Total Belanja</label>
+                                        <input type="text" name="total" id="total" class="form-control form-control-sm text-right" value="0" readonly data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Diskon Global</label>
+                                        <input type="text" name="diskon_global" id="diskon_global" class="form-control form-control-sm text-right" onkeyup="global_diskon()" value="0" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Total</label>
+                                        <input type="text" name="total_bersih" id="total_bersih" class="form-control form-control-sm text-right" value="0" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
                                     </div>
                                     <div class="form-group">
                                         <label for="">Bayar</label>
@@ -141,7 +149,7 @@
             </div>
             <div class="modal-body">
                 <div class="table-responsive">
-                    <table id="table-stock" class="table table-bordered table-striped" width="100%">
+                    <table id="table-stock" class="table table-sm table-bordered table-striped" width="100%">
                         <thead>
                             <tr class="text-center">
                                 <th>Material</th>
@@ -313,7 +321,7 @@
                 $('#project').empty();
                 $('.select2').select2('destroy');
                 var item = '<option value=""></option>';
-                console.log(data);
+                // console.log(data);
                 $.each(data, function(i, val) {
                     item += `<option value="${val.id}">${val.nama_proyek}</option>`;
                 });
@@ -341,6 +349,7 @@
         var sub_total = 0;
         const stock = parseInt($('#stock-' + id).val().replace(/\,/g, ''));
         const qty_awal = parseInt($('#qty-' + id).val().replace(/\,/g, ''));
+        const diskon = parseInt($('#diskon-' + id).val().replace(/\,/g, ''));
         const harga = parseInt($('#harga_jual-' + id).val().replace(/\,/g, ''));
         if (qty_awal < 1 || qty_awal == 'NaN') {
             var qty = 1;
@@ -351,7 +360,7 @@
             var qty = qty_awal;
         }
 
-        sub_total = qty * harga;
+        sub_total = (qty * harga) - diskon;
         if (sub_total > 0) {
             $('#sub_total-' + id).val(addCommas(sub_total));
         } else {
@@ -370,14 +379,18 @@
     }
 
     function hitung_tunai() {
-        const total = parseInt($('#total').html().replace(/\,/g, ''));
+        const total_bersih = $('#total_bersih').val().replace(/\,/g, '');
         const tunai = $('#tunai').val().replace(/\,/g, '');
-        const selisih = parseInt(tunai) - parseInt(total);
-        console.log(tunai);
-        console.log(total);
-        console.log(selisih);
+        const selisih = parseInt(tunai) - parseInt(total_bersih);
         $('#lebih-uang').val(selisih);
         $('#tunai').val(tunai);
+    }
+
+    function global_diskon() {
+        const total = $('#total').val().replace(/\,/g, '');
+        const diskon_global = $('#diskon_global').val().replace(/\,/g, '');
+        const selisih = parseInt(total) - parseInt(diskon_global);
+        $('#total_bersih').val(selisih);
     }
 
     function hitungtotal() {
@@ -386,7 +399,8 @@
         $('[name="sub_total[]"]').each(function(i, value) {
             sumHarga = parseInt(sumHarga) + parseInt($(value).val().replace(/\,/g, ''));
         });
-        $('#total').html(addCommas(sumHarga));
+        $('#total').val(sumHarga);
+        $('#total_bersih').val(sumHarga);
         // setTimeout(function() {
         hitung_tunai();
         // }, 1000);
@@ -418,10 +432,13 @@
                                     <input type="text" class="form-control form-control-sm form-harga_jual text-right" name="harga_jual[]" id="harga_jual-${rangeId}" value="${addCommas(data.harga_jual)}" readonly>
                                 </td>
                                 <td>
+                                    <input type="text" onchange="hitung_sub_total(${rangeId})" onkeyup="hitung_sub_total(${rangeId})" class="form-control form-control-sm form-diskon text-right" name="diskon[]" id="diskon-${rangeId}" value="0" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
+                                </td>
+                                <td>
                                     <input type="text" class="form-control form-control-sm form-sub_total text-right" name="sub_total[]" id="sub_total-${rangeId}" value="0" readonly>
                                 </td>
                                 
-                                <td class="for-button">
+                                <td class="for-button text-center">
                                     <button href="#" onclick="hapus(${rangeId})" class="btn btn-sm btn-danger"><i class="fa fa-minus"></i></button>
                                 </td>
                             </tr>

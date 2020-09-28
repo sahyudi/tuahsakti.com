@@ -19,6 +19,7 @@ class Home extends CI_Controller
         $data['jml_customer'] = $this->m_home->get_member()->num_rows();
         $data['jml_penjualan'] = $this->m_home->get_penjualan()->num_rows();
         $data['jml_project'] = $this->m_home->get_projec()->num_rows();
+        $data['jml_item'] = $this->m_home->get_item()->num_rows();
         $data['active'] = 'home';
         $data['title'] = 'Home';
         $data['subview'] = 'home/index';

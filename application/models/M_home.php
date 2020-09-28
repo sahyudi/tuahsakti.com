@@ -5,6 +5,7 @@ class M_home extends CI_Model
     public $customer = 'customer';
     public $penjualan = 'penjualan';
     public $project = 'proyek';
+    public $item = 'material';
 
     function __construct()
     {
@@ -28,5 +29,10 @@ class M_home extends CI_Model
     function get_projec()
     {
         return $this->db->get($this->project);
+    }
+
+    function get_item()
+    {
+        return $this->db->get($this->item);
     }
 }

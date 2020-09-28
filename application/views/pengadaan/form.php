@@ -167,8 +167,8 @@
                                 <td>
                                     <input type="text" class="form-control form-control-sm form-sub_upah text-right" name="sub_upah[]" id="sub_upah-${rangeId}" value="0" readonly data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
                                 </td>
-                                <td class="for-button">
-                                    <button type="button" class="btn btn-info btn-sm btn-add" onclick="addItem()"><i class="fa fa-plus"></i></button>
+                                <td class="for-button text-center">
+                                    <button type="button" class="btn btn-danger btn-sm btn-add" onclick="hapus(${rangeId})"><i class="fa fa-trash"></i></button>
                                 </td>
                             </tr>
                             `;
@@ -218,6 +218,7 @@
     function hapus(params) {
         var id = 'material-' + params;
         $('#' + id).remove('');
+        hitungtotal()
     }
 
 

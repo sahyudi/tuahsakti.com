@@ -180,3 +180,12 @@ function get_customer_name($id)
         return 'default';
     }
 }
+
+function get_stock($material_id)
+{
+    $CI = get_instance();
+    $pengadaan = $CI->db->select('SUM(qty) as stock')->get_where('pengadaan_detail', ['material_id' => $material_id])->row();
+    $penjualan = $CI->db->select('SUM(qty) as stock')->get_where('penjualan_detail', ['material_id' => $material_id])->row();
+    $data = $pengadaan->stock - $penjualan->stock;
+    return $data;
+}

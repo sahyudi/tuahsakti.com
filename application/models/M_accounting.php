@@ -47,7 +47,7 @@ class M_accounting extends CI_Model
 
     function get_saldo_hutang($id = null)
     {
-        $this->db->select('A.*, B.nama AS nama_vendor');
+        $this->db->select('A.*, B.nama AS nama_vendor, A.updated_at as tanggal');
         $this->db->join('vendor B', 'A.vendor_id = B.id');
         if ($id) {
             $this->db->where('A.id', $id);

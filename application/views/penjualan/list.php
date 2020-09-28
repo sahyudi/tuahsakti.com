@@ -6,12 +6,6 @@
                 <div class="col-sm-6">
                     <h1 class="m-0 text-dark">Penjualan Material</h1>
                 </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="<?= base_url('home') ?>">Home</a></li>
-                        <li class="breadcrumb-item active">Penjualan</li>
-                    </ol>
-                </div>
             </div>
         </div>
     </div>
@@ -25,11 +19,11 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Data Penjualan Material</h3>
-                        <a href="<?= base_url('penjualan/form') ?>" class="btn btn-primary float-right"><i class="fas fa-fw fa-plus"></i> Add Penjualan</a>
+                        <a href="<?= base_url('penjualan/form') ?>" class="btn btn-sm btn-primary float-right"><i class="fas fa-fw fa-plus"></i> Add Penjualan</a>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="table-penjualan" class="table table-bordered table-striped">
+                            <table id="table-penjualan" class="table table-sm table-bordered table-striped">
                                 <thead>
                                     <tr class="text-center">
                                         <th>No</th>
@@ -70,18 +64,18 @@
                                             <td class="text-right"><?= number_format($value->upah * $value->qty, 0) ?></td>
                                             <td><?= $value->keterangan ?></td>
                                             <td><?= get_user_name($value->created_user) ?></td>
-                                            <td>
-                                                <a href="<?= base_url('penjualan/delete_detail/') . $value->detail_id ?>" onclick="return validation()" class="btn btn-danger btn-xs"><i class="fas fa-fw fa-trash"></i></a>
+                                            <td class="text-center">
+                                                <button type="button" onclick="validation(<?= $value->detail_id ?>)" class="btn btn-danger btn-xs"><i class="fas fa-fw fa-trash"></i></button>
                                             </td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th colspan="7" class="text-right">Total</th>
+                                        <th colspan="8" class="text-right">Total</th>
                                         <th class="text-right">Rp.&nbsp;<?= number_format($sub_total, 0) ?></th>
                                         <th class="text-right">Rp.&nbsp;<?= number_format($sub_total_upah, 0) ?></th>
-                                        <th colspan="2"></th>
+                                        <th colspan="3"></th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -100,10 +94,20 @@
         $("#table-penjualan").DataTable();
     });
 
-    function validation() {
-        return confirm('Apakah anda yakin akan mengahapus materia ??');
-        // confirm
-        // alert('test');
+    function validation(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.value) {
+                window.location.href = `<?= base_url('penjualan/delete_detail/') ?>${id}`
+            }
+        })
     }
 
     function reset_form() {
