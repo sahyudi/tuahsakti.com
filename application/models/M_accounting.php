@@ -69,25 +69,26 @@ class M_accounting extends CI_Model
         return $data;
     }
 
-    function get_piutang($id = null)
+    function get_piutang($customer_id = null)
     {
-        $this->db->select('A.*, B.nama');
+        $this->db->select('A.*, B.nama, SUM(A.kredit) - SUM(A.debit) AS saldo');
         $this->db->join('customer B', 'A.customer_id = B.id');
-        if ($id) {
-            $this->db->where('A.id', $id);
+        if ($customer_id) {
+            $this->db->where('A.customer_id', $customer_id);
         }
+        $this->db->group_by('A.customer_id');
         $data = $this->db->get('piutang A');
         return $data;
     }
 
-    function get_detail_piutang($id)
+    function get_detail_piutang($customer_id)
     {
-        $this->db->select('A.no_nota, B.nama, C.*');
+        $this->db->select('A.*, B.nama');
         $this->db->join('customer B', 'A.customer_id = B.id');
-        $this->db->join('piutang_detail C', 'A.id = C.saldo_id');
-        if ($id) {
-            $this->db->where('A.id', $id);
+        if ($customer_id) {
+            $this->db->where('A.customer_id', $customer_id);
         }
+        $this->db->order_by('A.updated_at', 'ASC');
         $data = $this->db->get('piutang A');
         return $data;
     }

@@ -222,7 +222,8 @@ class Pos extends CI_Controller
                 $data_kredit = [
                     'no_nota' => $nota,
                     'customer_id' => $customer,
-                    'saldo' => abs(replace_angka($lebih_uang)),
+                    'kredit' => abs(replace_angka($lebih_uang)),
+                    'keterangan' => 'Pembelian nomor ' . $nota,
                     'updated_at' => $date,
                     'created_user' => $this->session->userdata('id')
                 ];

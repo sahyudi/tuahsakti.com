@@ -233,7 +233,7 @@
         sisaStock = qty * harga;
         upah_sub = qty * upah;
         if (sisaStock > 0) {
-            $('#sub_total-' + id).val(addCommas(sisaStock));
+            $('#sub_total-' + id).val(addCommas_general(sisaStock));
         } else {
             $('#sub_total-' + id).val(0);
         }
@@ -247,9 +247,9 @@
         } else {
             return_harga = 0;
         }
-        $('#qty-' + id).val(addCommas(return_qty));
+        $('#qty-' + id).val(addCommas_general(return_qty));
         $('#sub_upah-' + id).val(upah_sub);
-        $('#harga_beli-' + id).val(addCommas(return_harga));
+        $('#harga_beli-' + id).val(addCommas_general(return_harga));
         hitungtotal();
     }
 
@@ -266,9 +266,9 @@
                 sumHarga += parseInt(SubTotal.replace(/\,/g, ''));
             }
         }
-        $('#total').html(addCommas(sumHarga));
+        $('#total').html(addCommas_general(sumHarga));
         const kredit = sumHarga - $('#tunai').val().replace(/\,/g, '');
-        $('#kredit').val(addCommas(kredit))
+        $('#kredit').val(addCommas_general(kredit))
         // console.log(sumHarga);
     }
 
@@ -291,20 +291,8 @@
         } else {
             var tunai_baru = tunai;
         }
-        $('#kredit').val(addCommas(total - parseInt(tunai_baru)));
-        $('#tunai').val(addCommas(tunai_baru));
-    }
-
-    function addCommas(nStr) {
-        nStr += '';
-        x = nStr.split(',');
-        x1 = x[0];
-        x2 = x.length > 1 ? ',' + x[1] : '';
-        var rgx = /(\d+)(\d{3})/;
-        while (rgx.test(x1)) {
-            x1 = x1.replace(rgx, '$1' + ',' + '$2');
-        }
-        return x1 + x2;
+        $('#kredit').val(addCommas_general(total - parseInt(tunai_baru)));
+        $('#tunai').val(addCommas_general(tunai_baru));
     }
 
     $('input[type="checkbox"]:checked').click(function() {

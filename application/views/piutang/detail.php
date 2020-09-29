@@ -41,7 +41,7 @@
                                 <p><?= $master->no_nota ?></p>
                             </div>
                         </div>
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table id="example1" class="table table-sm table-bordered table-striped">
                             <thead>
                                 <tr class="text-center">
                                     <th>No</th>
@@ -54,24 +54,36 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $total = 0; ?>
-                                <?php foreach ($detail as $key => $value) { ?>
+                                <?php
+                                $total = 0;
+                                $sub_total = 0;
+                                $debit_total = 0;
+                                $kredit_total = 0;
+
+                                foreach ($detail as $key => $value) {
+                                    $sub_total = $total - ($value->kredit - $value->debit);
+                                    $total += $sub_total;
+                                    $debit_total += $value->debit;
+                                    $kredit_total += $value->kredit;
+                                ?>
+
                                     <tr>
                                         <td class="text-center"><?= $key + 1 ?></td>
-                                        <td><?= $value->update_at ?></td>
+                                        <td><?= $value->updated_at ?></td>
                                         <!-- <td><?= $value->nama ?></td> -->
                                         <td class="text-right">Rp. <?= number_format($value->debit, 0) ?></td>
                                         <td class="text-right">Rp. <?= number_format($value->kredit, 0) ?></td>
-                                        <td class="text-right">Rp. <?= number_format($value->saldo_updated, 0) ?></td>
-                                        <td><?= $value->ket_detail ?></td>
+                                        <td class="text-right">Rp. <?= number_format(abs($sub_total)) ?></td>
+                                        <td><?= $value->keterangan ?></td>
                                     </tr>
-                                    <?php $total += $value->saldo_updated ?>
                                 <?php } ?>
                             </tbody>
                             <tbody>
                                 <tr>
-                                    <td colspan="4" class="text-right text-bold">Total</td>
-                                    <td class="text-right text-bold">Rp. <?= number_format($total, 0) ?></td>
+                                    <td colspan="2" class="text-right text-bold">Total</td>
+                                    <td class="text-right">Rp. <?= number_format($debit_total) ?></td>
+                                    <td class="text-right">Rp. <?= number_format($kredit_total) ?></td>
+                                    <td class="text-right text-bold">Rp. <?= number_format(abs($kredit_total - $debit_total), 0) ?></td>
                                     <td></td>
                                 </tr>
                             </tbody>
@@ -99,14 +111,15 @@
             </div>
             <form action="<?= base_url('accounting/bayar_piutang') ?>" id="form-material" method="post" enctype="multipart/form-data">
                 <input type="hidden" id="id" name="id" value="<?= $master->id ?>">
+                <input type="text" id="customer_id" name="customer_id" value="<?= $master->customer_id ?>" hidden>
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="exampleInputPassword1">Piutang</label>
-                        <input type="text" name="saldo" id="saldo" class="form-control" placeholder="Harga Jual" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''" value="<?= $master->saldo ?>" readonly>
+                        <input type="text" name="saldo" id="saldo" class="form-control" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''" value="<?= $master->saldo ?>" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Kredit</label>
-                        <input type="text" name="kredit" id="kredit" class="form-control" onkeyup="get_total_saldo()" placeholder="kredit" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
+                        <label for="exampleInputPassword1">Debit</label>
+                        <input type="text" name="debit" id="debit" class="form-control" onkeyup="get_total_saldo()" placeholder="debit" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
                     </div>
 
                     <div class="form-group">
@@ -139,11 +152,11 @@
 
     function get_total_saldo() {
         var saldo = $('#saldo').val().replace(/\,/g, '');
-        var kredit = $('#kredit').val().replace(/\,/g, '');
+        var debit = $('#debit').val().replace(/\,/g, '');
 
-        var sisa = saldo - kredit;
+        var sisa = saldo - debit;
         if (sisa < 0) {
-            $('#kredit').val(saldo);
+            $('#debit').val(saldo);
             $('#sisa').val(0);
         } else {
             $('#sisa').val(sisa)

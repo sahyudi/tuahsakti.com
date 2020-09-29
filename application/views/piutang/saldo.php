@@ -31,40 +31,40 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped">
-                            <thead>
-                                <tr class="text-center">
-                                    <th>No</th>
-                                    <th>No Nota</th>
-                                    <th>Customer</th>
-                                    <th>Saldo Hutang</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $total = 0; ?>
-                                <?php foreach ($piutang as $key => $value) { ?>
-                                    <tr>
-                                        <td class="text-center"><?= $key + 1 ?></td>
-                                        <td><?= $value->no_nota ?></td>
-                                        <td><?= $value->nama ?></td>
-                                        <td class="text-right">Rp. <?= number_format($value->saldo, 0) ?></td>
-                                        <td class="text-right">
-                                            <a href="<?= base_url('accounting/delete_piutang/') . $value->id ?>" title="Hapus Hutang" onclick="return validation()" class="btn btn-xs btn-danger"><i class="fas fa-fw fa-trash"></i></a>
-                                            <a href="<?= base_url('accounting/detail_piutang/') . $value->id ?>" class="btn btn-xs btn-success btn-edit" title="Lihat Detail"><i class="fas fa-fw fa-info"></i></a>
-                                        </td>
+                        <div class="table-responsive">
+                            <table id="example1" class="table table-sm table-bordered table-striped">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th>No</th>
+                                        <th>Customer</th>
+                                        <th>Saldo Piutang</th>
+                                        <th>Action</th>
                                     </tr>
-                                    <?php $total += $value->saldo ?>
-                                <?php } ?>
-                            </tbody>
-                            <tbody>
-                                <tr>
-                                    <td colspan="3" class="text-right text-bold">Total</td>
-                                    <td class="text-right text-bold">Rp. <?= number_format($total, 0) ?></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <?php $total = 0; ?>
+                                    <?php foreach ($piutang as $key => $value) { ?>
+                                        <tr>
+                                            <td class="text-center"><?= $key + 1 ?></td>
+                                            <td><?= $value->nama ?></td>
+                                            <td class="text-right">Rp. <?= number_format($value->saldo, 0) ?></td>
+                                            <td class="text-right">
+                                                <a href="<?= base_url('accounting/delete_piutang/') . $value->customer_id ?>" title="Hapus Hutang" onclick="return validation()" class="btn btn-xs btn-danger"><i class="fas fa-fw fa-trash"></i></a>
+                                                <a href="<?= base_url('accounting/detail_piutang/') . $value->customer_id ?>" class="btn btn-xs btn-success btn-edit" title="Lihat Detail"><i class="fas fa-fw fa-info"></i></a>
+                                            </td>
+                                        </tr>
+                                        <?php $total += $value->saldo ?>
+                                    <?php } ?>
+                                </tbody>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="2" class="text-right text-bold">Total</td>
+                                        <td class="text-right text-bold">Rp. <?= number_format($total, 0) ?></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <!-- /.card-body -->
                 </div>

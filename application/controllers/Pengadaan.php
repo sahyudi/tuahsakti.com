@@ -92,19 +92,21 @@ class Pengadaan extends CI_Controller
             ];
         }
 
+        $this->db->insert_batch('pengadaan_detail', $detail);
+
 
         if ($kredit != 0) {
             $saldo_hutang = [
                 'no_nota' => $nota,
                 'vendor_id' => $vendor,
-                'saldo' => replace_angka($kredit),
+                'kredit' => replace_angka($kredit),
+                'keterangan' => 'Pengadaan nomor ' . $nota,
                 'updated_at' => $date,
                 'created_user' => $user
             ];
             $this->db->insert('hutang', $saldo_hutang);
         }
 
-        $this->db->insert_batch('pengadaan_detail', $detail);
 
         if ($this->db->trans_status() === FALSE) {
             $this->db->trans_rollback();
