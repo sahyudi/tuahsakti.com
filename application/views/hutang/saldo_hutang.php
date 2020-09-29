@@ -31,42 +31,40 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped">
-                            <thead>
-                                <tr class="text-center">
-                                    <th>No</th>
-                                    <th>Tanggal</th>
-                                    <th>No Nota</th>
-                                    <th>Vendor</th>
-                                    <th>Saldo Hutang</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $total = 0; ?>
-                                <?php foreach ($saldo_hutang as $key => $value) { ?>
-                                    <tr>
-                                        <td class="text-center"><?= $key + 1 ?></td>
-                                        <td><?= $value->tanggal ?></td>
-                                        <td><?= $value->no_nota ?></td>
-                                        <td><?= $value->nama_vendor ?></td>
-                                        <td class="text-right">Rp. <?= number_format($value->saldo, 0) ?></td>
-                                        <td class="text-right">
-                                            <a href="<?= base_url('accounting/delete_saldo_hutang/') . $value->id ?>" title="Hapus Hutang" onclick="return validation()" class="btn btn-xs btn-danger"><i class="fas fa-fw fa-trash"></i></a>
-                                            <a href="<?= base_url('accounting/pembayaran/') . $value->id ?>" class="btn btn-xs btn-success btn-edit" title="Lihat Detail"><i class="fas fa-fw fa-info"></i></a>
-                                        </td>
+                        <div class="table-responsive">
+                            <table id="example1" class="table table-sm table-bordered table-striped">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th>No</th>
+                                        <th>Vendor</th>
+                                        <th>Saldo Hutang</th>
+                                        <th>Action</th>
                                     </tr>
-                                    <?php $total += $value->saldo ?>
-                                <?php } ?>
-                            </tbody>
-                            <tbody>
-                                <tr>
-                                    <td colspan="3" class="text-right text-bold">Total</td>
-                                    <td class="text-right text-bold">Rp. <?= number_format($total, 0) ?></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <?php $total = 0; ?>
+                                    <?php foreach ($saldo_hutang as $key => $value) { ?>
+                                        <tr>
+                                            <td class="text-center"><?= $key + 1 ?></td>
+                                            <td><?= $value->nama_vendor ?></td>
+                                            <td class="text-right">Rp. <?= number_format(abs($value->saldo), 0) ?></td>
+                                            <td class="text-right">
+                                                <a href="<?= base_url('accounting/delete_saldo_hutang/') . $value->vendor_id ?>" title="Hapus Hutang" onclick="return validation()" class="btn btn-xs btn-danger"><i class="fas fa-fw fa-trash"></i></a>
+                                                <a href="<?= base_url('accounting/pembayaran/') . $value->vendor_id ?>" class="btn btn-xs btn-success btn-edit" title="Lihat Detail"><i class="fas fa-fw fa-info"></i></a>
+                                            </td>
+                                        </tr>
+                                        <?php $total += $value->saldo ?>
+                                    <?php } ?>
+                                </tbody>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="2" class="text-right text-bold">Total</td>
+                                        <td class="text-right text-bold">Rp. <?= number_format(abs($total), 0) ?></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -83,21 +81,24 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Form Pembayaran</h4>
+                <h4 class="modal-title">Form Hutang</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?= base_url('project/pembayaran_hutang') ?>" id="form-material" method="post" enctype="multipart/form-data">
-                <input type="hidden" id="id" name="id">
+            <form action="<?= base_url('accounting/add_hutang') ?>" id="form-material" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Debit</label>
-                        <input type="text" name="debit" id="debit" class="form-control" placeholder="Debit">
+                        <label for="exampleInputPassword1">Supplier</label>
+                        <select name="vendor" id="vendor" class="form-control select2">
+                            <?php foreach ($vendor as $key => $value) {
+                                echo "<option value='" . $value->id . "'>" . $value->nama . "</option>";
+                            } ?>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Saldo</label>
-                        <input type="number" name="saldo" id="saldo" class="form-control" placeholder="Harga Jual">
+                        <label for="exampleInputPassword1">Kredit</label>
+                        <input type="text" name="kredit" id="kredit" class="form-control" placeholder="kredit" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Keterangan</label>
@@ -106,7 +107,7 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-fw fa-money"></i> Save changes</button>
+                    <button type="submit" class="btn btn-primary"><i class="far fa-fw fa-money"></i> Save changes</button>
                 </div>
             </form>
         </div>
@@ -117,14 +118,7 @@
 <script>
     $(document).ready(function() {
         $("#example1").DataTable();
-        $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-        });
+        $(":input").inputmask();
     });
 
     function validation() {

@@ -45,26 +45,27 @@ class M_accounting extends CI_Model
         return $data;
     }
 
-    function get_saldo_hutang($id = null)
+    function get_saldo_hutang($vendor_id = null)
     {
-        $this->db->select('A.*, B.nama AS nama_vendor, A.updated_at as tanggal');
+        $this->db->select('A.*, B.nama AS nama_vendor, A.updated_at as tanggal, SUM(A.kredit) - SUM(A.debit) AS saldo');
         $this->db->join('vendor B', 'A.vendor_id = B.id');
-        if ($id) {
-            $this->db->where('A.id', $id);
+        if ($vendor_id) {
+            $this->db->where('A.vendor_id', $vendor_id);
         }
+        $this->db->group_by('A.vendor_id');
         $data = $this->db->get('hutang A');
         return $data;
     }
 
 
-    function get_detail_hutang($id = null)
+    function get_detail_hutang($vendor_id = null)
     {
-        $this->db->select('A.no_nota, B.nama AS nama_vendor, C.*');
+        $this->db->select('A.*, B.nama AS nama_vendor');
         $this->db->join('vendor B', 'A.vendor_id = B.id');
-        $this->db->join('hutang_detail C', 'A.id = C.saldo_id');
-        if ($id) {
-            $this->db->where('A.id', $id);
+        if ($vendor_id) {
+            $this->db->where('A.vendor_id', $vendor_id);
         }
+        $this->db->order_by('A.updated_at', 'ASC');
         $data = $this->db->get('hutang A');
         return $data;
     }

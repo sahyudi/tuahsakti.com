@@ -27,50 +27,69 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">List Pembayaran</h3>
-                        <a href="#" class="btn btn-primary float-right btn-sm" data-toggle="modal" onclick="reset_form()" data-target="#modal-material"><i class="fas fa-fw fa-plus"></i> Add Pembayaran</a>
+                        <a href="#" class="btn btn-primary float-right btn-sm" data-toggle="modal" onclick="reset_form()" data-target="#modal-pembayaran"><i class="fas fa-fw fa-plus"></i> Add Pembayaran</a>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped">
-                            <thead>
-                                <tr class="text-center">
-                                    <th>No</th>
-                                    <th>Tanggal</th>
-                                    <th>No Nota</th>
-                                    <th>Vendor</th>
-                                    <th>Debit</th>
-                                    <th>Kredit</th>
-                                    <th>Saldo </th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $total = 0; ?>
-                                <?php foreach ($detail as $key => $value) { ?>
-                                    <tr>
-                                        <td class="text-center"><?= $key + 1 ?></td>
-                                        <td><?= $value->update_at ?></td>
-                                        <td><?= $value->no_nota ?></td>
-                                        <td><?= $value->nama_vendor ?></td>
-                                        <td class="text-right">Rp. <?= number_format($value->debit, 0) ?></td>
-                                        <td class="text-right">Rp. <?= number_format($value->kredit, 0) ?></td>
-                                        <td class="text-right">Rp. <?= number_format($value->saldo_updated, 0) ?></td>
-                                        <td class="text-right">
-                                            <a href="<?= base_url('accounting/delete_saldo_hutang/') . $value->id ?>" onclick="return validation()" class="btn btn-xs btn-danger"><i class="fas fa-fw fa-trash"></i></a>
-                                            <a href="<?= base_url('accounting/pembayaran/') . $value->id ?>" class="btn btn-xs btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
-                                        </td>
+                        <div class="row">
+                            <div class="form-group col-6">
+                                <label for="">Nama</label>
+                                <p><?= $master->nama_vendor ?></p>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table id="example1" class="table table-sm table-bordered table-striped">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th>No</th>
+                                        <th>Tanggal</th>
+                                        <!-- <th>No Nota</th> -->
+                                        <th>Vendor</th>
+                                        <th>Debit</th>
+                                        <th>Kredit</th>
+                                        <th>Saldo </th>
+                                        <th>Action</th>
                                     </tr>
-                                    <?php $total += $value->saldo_updated ?>
-                                <?php } ?>
-                            </tbody>
-                            <tbody>
-                                <tr>
-                                    <td colspan="6" class="text-right text-bold">Total</td>
-                                    <td class="text-right text-bold">Rp. <?= number_format($total, 0) ?></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $total = 0;
+                                    $sub_total = 0;
+                                    $debit_total = 0;
+                                    $kredit_total = 0;
+
+                                    foreach ($detail as $key => $value) {
+                                        $sub_total = $total - ($value->kredit - $value->debit);
+                                        $total += $sub_total;
+                                        $debit_total += $value->debit;
+                                        $kredit_total += $value->kredit;
+                                    ?>
+                                        <tr>
+                                            <td class="text-center"><?= $key + 1 ?></td>
+                                            <td><?= $value->updated_at ?></td>
+                                            <!-- <td><?= $value->no_nota ?></td> -->
+                                            <td><?= $value->nama_vendor ?></td>
+                                            <td class="text-right">Rp. <?= number_format($value->debit, 0) ?></td>
+                                            <td class="text-right">Rp. <?= number_format($value->kredit, 0) ?></td>
+                                            <td class="text-right">Rp. <?= number_format(abs($sub_total), 0) ?></td>
+                                            <td class="text-right">
+                                                <a href="<?= base_url('accounting/delete_saldo_hutang/') . $value->id ?>" onclick="return validation()" class="btn btn-xs btn-danger"><i class="fas fa-fw fa-trash"></i></a>
+                                                <a href="<?= base_url('accounting/pembayaran/') . $value->id ?>" class="btn btn-xs btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="3" class="text-right text-bold">Total</td>
+                                        <td class="text-right text-bold">Rp. <?= number_format(abs($debit_total), 0) ?></td>
+                                        <td class="text-right text-bold">Rp. <?= number_format(abs($kredit_total), 0) ?></td>
+                                        <td class="text-right text-bold">Rp. <?= number_format(abs($kredit_total - $debit_total), 0) ?></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -83,29 +102,31 @@
     <!-- /.content -->
 </div>
 
-<div class="modal fade" id="modal-material">
+<div class="modal fade" id="modal-pembayaran">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Material Form</h4>
+                <h4 class="modal-title">Form Pembayaran</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="<?= base_url('material/add') ?>" id="form-material" method="post" enctype="multipart/form-data">
-                <input type="hidden" id="id" name="id">
+            <form action="<?= base_url('accounting/bayar_hutang') ?>" id="form-material" method="post" enctype="multipart/form-data">
+                <input type="hidden" id="id" name="id" value="<?= $master->id ?>">
+                <input type="text" id="vendor_id" name="vendor_id" value="<?= $master->vendor_id ?>" hidden>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Nama</label>
-                        <input type="text" name="nama" id="nama" class="form-control" placeholder="Nama material">
+                        <label for="exampleInputPassword1">Hutang</label>
+                        <input type="text" name="saldo" id="saldo" class="form-control" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''" value="<?= abs($master->saldo) ?>" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Satuan</label>
-                        <input type="text" name="satuan" id="satuan" class="form-control" placeholder="Harag jual">
+                        <label for="exampleInputPassword1">Debit</label>
+                        <input type="text" name="debit" id="debit" class="form-control" onkeyup="get_total_saldo()" placeholder="debit" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''">
                     </div>
+
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Harga Jual</label>
-                        <input type="number" name="harga_jual" id="harga_jual" class="form-control" placeholder="Harga Jual">
+                        <label for="exampleInputPassword1">Sisa</label>
+                        <input type="text" name="sisa" id="sisa" class="form-control" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits':0, 'digitsOptional': false, 'prefix':'', 'placeholder': ''" readonly>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Keterangan</label>
@@ -114,31 +135,35 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-fw fa-file-invoice-dollar"></i> Bayar</button>
                 </div>
             </form>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
 <script>
     $(document).ready(function() {
         $("#example1").DataTable();
-        $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-        });
+        $(":input").inputmask();
     });
 
     function validation() {
         return confirm('Apakah anda yakin akan mengahapus materia ??');
         // confirm
         // alert('test');
+    }
+
+    function get_total_saldo() {
+        var saldo = $('#saldo').val().replace(/\,/g, '');
+        var debit = $('#debit').val().replace(/\,/g, '');
+
+        var sisa = saldo - debit;
+        if (sisa < 0) {
+            $('#debit').val(saldo);
+            $('#sisa').val(0);
+        } else {
+            $('#sisa').val(sisa)
+        }
     }
 
     function reset_form() {

@@ -164,10 +164,31 @@ class Accounting extends CI_Controller
     function saldo_hutang()
     {
         $data['saldo_hutang'] = $this->m_accounting->get_saldo_hutang()->result();
+        $data['vendor'] = $this->db->get('vendor')->result();
+        // log_r($data['vendor']);
         $data['active'] = 'accounting/saldo_hutang';
         $data['title'] = 'Hutang';
         $data['subview'] = 'hutang/saldo_hutang';
         $this->load->view('template/main', $data);
+    }
+
+    function add_hutang()
+    {
+        $data = [
+            'vendor_id' => $this->input->post('vendor'),
+            'kredit' => replace_angka($this->input->post('kredit')),
+            'keterangan' => $this->input->post('keterangan'),
+            'updated_at' => date('Y-m-d H:i:s'),
+            'created_user' => $this->session->userdata('id')
+        ];
+
+        if ($this->db->insert('hutang', $data)) {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Hutang gagal ditambahkan !</div>');
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Hutang berhasil ditambahkan !</div>');
+        }
+
+        redirect('accounting/saldo_hutang');
     }
 
     function pembayaran($id)
@@ -178,6 +199,37 @@ class Accounting extends CI_Controller
         $data['detail'] = $this->m_accounting->get_detail_hutang($id)->result();
         $data['subview'] = 'hutang/detail';
         $this->load->view('template/main', $data);
+    }
+
+    function bayar_hutang()
+    {
+        $date = date('Y-m-d H:i:s');
+        $id = $this->input->post('id');
+        $vendor_id = $this->input->post('vendor_id');
+        $debit = $this->input->post('debit');
+        $sisa = $this->input->post('sisa');
+        $keterangan = $this->input->post('keterangan');
+
+        $data = [
+            'vendor_id' => $vendor_id,
+            'debit' => replace_angka($debit),
+            'keterangan' => $keterangan,
+            'updated_at' => $date
+        ];
+
+        $this->db->trans_begin();
+
+        $this->db->insert('hutang', $data);
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Pembayaran gagal disimpan !</div>');
+        } else {
+            $this->db->trans_commit();
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Pembayaran berhasil disimpan !</div>');
+        }
+
+        redirect('accounting/pembayaran/' . $vendor_id);
     }
 
     function piutang()
@@ -214,6 +266,7 @@ class Accounting extends CI_Controller
     function bayar_piutang()
     {
         $date = date('Y-m-d H:i:s');
+        $id = $this->input->post('id');
         $customer_id = $this->input->post('customer_id');
         $debit = $this->input->post('debit');
         $sisa = $this->input->post('sisa');
@@ -238,6 +291,6 @@ class Accounting extends CI_Controller
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Pembayaran berhasil disimpan !</div>');
         }
 
-        redirect('accounting/detail_piutang/' . $id);
+        redirect('accounting/detail_piutang/' . $customer_id);
     }
 }

@@ -36,58 +36,56 @@
                                 <label for="">Nama</label>
                                 <p><?= $master->nama ?></p>
                             </div>
-                            <div class="form-group col-6">
-                                <label for="">No Nota</label>
-                                <p><?= $master->no_nota ?></p>
-                            </div>
                         </div>
-                        <table id="example1" class="table table-sm table-bordered table-striped">
-                            <thead>
-                                <tr class="text-center">
-                                    <th>No</th>
-                                    <th>Tanggal</th>
-                                    <!-- <th>Customer</th> -->
-                                    <th>Debit</th>
-                                    <th>Kredit</th>
-                                    <th>Saldo</th>
-                                    <th>Keterangan</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                $total = 0;
-                                $sub_total = 0;
-                                $debit_total = 0;
-                                $kredit_total = 0;
-
-                                foreach ($detail as $key => $value) {
-                                    $sub_total = $total - ($value->kredit - $value->debit);
-                                    $total += $sub_total;
-                                    $debit_total += $value->debit;
-                                    $kredit_total += $value->kredit;
-                                ?>
-
-                                    <tr>
-                                        <td class="text-center"><?= $key + 1 ?></td>
-                                        <td><?= $value->updated_at ?></td>
-                                        <!-- <td><?= $value->nama ?></td> -->
-                                        <td class="text-right">Rp. <?= number_format($value->debit, 0) ?></td>
-                                        <td class="text-right">Rp. <?= number_format($value->kredit, 0) ?></td>
-                                        <td class="text-right">Rp. <?= number_format(abs($sub_total)) ?></td>
-                                        <td><?= $value->keterangan ?></td>
+                        <div class="table-responsive">
+                            <table id="example1" class="table table-sm table-bordered table-striped">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th>No</th>
+                                        <th>Tanggal</th>
+                                        <!-- <th>Customer</th> -->
+                                        <th>Debit</th>
+                                        <th>Kredit</th>
+                                        <th>Saldo</th>
+                                        <th>Keterangan</th>
                                     </tr>
-                                <?php } ?>
-                            </tbody>
-                            <tbody>
-                                <tr>
-                                    <td colspan="2" class="text-right text-bold">Total</td>
-                                    <td class="text-right">Rp. <?= number_format($debit_total) ?></td>
-                                    <td class="text-right">Rp. <?= number_format($kredit_total) ?></td>
-                                    <td class="text-right text-bold">Rp. <?= number_format(abs($kredit_total - $debit_total), 0) ?></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $total = 0;
+                                    $sub_total = 0;
+                                    $debit_total = 0;
+                                    $kredit_total = 0;
+
+                                    foreach ($detail as $key => $value) {
+                                        $sub_total = $total - ($value->kredit - $value->debit);
+                                        $total += $sub_total;
+                                        $debit_total += $value->debit;
+                                        $kredit_total += $value->kredit;
+                                    ?>
+
+                                        <tr>
+                                            <td class="text-center"><?= $key + 1 ?></td>
+                                            <td><?= $value->updated_at ?></td>
+                                            <!-- <td><?= $value->nama ?></td> -->
+                                            <td class="text-right">Rp. <?= number_format($value->debit, 0) ?></td>
+                                            <td class="text-right">Rp. <?= number_format($value->kredit, 0) ?></td>
+                                            <td class="text-right">Rp. <?= number_format(abs($sub_total)) ?></td>
+                                            <td><?= $value->keterangan ?></td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="2" class="text-right text-bold">Total</td>
+                                        <td class="text-right">Rp. <?= number_format($debit_total) ?></td>
+                                        <td class="text-right">Rp. <?= number_format($kredit_total) ?></td>
+                                        <td class="text-right text-bold">Rp. <?= number_format(abs($kredit_total - $debit_total), 0) ?></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <!-- /.card-body -->
                 </div>
