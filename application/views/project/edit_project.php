@@ -97,7 +97,8 @@
                                                 <td><?= $value->ket_detail ?></td>
                                                 <td>
                                                     <a href="#" data-id="<?= $value->id_detail ?>" data-toggle="modal" data-target="#modal-material" class="btn btn-xs btn-success btn-edit"><i class="fas fa-fw fa-pencil-alt"></i></a>
-                                                    <a href="<?= base_url('project/delete_material/') . $value->id_detail . "/" . $master->id ?>" class="btn btn-xs btn-danger"><i class="fas fa-fw fa-trash-alt"></i></a></td>
+                                                    <a href="<?= base_url('project/delete_material/') . $value->id_detail . "/" . $master->id ?>" class="btn btn-xs btn-danger"><i class="fas fa-fw fa-trash-alt"></i></a>
+                                                </td>
                                             </tr>
                                         <?php } ?>
                                     </tbody>

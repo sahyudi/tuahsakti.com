@@ -11,6 +11,7 @@ class Pos extends CI_Controller
     public $pengadaan = 'pengadaan';
     public $pengadaan_detail = 'pengadaan_detail';
     public $vendor = 'vendor';
+    public $proyek_detail = 'proyek_detail';
 
     public function __construct()
     {
@@ -260,13 +261,14 @@ class Pos extends CI_Controller
                 $detail[] = [
                     'penjualan_id' => $penjualan_id,
                     'material_id' => $item[$i],
+                    'status_material'=>1,
                     'qty' => $quantity,
                     'harga_jual' => replace_angka($harga_jual[$i]),
                     'diskon_item' => replace_angka($dsikon_item[$i]),
                     'satuan' => $material->satuan,
                     'upah' => $material->upah_darat,
                     'ket_detail' => $ket_detail,
-                    'stock_updated' => $material->stock - $quantity,
+                    'stock_updated' => 0,
                     'created_at' => $date,
                     'created_user' => $user = $this->session->userdata('id')
                 ];
@@ -278,10 +280,6 @@ class Pos extends CI_Controller
             $data_pengadaan['project_no'] = $project;
             $ket_detail = "Penjualan nomor " . $nota . " untuk project no " . get_proyek_no($project);
 
-
-            // log_r($data_pengadaan);
-            $this->db->insert($this->proyek, $data_pengadaan);
-            $proyek_id = $this->db->insert_id();
 
             $detail = [];
             for ($i = 0; $i < count($item); $i++) {
@@ -298,14 +296,15 @@ class Pos extends CI_Controller
                     'satuan' => $material->satuan,
                     'ket_detail' => $ket_detail,
                     'created_at' => $date,
-                    'created_user' => $user
+                    'created_user' => $this->session->userdata('id')
                 ];
             }
-            // log_r($detail);
+
+            $this->db->insert_batch($this->proyek_detail, $detail);
 
             if ($status_pembayaran  == 'kredit') {
                 $saldo_hutang = [
-                    'proyek_id' => $proyek_id,
+                    'proyek_id' => $project,
                     'saldo' => abs(str_replace(",", "", $lebih_uang)),
                     'keterangan' => $this->input->post('ket_hutang'),
                     'updated_at' => $date,
@@ -314,8 +313,6 @@ class Pos extends CI_Controller
                 $this->db->insert('hutang_project', $saldo_hutang);
                 // $hutang_id = $this->db->insert_id();
             }
-
-            $this->db->insert_batch($this->proyek_detail, $detail);
         }
 
 

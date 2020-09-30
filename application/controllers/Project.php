@@ -162,10 +162,52 @@ class Project extends CI_Controller
         $this->load->view('template/main', $data);
     }
 
+    function get_data_project($id)
+    {
+        if ($id) {
+            $data = $this->db->get('proyek')->row();
+            echo json_encode($data);
+        }
+    }
+
+    function update_project()
+    {
+        $id = $this->input->post('id');
+        $tanggal = $this->input->post('tanggal');
+        $proyek_no = $this->input->post('proyek_no');
+        $nama_proyek = $this->input->post('nama_proyek');
+        $anggaran = $this->input->post('anggaran');
+        $deskripsi = $this->input->post('deskripsi');
+        $jenis = $this->input->post('jenis');
+        $status = $this->input->post('status');
+
+        $data = [
+            'tanggal' => $tanggal,
+            'nama_proyek' => $nama_proyek,
+            'anggaran' => replace_angka($anggaran),
+            'deskripsi' => $deskripsi,
+            'jenis' => $jenis,
+            'status' => $status,
+        ];
+
+        $this->db->trans_begin();
+        $this->db->update('proyek', $data, ['id' => $id]);
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"> Project gagal diperbarui !</div>');
+        } else {
+            $this->db->trans_commit();
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"> Project berhasil disimpan !</div>');
+        }
+        redirect('project');
+    }
+
     function info_detail($id)
     {
         $data['master'] = $this->m_proyek->get_proyek($id)->row();
         $data['detail'] = $this->m_proyek->get_proyek_detail($id)->result();
+        $data['dana_lainnya'] = $this->m_proyek->get_dana_lainnya($id)->result();
         // log_r($data['detail']);
         $data['pendanaan'] = null;
         $data['active'] = 'project';
@@ -188,14 +230,16 @@ class Project extends CI_Controller
 
     function update_material()
     {
-        $project_id = $this->input->post('project_id');
+        $project_id = $this->input->post('project');
         $id = $this->input->post('id');
         $qty = $this->input->post('qty');
-        $material = $this->input->post('nama');
+        $material = $this->input->post('material');
         $harga_beli = $this->input->post('harga_beli');
         $harga = $this->input->post('harga');
         $satuan = $this->input->post('satuan');
         $keterangan = $this->input->post('keterangan');
+
+        $data = $this->db->get_where('material', ['id' => $id])->row();
 
         $detail = [
             'qty' => $qty,
@@ -203,7 +247,7 @@ class Project extends CI_Controller
             'qty' => $qty,
             'harga_beli' => str_replace(",", "", $harga_beli),
             'harga' => str_replace(",", "", $harga),
-            'satuan' => $satuan,
+            'satuan' => $data->satuan,
             'ket_detail' => $keterangan,
         ];
 
@@ -217,7 +261,34 @@ class Project extends CI_Controller
             $this->db->trans_commit();
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"> Material project berhasil disimpan !</div>');
         }
-        redirect('project/edit_project/' . $project_id);
+        redirect('project/info_detail/' . $project_id);
+    }
+
+    function update_dana_project()
+    {
+        $project_id = $this->input->post('project');
+        $id = $this->input->post('id');
+        $item = $this->input->post('item');
+        $total = $this->input->post('total');
+        $keterangan = $this->input->post('keterangan');
+
+        $detail = [
+            'item' => $item,
+            'total' => replace_angka($total),
+            'keterangan' => $keterangan,
+        ];
+
+        $this->db->trans_begin();
+        $this->db->update($this->proyek_dana, $detail, ['id' => $id]);
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"> Dana project gagal diperbarui !</div>');
+        } else {
+            $this->db->trans_commit();
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert"> Dana project berhasil disimpan !</div>');
+        }
+        redirect('project/info_detail/' . $project_id);
     }
 
     function delete_material($id, $project_id)
@@ -226,7 +297,15 @@ class Project extends CI_Controller
             $this->db->delete($this->proyek_detail, ['id' => $id]);
         }
 
-        redirect('project/edit_project/' . $project_id);
+        redirect('project/info_detail/' . $project_id);
+    }
+    function delete_dana($id, $project_id)
+    {
+        if ($id) {
+            $this->db->delete($this->proyek_dana, ['id' => $id]);
+        }
+
+        redirect('project/info_detail/' . $project_id);
     }
 
     function get_material_project()
@@ -243,6 +322,14 @@ class Project extends CI_Controller
     {
         if ($id) {
             $data = $this->db->get_where($this->proyek_detail, ['id' => $id]);
+            echo json_encode($data->row());
+        }
+    }
+
+    function get_material_dana($id)
+    {
+        if ($id) {
+            $data = $this->db->get_where($this->proyek_dana, ['id' => $id]);
             echo json_encode($data->row());
         }
     }

@@ -6,6 +6,7 @@ class Penjualan extends CI_Controller
     public $material = 'material';
     public $penjualan = 'penjualan';
     public $penjualan_detail = 'penjualan_detail';
+    public $proyek_detail = 'proyek_detail';
 
     public function __construct()
     {
@@ -200,13 +201,8 @@ class Penjualan extends CI_Controller
 
             $this->db->insert_batch('penjualan_detail', $detail);
         } else {
-            $data_pengadaan['project_no'] = $project;
+
             $ket_detail = "Penjualan nomor " . $nota . " untuk project no " . get_proyek_no($project);
-
-
-            // log_r($data_pengadaan);
-            $this->db->insert($this->proyek, $data_pengadaan);
-            $proyek_id = $this->db->insert_id();
 
             $detail = [];
             for ($i = 0; $i < count($item); $i++) {
@@ -227,20 +223,18 @@ class Penjualan extends CI_Controller
                 ];
             }
             // log_r($detail);
+            $this->db->insert_batch($this->proyek_detail, $detail);
 
             if ($status_pembayaran  == 'kredit') {
                 $saldo_hutang = [
-                    'proyek_id' => $proyek_id,
+                    'proyek_id' => $project,
                     'saldo' => abs(str_replace(",", "", $lebih_uang)),
                     'keterangan' => $this->input->post('ket_hutang'),
                     'updated_at' => $date,
                     'created_user' => $user
                 ];
                 $this->db->insert('hutang_project', $saldo_hutang);
-                // $hutang_id = $this->db->insert_id();
             }
-
-            $this->db->insert_batch($this->proyek_detail, $detail);
         }
 
 

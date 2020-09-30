@@ -21,7 +21,7 @@
     }
 
     function confirm_delete() {
-        return confirm('Apakah anda yakin akan menghapu data tersebut ?');
+        return confirm('Apakah anda yakin akan menghapus data ini ?');
     }
 
     function addCommas_general(nStr) {

@@ -30,30 +30,36 @@ class M_proyek extends CI_Model
 
     public function get_proyek_detail($id = null)
     {
-        $this->db->select('d1.tanggal as tanggal_detail, d1.harga_beli, m1.nama as nama_item, m1.satuan, d1.qty, d1.harga, d1.ket_detail');
+        $this->db->select('d1.tanggal as tanggal_detail, d1.id as id_detail, d1.harga_beli, m1.nama as nama_item, m1.satuan, d1.qty, d1.harga, d1.ket_detail');
         $this->db->from($this->proyek . ' as a1');
         $this->db->join($this->proyek_detail . ' as d1', 'a1.id = d1.proyek_id', 'left');
         $this->db->join($this->material . ' as m1', 'm1.id = d1.material_id', 'left');
         $this->db->where('a1.id', $id);
-        $query_1 = $this->db->get_compiled_select();
+        return $this->db->get();
+        // $query_1 = $this->db->get_compiled_select();
 
 
-        $this->db->select('d2.tanggal as tanggal_detail, (0) as harga_beli, d2.item AS nama_item, ("-") as satuan, (1) as qty, d2.total AS harga,d2.keterangan as ket_detail');
+
+        // $this->db->select('a3.tanggal as tanggal_detail, d3.id as id_detail, (0) as harga_beli, m3.nama as nama_item, d3.satuan, d3.qty, d3.harga_jual as harga, d3.ket_detail');
+        // $this->db->from($this->penjualan . ' as a3');
+        // $this->db->join($this->penjualan_detail . ' as d3', 'a3.id = d3.penjualan_id', 'left');
+        // $this->db->join($this->material . ' as m3', 'm3.id = d3.material_id', 'left');
+        // $this->db->where('a3.project_no', $id);
+
+        // $query_3 = $this->db->get_compiled_select();
+
+        // $final_query = $this->db->query($query_1 . ' UNION ' . $query_3);
+        // return $final_query;
+
+    }
+
+    function get_dana_lainnya($id)
+    {
+        $this->db->select('d2.tanggal as tanggal_detail, d2.id as id_detail, (0) as harga_beli, d2.item AS nama_item, ("-") as satuan, (1) as qty, d2.total AS harga,d2.keterangan as ket_detail');
         $this->db->from($this->proyek . ' as a2');
         $this->db->join($this->proyek_dana . ' as d2', 'a2.id = d2.proyek_id', 'right');
         $this->db->where('a2.id', $id);
-        $query_2 = $this->db->get_compiled_select();
-
-        $this->db->select('a3.tanggal as tanggal_detail, (0) as harga_beli, m3.nama as nama_item, d3.satuan, d3.qty, d3.harga_jual as harga, d3.ket_detail');
-        $this->db->from($this->penjualan . ' as a3');
-        $this->db->join($this->penjualan_detail . ' as d3', 'a3.id = d3.penjualan_id', 'left');
-        $this->db->join($this->material . ' as m3', 'm3.id = d3.material_id', 'left');
-        $this->db->where('a3.project_no', $id);
-
-        $query_3 = $this->db->get_compiled_select();
-
-        $final_query = $this->db->query($query_1 . ' UNION ' . $query_2 . ' UNION ' . $query_3);
-        return $final_query;
+        return  $this->db->get();
     }
 
     function get_material_project($id)

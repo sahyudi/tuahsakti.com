@@ -58,7 +58,7 @@
                             <hr>
                             <!-- <div class="table-responsive text-nowrap"> -->
                             <div class="table-responsive">
-                                <table id="table-info-1" class="table table-striped table-bordered" style="width: 100%">
+                                <table id="table-info-1" class="table table-sm table-striped table-bordered" style="width: 100%">
                                     <thead>
                                         <tr class="text-center">
                                             <th>No</th>
